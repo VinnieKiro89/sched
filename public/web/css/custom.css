@@ -1,0 +1,86 @@
+/**
+ *
+ * You can write your CSS code here, DO NOT touch the default JavaScript file
+ * because it will make it harder for you to update.
+ * 
+ */
+
+/*# sourceMappingURL=custom.css.map */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.navbar-bg{
+    background-color: #033571;
+}
+
+.navbar{
+    background-color: #033571;
+}
+
+.section-header{
+    background-color: #098938 !important;
+    color: white;
+}
+
+span{
+    color:#033571;
+}
+
+.btn-primary {
+    background-color: #033571;
+    border-color: #033571;
+}
+
+
+.btn-primary, .btn-primary.disabled {
+    box-shadow: 0 2px 6px #033571;
+    background-color: #033571;
+    border-color: #033571;
+}
+
+.btn-primary:focus, .btn-primary.disabled:focus {
+    background-color: #0855b3 !important;
+}
+
+.btn-primary:focus:active, .btn-primary.disabled:focus:active {
+    background-color: #0855b3 !important;
+}
+
+.btn-primary:active, .btn-primary:hover, .btn-primary.disabled:active, .btn-primary.disabled:hover {
+    background-color: #0855b3 !important;
+}
+
+/* btn-outline */
+.btn-outline-primary, .btn-outline-primary.disabled {
+    border-color: #0855b3;
+    color: #0855b3
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.disabled:hover, .btn-outline-primary.disabled:focus, .btn-outline-primary.disabled:active {
+    background-color: #0855b3 !important;
+    color: #fff;
+}
+
+.custom-border{
+    border: 1px solid #0855b3;
+}
+
+.text-primary{
+    color: #0855b3 !important;
+}
+
+.card-primary{
+    border-color: #0855b3 !important;
+
+}
+
+.border-primary{
+    border-color: #0855b3 !important;
+}
+
