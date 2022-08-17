@@ -95,6 +95,9 @@ class CurriculumController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $curriculum = Curriculum::findorfail($id);
+        $curriculum->delete();
+        
+        return redirect()->route('curriculum.index')->with('deleted', 'Curriculum Deleted!');
     }
 }

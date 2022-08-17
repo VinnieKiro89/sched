@@ -115,6 +115,6 @@ class CourseController extends Controller
         $course = Course::findorfail($id);
         $course->delete();
         
-        return redirect()->route('course.index')->with('deleted', 'Department Deleted!');
+        return redirect()->route('course.index')->with('deleted', 'Course Deleted!');
     }
 }
