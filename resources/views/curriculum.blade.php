@@ -62,14 +62,14 @@
                                                     <button type="button"
                                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                                         data-toggle="modal" data-target=".add"
-                                                        data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course_code }}"
-                                                        data-desc="{{ $curriculum->description }}">
+                                                        data-course_code="{{ $curriculum->course_code }}" data-period="{{ $curriculum->period }}"
+                                                        data-level="{{ $curriculum->level }}">
                                                         <i class="fas fa-plus"></i>
                                                         Add Subject
                                                     </button>
                                                     <button type="button"
                                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
-                                                        data-toggle="modal" data-target=".add"
+                                                        data-toggle="modal" data-target=".view"
                                                         data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course_code }}"
                                                         data-desc="{{ $curriculum->description }}">
                                                         <i class="fas fa-plus"></i>
@@ -105,7 +105,84 @@
         </div>
     </section>
 
-        <!-- User Modal store Course-->
+    <!-- User Modal store Subject-->
+    <div class="modal fade add"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id="add" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <input id="course_code" type="text" class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code" hidden readonly> 
+                            <input id="period" type="text" class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" hidden readonly> 
+                            <input id="level" type="text" class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" hidden readonly> 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="subject_code">Subject code:</label><span class="text-danger">*</span>
+                                    <input id="subject_code" type="text"
+                                        class="form-control{{ $errors->has('subject_code') ? ' is-invalid' : '' }}" name="subject_code"
+                                        tabindex="1" placeholder="Enter Subject Code" autofocus required>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('subject_code') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="subject_title">Subject Title:</label><span class="text-danger">*</span>
+                                    <input id="subject_title" type="text"
+                                        class="form-control{{ $errors->has('subject_title') ? ' is-invalid' : '' }}" name="subject_title"
+                                        tabindex="1" placeholder="Enter Subject Title" autofocus required>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('subject_title') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="cred_units">Credited units/Lecture hours:</label><span class="text-danger">*</span>
+                                    <input id="cred_units" type="text"
+                                        class="form-control{{ $errors->has('cred_units') ? ' is-invalid' : '' }}" name="cred_units"
+                                        tabindex="1" placeholder="Enter Units" autofocus required>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('cred_units') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="pre-requisite">Pre-requisite:</label>
+                                    <input id="pre-requisite" type="text"
+                                        class="form-control" name="pre-requisite"
+                                        tabindex="1" placeholder="Enter pre-requisites">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="co-requisite">Co-requisite:</label>
+                                    <input id="co-requisite" type="text"
+                                        class="form-control" name="co-requisite"
+                                        tabindex="1" placeholder="Enter co-requisites">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Modal store Subject-->
     <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -152,12 +229,12 @@
         </div>
     </div>
 
-    <!-- user Modal edit Course-->
+    <!-- user Modal edit Curriculum-->
     <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Course</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Curriculum</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -178,12 +255,11 @@
                                     <label for="Level">Period:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                        placeholder="Enter Period" name="period" required autofocus>
+                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" required autofocus>
 
-                                        <option selected disabled hidden>Period</option>
-                                        <option>1st Semester</option>
-                                        <option>2nd Semester</option>
+                                        <option value= "" selected disabled hidden>Period</option>
+                                        <option value="1st Semester">1st Semester</option>
+                                        <option value="2nd Semester">2nd Semester</option>
 
                                     </select>
                                     <div class="invalid-feedback">
@@ -196,9 +272,9 @@
                                     <label for="Level">Level:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" placeholder="Enter Level" name="level" required autofocus>
+                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" required autofocus>
 
-                                        <option selected disabled hidden>Level</option>
+                                        <option value="" selected disabled hidden>Level</option>
                                         <option>1st Year</option>
                                         <option>2nd Year</option>
                                         <option>3rd Year</option>
@@ -221,7 +297,7 @@
         </div>
     </div>
 
-    <!-- User Modal delete Course-->
+    <!-- User Modal delete Curriculum-->
     <div class="modal fade delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -246,95 +322,25 @@
         </div>
     </div>
 
-    <!-- User Modal store Curriculum-->
-    <div class="modal fade add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Curriculum</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="POST" id="add" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                    <input id="course_code" type="text"
-                                        class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
-                                        tabindex="1" placeholder="e.g BSIT" autofocus readonly> 
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('course_code') }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="Level">Period:</label><span class="text-danger">*</span>
-
-                                    <select id="select1"
-                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                        placeholder="Enter Period" name="period" required autofocus>
-
-                                        <option selected disabled hidden>Period</option>
-                                        <option>1st Semester</option>
-                                        <option>2nd Semester</option>
-
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('level') }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="Level">Level:</label><span class="text-danger">*</span>
-
-                                    <select id="select1"
-                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}"
-                                        placeholder="Enter Level" name="level" required autofocus>
-
-                                        <option selected disabled hidden>Level</option>
-                                        <option>1st Year</option>
-                                        <option>2nd Year</option>
-                                        <option>3rd Year</option>
-                                        <option>4th Year</option>
-
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('level') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @section('scripts')
-    <!-- add script -->
+    <!-- add subj script -->
     <script>
         $(document).ready(function() {
             // $('option').val($(this).data('role')).attr('selected', 'selected');
 
             $('.user-add').each(function() {
                 $(this).click(function(event) {
-                    $('#add').attr("action", "/curriculum/store/" + "");
+                    $('#add').attr("action", "/subject/store/" + "");
+
+                    var head = 'Add subject for ' + $(this).data('course_code') + ' ' + $(this).data('period') + ' ' + $(this).data('level');
+                    $('#modal-title').html(head);
+
                     $('input[name="course_code"]').val($(this).data('course_code'));
                     $('input[name="period"]').val($(this).data('period'));
                     $('input[name="level"]').val($(this).data('level'));
-                    $('select option').filter(":selected").val();
+                    $('input[name="subject_code"]').val($(this).data('subject_code'));
 
                 });
             });
@@ -359,12 +365,10 @@
 
             $('.user-edit').each(function() {
                 $(this).click(function(event) {
-                    $('#update').attr("action", "/course/update/" + $(this).data('uid') + "");
+                    $('#update').attr("action", "/curriculum/update/" + $(this).data('uid') + "");
                     $('input[name="course_code"]').val($(this).data('course_code'));
-                    $('input[name="period"]').val($(this).data('period'));
-                    $('input[name="level"]').val($(this).data('level'));
-                    $('select option').filter(":selected").val();
-
+                    $('select[name="period"]').val($(this).data('period'));
+                    $('select[name="level"]').val($(this).data('level'));
                 });
             });
         });

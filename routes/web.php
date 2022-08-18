@@ -42,3 +42,11 @@ Route::group([ 'prefix' => 'curriculum'], function() {
     Route::delete('/destroy/{id}',[App\Http\Controllers\CurriculumController::class, 'destroy'])->name('curriculum.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculum.update');
 });
+
+//Subject
+Route::group([ 'prefix' => 'subject'], function() {
+    Route::get('',[App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
+    Route::post('/store',[App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');
+    Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
+    Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
+});

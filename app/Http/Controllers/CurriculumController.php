@@ -84,7 +84,21 @@ class CurriculumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        {
+
+            Curriculum::where('id',$request->id)->update([
+                'course_code'=>$request->course_code,
+                'period'=>$request->period,
+                'level'=>$request->level,
+            ]);
+    
+            // DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+    
+            $course = Curriculum::findorfail($request->id);
+            // $course->assignRole($request->role);
+    
+            return redirect()->route('curriculum.index')->with('updated', 'Update Success!');
+        }
     }
 
     /**

@@ -224,7 +224,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Curriculum</h5>
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Add Curriculum</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -233,17 +233,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                    <input id="course_code" type="text"
-                                        class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
-                                        tabindex="1" placeholder="e.g BSIT" autofocus readonly> 
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('course_code') }}
-                                    </div>
-                                </div>
-                            </div>
+                            <input id="course_code" type="text" class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code" hidden readonly> 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="Level">Period:</label><span class="text-danger">*</span>
@@ -294,7 +284,7 @@
 @endsection
 
 @section('scripts')
-    <!-- add script -->
+    <!-- add curr script -->
     <script>
         $(document).ready(function() {
             // $('option').val($(this).data('role')).attr('selected', 'selected');
@@ -302,10 +292,13 @@
             $('.user-add').each(function() {
                 $(this).click(function(event) {
                     $('#add').attr("action", "/curriculum/store/" + "");
+
+                    var head = 'Add Curriculum for ' + $(this).data('course_code');
+                    $('#modal-title').html(head);
+
                     $('input[name="course_code"]').val($(this).data('course_code'));
                     $('input[name="period"]').val($(this).data('period'));
                     $('input[name="level"]').val($(this).data('level'));
-                    $('select option').filter(":selected").val();
 
                 });
             });
