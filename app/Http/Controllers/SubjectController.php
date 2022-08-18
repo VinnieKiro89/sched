@@ -92,7 +92,23 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        {
+
+            Subject::where('id',$request->id)->update([
+                'subject_code'=>$request->subject_code,
+                'subject_title'=>$request->subject_title,
+                'cred_units'=>$request->cred_units,
+                'pre_requisite'=>$request->pre_requisite,
+                'co_requisite'=>$request->co_requisite,
+            ]);
+    
+            // DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+    
+            $course = Subject::findorfail($request->id);
+            // $course->assignRole($request->role);
+    
+            return redirect()->route('subject.index')->with('updated', 'Update Success!');
+        }
     }
 
     /**
@@ -101,8 +117,11 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy($id)
     {
-        //
+        $subject = Subject::findorfail($id);
+        $subject->delete();
+        
+        return redirect()->route('subject.index')->with('deleted', 'Curriculum Deleted!');
     }
 }

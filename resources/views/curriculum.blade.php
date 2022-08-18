@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="section">
-        <div class="section-header">
-            <h5>tae</h5>
+        <div class="section-header" style="color:#606060">
+            <h5>Curriculum List</h5>
         </div>
         <div class="section-body">
 
@@ -43,7 +43,6 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">ID</th>
                                             <th style="color:white;">Course Code</th>
                                             <th style="color:white;">Period</th>
                                             <th style="color:white;">Level</th>
@@ -53,7 +52,6 @@
                                     <tbody>
                                         @foreach ($curricula as $curriculum)
                                             <tr style="border: 1px solid #000000;">
-                                                <td>{{ $curriculum->id }}</td>
                                                 <td>{{ $curriculum->course_code }}</td>
                                                 <td>{{ $curriculum->period }}</td>
                                                 <td>{{ $curriculum->level }}</td>
@@ -302,19 +300,19 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Course</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Curriculum</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="color: black;">
-                    Are you sure want to delete this Course?
+                    Are you sure want to delete this Curriculum?
                 </div>
                 <form method="POST" id="delete">
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>

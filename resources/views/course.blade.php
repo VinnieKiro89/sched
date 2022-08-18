@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="section">
-        <div class="section-header">
-            <h5>what</h5>
+        <div class="section-header" style="color:#606060">
+            <h5>Course List</h5>
         </div>
         <div class="section-body">
 
@@ -50,7 +50,6 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">ID</th>
                                             <th style="color:white;">Course Code</th>
                                             <th style="color:white;">Description</th>
                                             <th style="color:white;">Action</th>
@@ -59,7 +58,6 @@
                                     <tbody>
                                         @foreach ($courses as $course)
                                             <tr style="border: 1px solid #000000;">
-                                                {{-- <td>{{ $course->id }}</td> --}}
                                                 <td>{{ $course->course_code }}</td>
                                                 <td>{{ $course->description }}</td>
                                                     <td style="white-space:nowrap; width: 20px;">
