@@ -59,11 +59,11 @@
                                     <tbody>
                                         @foreach ($courses as $course)
                                             <tr style="border: 1px solid #000000;">
-                                                <td>{{ $course->id }}</td>
+                                                {{-- <td>{{ $course->id }}</td> --}}
                                                 <td>{{ $course->course_code }}</td>
                                                 <td>{{ $course->description }}</td>
                                                     <td style="white-space:nowrap; width: 20px;">
-                                                        <!-- I add 20px and it fix the extra space, don't know why -->
+                                                        <!-- I add 20px and it fix the extra space, don't know why | don't fix, don't change :) -->
                                                         {{-- <a href="#" class="btn btn-icon icon-left mr-3 btn-outline-primary">
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
@@ -128,7 +128,7 @@
                                     <label for="course_code">Course Code:</label><span class="text-danger">*</span>
                                     <input id="course_code" type="text"
                                         class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
-                                        tabindex="1" placeholder="e.g BSIT" autofocus>
+                                        tabindex="1" placeholder="e.g BSIT" required autofocus>
                                     <div class="invalid-feedback">
                                         {{ $errors->first('course_code') }}
                                     </div>
@@ -249,16 +249,15 @@
                                     <label for="Level">Period:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                        placeholder="Enter Period" name="period" required autofocus>
+                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" required autofocus>
 
-                                        <option selected disabled hidden>Period</option>
-                                        <option>1st Semester</option>
-                                        <option>2nd Semester</option>
+                                        <option value="" selected disabled hidden>Enter Period</option>
+                                        <option value="1st Semester">1st Semester</option>
+                                        <option value="2nd Semester">2nd Semester</option>
 
                                     </select>
                                     <div class="invalid-feedback">
-                                        {{ $errors->first('level') }}
+                                        {{ $errors->first('period') }}
                                     </div>
                                 </div>
                             </div>
@@ -267,14 +266,13 @@
                                     <label for="Level">Level:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}"
-                                        placeholder="Enter Level" name="level" required autofocus>
+                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" required autofocus>
 
-                                        <option selected disabled hidden>Level</option>
-                                        <option>1st Year</option>
-                                        <option>2nd Year</option>
-                                        <option>3rd Year</option>
-                                        <option>4th Year</option>
+                                        <option value="" selected disabled hidden>Enter Level</option>
+                                        <option value="1st Year">1st Year</option>
+                                        <option value="2nd Year">2nd Year</option>
+                                        <option value="3rd Year">3rd Year</option>
+                                        <option value="4th Year">4th Year</option>
 
                                     </select>
                                     <div class="invalid-feedback">

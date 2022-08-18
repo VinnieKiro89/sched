@@ -79,7 +79,7 @@
                                                         class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                         data-toggle="modal" data-target=".edit"
                                                         data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course_code }}"
-                                                        data-description="{{ $curriculum->description }}">
+                                                        data-period="{{ $curriculum->period }}" data-level="{{ $curriculum->level }}">
                                                         <i class="far fa-edit"></i>
                                                         Edit
                                                     </button>
@@ -170,13 +170,44 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                    <input id="course_code" type="text" class="form-control" name="course_code" tabindex="1" placeholder="e.g BSIT" autofocus required>
+                                    <input id="course_code" type="text" class="form-control" name="course_code" tabindex="1" placeholder="e.g BSIT" readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="description">Description:</label><span class="text-danger">*</span>
-                                    <input id="description" type="text" class="form-control" placeholder="Enter Email address" name="description" tabindex="1" required autofocus>
+                                    <label for="Level">Period:</label><span class="text-danger">*</span>
+
+                                    <select id="select1"
+                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
+                                        placeholder="Enter Period" name="period" required autofocus>
+
+                                        <option selected disabled hidden>Period</option>
+                                        <option>1st Semester</option>
+                                        <option>2nd Semester</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('level') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Level">Level:</label><span class="text-danger">*</span>
+
+                                    <select id="select1"
+                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" placeholder="Enter Level" name="level" required autofocus>
+
+                                        <option selected disabled hidden>Level</option>
+                                        <option>1st Year</option>
+                                        <option>2nd Year</option>
+                                        <option>3rd Year</option>
+                                        <option>4th Year</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('level') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -289,190 +320,6 @@
         </div>
     </div>
 
-        <!-- User Modal store Course-->
-        <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Course</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="POST" action="{{ route('course.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                        <input id="course_code" type="text"
-                                            class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
-                                            tabindex="1" placeholder="e.g BSIT" autofocus>
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('course_code') }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="description">Description:</label><span class="text-danger">*</span>
-                                        <input id="description" type="text"
-                                            class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                            placeholder="e.g Bachelor of Science in Information Technology" name="description" tabindex="1" required autofocus>
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('description') }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    
-        <!-- user Modal edit Course-->
-        <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Course</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="update" enctype="multipart/form-data" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                        <input id="course_code" type="text" class="form-control" name="course_code" tabindex="1" placeholder="e.g BSIT" autofocus required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="description">Description:</label><span class="text-danger">*</span>
-                                        <input id="description" type="text" class="form-control" placeholder="Enter Email address" name="description" tabindex="1" required autofocus>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    
-        <!-- User Modal delete Course-->
-        <div class="modal fade delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Course</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" style="color: black;">
-                        Are you sure want to delete this Curriculum?
-                    </div>
-                    <form method="POST" id="delete">
-                        @csrf
-                        @method('delete')
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    
-        <!-- User Modal store Curriculum-->
-        <div class="modal fade add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Curriculum</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="POST" id="add" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="course_code">Course Code:</label><span class="text-danger">*</span>
-                                        <input id="course_code" type="text"
-                                            class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
-                                            tabindex="1" placeholder="e.g BSIT" autofocus readonly> 
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('course_code') }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="Level">Period:</label><span class="text-danger">*</span>
-    
-                                        <select id="select1"
-                                            class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                            placeholder="Enter Period" name="period" required autofocus>
-    
-                                            <option selected disabled hidden>Period</option>
-                                            <option>1st Semester</option>
-                                            <option>2nd Semester</option>
-    
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('level') }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="Level">Level:</label><span class="text-danger">*</span>
-    
-                                        <select id="select1"
-                                            class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}"
-                                            placeholder="Enter Level" name="level" required autofocus>
-    
-                                            <option selected disabled hidden>Level</option>
-                                            <option>1st Year</option>
-                                            <option>2nd Year</option>
-                                            <option>3rd Year</option>
-                                            <option>4th Year</option>
-    
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('level') }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
 @endsection
 
 @section('scripts')
@@ -514,7 +361,8 @@
                 $(this).click(function(event) {
                     $('#update').attr("action", "/course/update/" + $(this).data('uid') + "");
                     $('input[name="course_code"]').val($(this).data('course_code'));
-                    $('input[name="description"]').val($(this).data('description'));
+                    $('input[name="period"]').val($(this).data('period'));
+                    $('input[name="level"]').val($(this).data('level'));
                     $('select option').filter(":selected").val();
 
                 });
