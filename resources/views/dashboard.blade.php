@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="section">
-        <div class="section-header">
+        <div class="section-header" style="color:#606060">
             <h3 class="page__heading">Dashboard</h3>
         </div>
         <div class="section-body">
@@ -10,7 +10,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="text-center" style="color: black">Dashboard Content</h3>
+                            <h3 class="text-center" style="color: black"></h3>
                         </div>
                     </div>
                 </div>

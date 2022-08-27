@@ -231,7 +231,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <input id="course_code" type="text" class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code" hidden readonly> 
+                            <input id="course_id" type="text" class="form-control{{ $errors->has('course_id') ? ' is-invalid' : '' }}" name="course_id" hidden readonly> 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="Level">Period:</label><span class="text-danger">*</span>
@@ -294,7 +294,7 @@
                     var head = 'Add Curriculum for ' + $(this).data('course_code');
                     $('#modal-title').html(head);
 
-                    $('input[name="course_code"]').val($(this).data('course_code'));
+                    $('input[name="course_id"]').val($(this).data('uid'));
                     $('input[name="period"]').val($(this).data('period'));
                     $('input[name="level"]').val($(this).data('level'));
 

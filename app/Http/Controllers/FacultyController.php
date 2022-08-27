@@ -1,0 +1,153 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Faculty;
+use Illuminate\Http\Request;
+use SebastianBergmann\CodeCoverage\Report\Html\Facade;
+
+class FacultyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $faculty = Faculty::all();
+        return view('Faculty.faculty',['faculties'=>$faculty]);
+    }
+
+    // idk what im doing
+    public function add()
+    {
+        return view('faculty.addfaculty');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // dd($request);
+        $this->validate($request,[
+            // 'name' => 'required',
+            // 'undergraduate' => 'required',
+            // 'graduate' => 'required',
+            // 'post_graduate' => 'required',
+            // 'professional_license' => 'required',
+            // 'name_of_company' => 'required',
+            // 'length_of_teaching' => 'required',
+            // 'field' => 'required',
+            // 'subj_taught' => 'required',
+            // 'nature_of_appt' => 'required',
+            // 'status' => 'required',
+            // 'email' => 'required',
+            // 'contact' => 'required',
+        ]);
+
+        $faculty = new Faculty();
+
+        $faculty->name = $request->input('name');
+        $faculty->undergraduate = $request->input('undergraduate');
+        $faculty->graduate = $request->input('graduate');
+        $faculty->post_graduate = $request->input('post_graduate');
+        $faculty->professional_license = $request->input('professional_license');
+        $faculty->name_of_company = $request->input('name_of_company');
+        $faculty->length_of_teaching = $request->input('length_of_teaching');
+        $faculty->field = $request->input('field');
+        $faculty->subj_taught = $request->input('subj_taught');
+        $faculty->nature_of_appt = $request->input('nature_of_appt');
+        $faculty->status = $request->input('status');
+        $faculty->email = $request->input('email');
+        $faculty->contact = $request->input('contact');
+
+        $faculty->save();
+        
+        return redirect()->route('faculty.index')->with('success', 'Faculty Added Successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Faculty  $faculty
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Faculty $faculty)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Faculty  $faculty
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $faculty = Faculty::findorfail($id);
+        return view('faculty.editfaculty')->with('faculty', $faculty);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Faculty  $faculty
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        Faculty::where('id',$id)->update([
+            'name'=>$request->name,
+            'undergraduate'=>$request->undergraduate,
+            'graduate'=>$request->graduate,
+            'post_graduate'=>$request->post_graduate,
+            'professional_license'=>$request->professional_license,
+            'name_of_company'=>$request->name_of_company,
+            'length_of_teaching'=>$request->length_of_teaching,
+            'field'=>$request->field,
+            'subj_taught'=>$request->subj_taught,
+            'nature_of_appt'=>$request->nature_of_appt,
+            'status'=>$request->status,
+            'email'=>$request->email,
+            'contact'=>$request->contact,
+        ]);
+
+        // DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+
+        $course = Faculty::findorfail($request->id);
+        // $course->assignRole($request->role);
+
+        return redirect()->route('faculty.index')->with('updated', 'Update Success!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Faculty  $faculty
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $faculty = Faculty::findorfail($id);
+        $faculty->delete();
+        
+        return redirect()->route('faculty.index')->with('deleted', 'Faculty Deleted!');
+    }
+}

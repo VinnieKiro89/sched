@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Course;
+use App\Models\Curriculum;
 
 class CourseController extends Controller
 {
@@ -113,6 +114,7 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = Course::findorfail($id);
+        Curriculum::where('course_id',$id)->delete();
         $course->delete();
         
         return redirect()->route('course.index')->with('deleted', 'Course Deleted!');

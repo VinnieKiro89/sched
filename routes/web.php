@@ -27,6 +27,11 @@ Route::get('/home', function () {
 });
 // end
 
+//dashboard
+Route::group([ 'prefix' => 'dashboard'], function() {
+    Route::get('',[App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
+});
+
 //Course
 Route::group([ 'prefix' => 'course'], function() {
     Route::get('',[App\Http\Controllers\CourseController::class, 'index'])->name('course.index');
@@ -46,7 +51,19 @@ Route::group([ 'prefix' => 'curriculum'], function() {
 //Subject
 Route::group([ 'prefix' => 'subject'], function() {
     Route::get('',[App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
+    Route::get('/{curriculum_id}/{curriculum}',[App\Http\Controllers\SubjectController::class, 'selectsubject'])->name('subject.selectsubject');
     Route::post('/store',[App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
+});
+
+//Faculty (not done)
+Route::group([ 'prefix' => 'faculty'], function() {
+    Route::get('',[App\Http\Controllers\FacultyController::class, 'index'])->name('faculty.index');
+    Route::get('/view/{id}',[App\Http\Controllers\FacultyController::class, 'view'])->name('faculty.view');
+    Route::get('/edit/{id}',[App\Http\Controllers\FacultyController::class, 'edit'])->name('faculty.edit');
+    Route::get('/add',[App\Http\Controllers\FacultyController::class, 'add'])->name('faculty.add');
+    Route::post('/store',[App\Http\Controllers\FacultyController::class, 'store'])->name('faculty.store');
+    Route::delete('/destroy/{id}',[App\Http\Controllers\FacultyController::class, 'destroy'])->name('faculty.destroy');
+    Route::PUT('/update/{id}',[App\Http\Controllers\FacultyController::class, 'update'])->name('faculty.update');
 });

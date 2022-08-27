@@ -19,4 +19,14 @@ class Curriculum extends Model
         'email',
         'password',
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

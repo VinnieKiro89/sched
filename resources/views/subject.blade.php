@@ -38,8 +38,10 @@
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body"> 
-
+                            <h6> {{ $fuckyou }} </h6>
                             <div class="d-flex justify-content-center">
+                                <!-- Header goes here, i think -->
+                                
                                 <table class="table mt-4"
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
@@ -53,6 +55,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- I probably don't need to use this, I could have just coded it directly to Controller, but im dumb so... yeah -->
+                                        <?php $subjects = DB::table('subjects')->where('curriculum_id', $curriculum_id)->get(); ?>
                                         @foreach ($subjects as $subject)
                                             <tr style="border: 1px solid #000000;">
                                                 {{-- <td>{{ $course->id }}</td> --}}

@@ -37,14 +37,14 @@ class CurriculumController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'course_code' => 'required',
+            'course_id' => 'required',
             'period' => 'required',
             'level' => 'required',
         ]);
 
         $curriculum = new Curriculum();
 
-        $curriculum->course_code = $request->input('course_code');
+        $curriculum->course_id = $request->input('course_id');
         $curriculum->period = $request->input('period');
         $curriculum->level = $request->input('level');
 

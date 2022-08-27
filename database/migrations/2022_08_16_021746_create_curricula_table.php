@@ -15,7 +15,7 @@ class CreateCurriculaTable extends Migration
     {
         Schema::create('curricula', function (Blueprint $table) {
             $table->id();
-            $table->string('course_code');
+            $table->integer('course_id');
             $table->string('period');
             $table->string('level');
             $table->timestamps();

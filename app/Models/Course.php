@@ -19,4 +19,9 @@ class Course extends Model
         'email',
         'password',
     ];
+
+    public function curriculums()
+    {
+        return $this->hasMany(Curriculum::class);
+    }
 }

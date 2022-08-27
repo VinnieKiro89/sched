@@ -18,4 +18,10 @@ class Subject extends Model
         'email',
         'password',
     ];
+
+    public function curriculum()
+    {
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
 }
+

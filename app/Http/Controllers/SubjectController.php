@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -16,6 +17,14 @@ class SubjectController extends Controller
     {
         $subject = Subject::all();
         return view('subject',['subjects'=>$subject]);
+    }
+
+    public function selectsubject($curriculum_id, $curriculum)
+    {
+       
+        $subject = Subject::all();
+
+        return view('subject')->with('curriculum_id', $curriculum_id)->with('fuckyou', $curriculum);
     }
 
     /**
@@ -37,7 +46,7 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'course_code' => 'required',
+            'curriculum_id' => 'required',
             'period' => 'required',
             'level' => 'required',
             'subject_code' => 'required',
@@ -47,7 +56,7 @@ class SubjectController extends Controller
 
         $subject = new Subject();
 
-        $subject->course_code = $request->input('course_code');
+        $subject->curriculum_id = $request->input('curriculum_id');
         $subject->period = $request->input('period');
         $subject->level = $request->input('level');
         $subject->subject_code = $request->input('subject_code');

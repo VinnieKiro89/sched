@@ -5,7 +5,7 @@
 </form>
 
 <ul class="navbar-nav navbar-left">
-    <h3>Test</h3>
+    <h3>Work in Progress</h3>
 </ul>
 
 
