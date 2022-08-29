@@ -14,8 +14,9 @@ class CurriculumController extends Controller
      */
     public function index()
     {
-        $curriculum = Curriculum::all();
-        return view('curriculum',['curricula'=>$curriculum]);
+        $curriculums = Curriculum::with('subjects')->get();
+        //dd($curriculums);
+        return view('curriculum', compact('curriculums'));
     }
 
     /**

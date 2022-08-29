@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use App\Models\Curriculum;
+use App\Model\Course;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -19,12 +20,15 @@ class SubjectController extends Controller
         return view('subject',['subjects'=>$subject]);
     }
 
-    public function selectsubject($curriculum_id, $curriculum)
+    public function selectsubject(Subject $curriculum)
     {
        
-        $subject = Subject::all();
-
-        return view('subject')->with('curriculum_id', $curriculum_id)->with('fuckyou', $curriculum);
+        $subjects = Subject::where('curriculum_id', $curriculum->id)->get();
+        $code = $curriculum->course->course_code;
+        $period = $curriculum->period;
+        $level = $curriculum->level;
+        
+        return view('subject', compact('subjects', 'code', 'period', 'level'));
     }
 
     /**

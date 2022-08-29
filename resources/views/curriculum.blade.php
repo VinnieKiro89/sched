@@ -50,7 +50,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($curricula as $curriculum)
+                                        @foreach ($curriculums as $curriculum)
                                             <tr style="border: 1px solid #000000;">
                                                 <td>{{ $curriculum->course->course_code }}</td>
                                                 <td>{{ $curriculum->period }}</td>
@@ -65,10 +65,17 @@
                                                         <i class="fas fa-plus"></i>
                                                         Add Subject
                                                     </button>
-                                                    <a href="{{ route('subject.selectsubject', ['curriculum_id' => $curriculum->id, 'curriculum' => $curriculum->course->course_code]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
+                                                    @if($curriculum->subjects->count() != 0)
+                                                    <a href="{{ route('subject.selectsubject', [$curriculum->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                         <i class="fas fa-book"></i>
                                                         View Subjects
                                                     </a>
+                                                    @else
+                                                    <button type="button" class="btn btn-icon icon-left mr-3 btn-outline-secondary user-add" disabled>
+                                                        <i class="fas fa-book"></i>
+                                                        No Subjects
+                                                    </button>
+                                                    @endif
                                                     <button type="button"
                                                         class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                         data-toggle="modal" data-target=".edit"

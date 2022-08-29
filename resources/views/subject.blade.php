@@ -38,7 +38,7 @@
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body"> 
-                            <h6> {{ $fuckyou }} </h6>
+                            <h5> Subject list for {{ $code }} {{ $period }} {{ $level }} </h5>
                             <div class="d-flex justify-content-center">
                                 <!-- Header goes here, i think -->
                                 
@@ -54,12 +54,9 @@
                                             <th style="color:white;">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!-- I probably don't need to use this, I could have just coded it directly to Controller, but im dumb so... yeah -->
-                                        <?php $subjects = DB::table('subjects')->where('curriculum_id', $curriculum_id)->get(); ?>
+                                    <tbody>                    
                                         @foreach ($subjects as $subject)
                                             <tr style="border: 1px solid #000000;">
-                                                {{-- <td>{{ $course->id }}</td> --}}
                                                 <td>{{ $subject->subject_code }}</td>
                                                 <td>{{ $subject->subject_title }}</td>
                                                 <td>{{ $subject->cred_units }}</td>

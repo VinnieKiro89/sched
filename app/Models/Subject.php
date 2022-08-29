@@ -23,5 +23,10 @@ class Subject extends Model
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'curriculum_id');
+    }
 }
 

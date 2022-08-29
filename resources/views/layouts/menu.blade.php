@@ -1,5 +1,5 @@
-
-    <li class="side-menus {{ request()->is('dashboard/index') ? 'active-nav' : '' }}">
+    <!-- Dashboard -->
+    <li class="side-menus {{ request()->is('dashboard') ? 'active-nav' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.index') }}">
             <i class=" fas fa-building icon" style="color: #606060;"></i> <span style="color:#606060">Dashboard</span>
         </a>
@@ -7,11 +7,11 @@
 
 
 
-
+    <!-- Curriculum -->
     <li class="nav-item dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                 style="color: #606060;"></i> <span style="color:#606060">Curriculum Management</span></a>
-        <ul class="dropdown-menu" style="{{ request()->is('course/index') || request()->is('curriculum/index') ? 'display:block' : 'display:none' }}">
+        <ul class="dropdown-menu" style="{{ request()->is('course/index') || request()->is('curriculum/index') ? 'active-nav' : '' }}">
             <li><a class="nav-link pl-5 {{ request()->is('course/index') ? 'active-nav' : '' }}" href="{{ route('course.index') }}" style="color: #606060; font-weight:600;"><i
                         class=" fas fa-building icon" style="color: #606060;"></i>Course List</a></li>
             <li><a class="nav-link pl-5 {{ request()->is('curriculum/index') ? 'active-nav' : '' }}" href="{{ route('curriculum.index') }}" style="color: #606060; font-weight:600;"><i
@@ -21,20 +21,18 @@
 
 
 
-@can('patient management permission for doctor')
+    <!-- Faculty -->
     <li class="nav-item dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
-                style="color: #033571;"></i> <span>Patient Management</span></a>
-        <ul class="dropdown-menu" style="display: none;">
-            <li><a class="nav-link pl-5" href="{{route('patients.index')}}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Patient List</a></li>
-            {{-- <li><a class="nav-link pl-5" href="" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Consultation</a></li> --}}
-                        <li><a class="nav-link pl-5" href="{{route('doctor_intervention.index')}}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                            style="color: #033571;"></i>For Intervention</a></li>
-                        </ul>
-                    </li>
-@endcan
+                style="color: #606060;"></i> <span style="color:#606060">Faculty Management</span></a>
+        <ul class="dropdown-menu" style="{{ request()->is('faculty/index') || request()->is('faculty/load') ? 'active-nav' : '' }}">
+            <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.index') }}" style="color: #606060; font-weight:600;"><i
+                        class=" fas fa-building icon" style="color: #606060;"></i>Faculty</a></li>
+            <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
+                        class=" fas fa-building icon" style="color: #606060;"></i>Faculty Loading</a></li>
+        </ul>
+    </li>
+
 
 @can('patient management permission for nurse')
     <li class="nav-item dropdown">
@@ -110,7 +108,7 @@
     }
 
     .active-nav {
-        background-color: #800000 !important;
+        background-color: whitesmoke !important;
         color: white;
     }
 

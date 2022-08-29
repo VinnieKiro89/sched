@@ -19,6 +19,13 @@ class FacultyController extends Controller
         return view('Faculty.faculty',['faculties'=>$faculty]);
     }
 
+    // idk what im doing (1)
+    public function view($id)
+    {
+        $faculty = Faculty::findorfail($id);
+        return view('faculty.viewfaculty', compact('faculty'));
+    }
+
     // idk what im doing
     public function add()
     {
@@ -149,5 +156,10 @@ class FacultyController extends Controller
         $faculty->delete();
         
         return redirect()->route('faculty.index')->with('deleted', 'Faculty Deleted!');
+    }
+
+    public function load()
+    {
+        // temporary, might make a new controller
     }
 }

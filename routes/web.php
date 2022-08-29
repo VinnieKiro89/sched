@@ -19,7 +19,7 @@ Route::resource('/course', 'App\Http\Controllers\CourseController');
 
 // idk what these are for, ignore them
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard.index');
 });
 
 Route::get('/home', function () {
@@ -51,7 +51,7 @@ Route::group([ 'prefix' => 'curriculum'], function() {
 //Subject
 Route::group([ 'prefix' => 'subject'], function() {
     Route::get('',[App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
-    Route::get('/{curriculum_id}/{curriculum}',[App\Http\Controllers\SubjectController::class, 'selectsubject'])->name('subject.selectsubject');
+    Route::get('/{curriculum}',[App\Http\Controllers\SubjectController::class, 'selectsubject'])->name('subject.selectsubject');
     Route::post('/store',[App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
@@ -66,4 +66,13 @@ Route::group([ 'prefix' => 'faculty'], function() {
     Route::post('/store',[App\Http\Controllers\FacultyController::class, 'store'])->name('faculty.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\FacultyController::class, 'destroy'])->name('faculty.destroy');
     Route::PUT('/update/{id}',[App\Http\Controllers\FacultyController::class, 'update'])->name('faculty.update');
+    Route::get('/load',[App\Http\Controllers\FacultyController::class, 'load'])->name('faculty.load'); // temp
+});
+
+//CourseLoading
+Route::group([ 'prefix' => 'courseload'], function() {
+    Route::get('',[App\Http\Controllers\CourseLoadController::class, 'index'])->name('courseload.index');
+    Route::post('/store',[App\Http\Controllers\CourseLoadController::class, 'store'])->name('courseload.store');
+    Route::delete('/destroy/{id}',[App\Http\Controllers\CourseLoadController::class, 'destroy'])->name('courseload.destroy');
+    Route::put('/update/{id}',[App\Http\Controllers\CourseLoadController::class, 'update'])->name('courseload.update');
 });
