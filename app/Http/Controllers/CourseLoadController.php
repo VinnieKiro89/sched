@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseLoad;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class CourseLoadController extends Controller
@@ -14,7 +15,16 @@ class CourseLoadController extends Controller
      */
     public function index()
     {
-        return view('courseload');
+        $events = array();
+        $subjects = Subject::all();
+        foreach($subjects as $subject){
+            $events[] = [
+                'code' => $subject->subject_code,
+                'title' => $subject->subject_title,
+            ];
+        }
+
+        return view('courseload', ['subjects' => $subjects]);
     }
 
     /**

@@ -33,6 +33,13 @@
         </ul>
     </li>
 
+    <!-- Course loading -->
+    <li class="side-menus {{ request()->is('courseload') ? 'active-nav' : '' }}">
+        <a class="nav-link" href="{{ route('courseload.index') }}">
+            <i class=" fas fa-building icon" style="color: #606060;"></i> <span style="color:#606060">Course Loading</span>
+        </a>
+    </li>
+
 
 @can('patient management permission for nurse')
     <li class="nav-item dropdown">

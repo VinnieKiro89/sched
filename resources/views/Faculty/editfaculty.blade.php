@@ -1,9 +1,9 @@
-@extends('layouts.app') <!-- this is the *emoty* one-->
+@extends('layouts.app')
 
 @section('content')
     <section class="section">
         <div class="section-header" style="color:#606060">
-            <h5>Add Faculty</h5>
+            <h5>Edit Faculty Member</h5>
         </div>
         <div class="section-body">
 

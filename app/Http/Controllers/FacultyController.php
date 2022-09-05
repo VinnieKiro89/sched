@@ -160,6 +160,6 @@ class FacultyController extends Controller
 
     public function load()
     {
-        // temporary, might make a new controller
+        return view('Faculty.loadfaculty');
     }
 }
