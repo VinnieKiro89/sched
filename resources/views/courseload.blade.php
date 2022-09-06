@@ -276,12 +276,11 @@
   });
 
   $(document).ready(function(){
-    $(document).on('change', '#course', function(){
+    $('#course, #level, #period').change(function(){
+
       var course = $('#course').val();
       var period = $('#period').val();
       var level = $('#level').val();
-
-      console.log(course, period, level);
 
       $.ajax({
         type: 'get',
