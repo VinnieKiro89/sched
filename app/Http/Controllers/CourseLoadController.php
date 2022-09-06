@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\CourseLoad;
 use App\Models\Subject;
+use App\Models\Course;
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class CourseLoadController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function index()
     {
+        // obob fullcalendar di nagana >:(
         $events = array();
         $subjects = Subject::all();
         foreach($subjects as $subject){
@@ -24,7 +28,21 @@ class CourseLoadController extends Controller
             ];
         }
 
-        return view('courseload', ['subjects' => $subjects]);
+        $courses = Course::all();
+        $curricula = Curriculum::all();
+
+        return view('courseload', ['subjects' => $subjects, 'courses' => $courses]);
+    }                                                                           
+
+    public function get_subjects(Request $request)                                  
+    {
+        // hope your brand table contain category_id or any name as you wish which act as foreign key
+        $subjects= Curriculum::where('course_id', $request->course)->get();
+
+        // return response() -> json($subjects);
+        // return json_encode($subjects);
+        
+        return view('new', ['subjects' => $subjects->subjects])->render();
     }
 
     /**
