@@ -37,12 +37,19 @@ class CourseLoadController extends Controller
     public function get_subjects(Request $request)                                  
     {
         // hope your brand table contain category_id or any name as you wish which act as foreign key
-        $subjects= Curriculum::where('course_id', $request->course)->get();
+        $curriculum = Curriculum::where('course_id',$request->course)
+                                ->where('level', $request->level)
+                                ->where('period', $request->period)
+                                ->first();
+        $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
+
+        $courses = Course::all();
 
         // return response() -> json($subjects);
         // return json_encode($subjects);
         
-        return view('new', ['subjects' => $subjects->subjects])->render();
+        // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
+        return view('new', compact('subjects', 'courses'))->render();
     }
 
     /**
