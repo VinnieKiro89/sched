@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseLoad;
-use App\Models\Subject;
+use Carbon\Carbon;
 use App\Models\Course;
+use App\Models\Subject;
+use App\Models\CourseLoad;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
@@ -20,18 +21,21 @@ class CourseLoadController extends Controller
     {
         // obob fullcalendar di nagana >:(
         $events = array();
-        $subjects = Subject::all();
-        foreach($subjects as $subject){
+        $course_load = CourseLoad::all();
+        foreach($course_load as $courseload){
             $events[] = [
-                'code' => $subject->subject_code,
-                'title' => $subject->subject_title,
+                'id' => $courseload->id,
+                'title' => $courseload->title,
+                'start' => $courseload->start_date,
+                'end' => $courseload->end_date,
             ];
         }
 
         $courses = Course::all();
+        $subjects = Subject::all();
         $curricula = Curriculum::all();
 
-        return view('courseload', ['subjects' => $subjects, 'courses' => $courses]);
+        return view('courseload', ['events' => $events, 'courses' => $courses, 'subjects' => $subjects]);
     }                                                                           
 
     public function get_subjects(Request $request)                                  
@@ -50,6 +54,33 @@ class CourseLoadController extends Controller
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
         return view('new', compact('subjects', 'courses'))->render();
+    }
+
+    public function store_event(Request $request)
+    {
+        $verify = Courseload::where('start_date', '=', Carbon::parse($request->start_date))
+                            ->where('end_date', '=', Carbon::parse($request->end_date))->first();
+
+        if($verify != null)
+        {
+            return view('courseload')->with('deleted', 'lmao error.');
+        }
+
+        $request->validate([
+            'title' => 'required|string',
+            'day' => 'required|string',
+            'start_date' => 'required|string',
+            'end_date' => 'required|string',
+        ]);
+
+        $newcourseload = CourseLoad::create([
+            'title' => $request->title,
+            // 'day' => $request->day,
+            'start_date' => Carbon::parse($request->start_date),
+            'end_date' => Carbon::parse($request->end_date),
+        ]);
+
+        return response()->json($newcourseload);
     }
 
     /**

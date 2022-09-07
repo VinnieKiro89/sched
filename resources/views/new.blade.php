@@ -18,13 +18,13 @@
           <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
               <option value="" selected disabled hidden>Select Day</option>
               <!-- this looks ugly -->
-              <option value="Sun">Sunday</option>
-              <option value="Mon">Monday</option>
-              <option value="Tue">Tueday</option>
-              <option value="Wed">Wedday</option>
-              <option value="Thu">Thuday</option>
-              <option value="Fri">Friday</option>
-              <option value="Sat">Satday</option>
+              <option value="2022-09-04T">Sunday</option>
+              <option value="2022-09-05T">Monday</option>
+              <option value="2022-09-06T">Tuesday</option>
+              <option value="2022-09-07T">Wednesday</option>
+              <option value="2022-09-08T">Thursday</option>
+              <option value="2022-09-09T">Friday</option>
+              <option value="2022-09-10T">Saturday</option>
           </select>
         </div>
         <label for="email">Start Time:</label><span class="text-danger">*</span>
@@ -32,22 +32,22 @@
           <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
               <option value="" selected disabled hidden>Select Time</option>
               <!-- this looks ugly -->
-              <option value="06:00:00">6:00 AM</option>
-              <option value="07:00:00">7:00 AM</option>
-              <option value="08:00:00">8:00 AM</option>
-              <option value="09:00:00">9:00 AM</option>
-              <option value="10:00:00">10:00 AM</option>
-              <option value="11:00:00">11:00 AM</option>
-              <option value="12:00:00">12:00 PM</option>
-              <option value="13:00:00">1:00 PM</option>
-              <option value="14:00:00">2:00 PM</option>
-              <option value="15:00:00">3:00 PM</option>
-              <option value="16:00:00">4:00 PM</option>
-              <option value="17:00:00">5:00 PM</option>
-              <option value="18:00:00">6:00 PM</option>
-              <option value="19:00:00">7:00 PM</option>
-              <option value="20:00:00">8:00 PM</option>
-              <option value="21:00:00">9:00 PM</option>
+              <option value="06:00:00+08:00">6:00 AM</option>
+              <option value="07:00:00+08:00">7:00 AM</option>
+              <option value="08:00:00+08:00">8:00 AM</option>
+              <option value="09:00:00+08:00">9:00 AM</option>
+              <option value="10:00:00+08:00">10:00 AM</option>
+              <option value="11:00:00+08:00">11:00 AM</option>
+              <option value="12:00:00+08:00">12:00 PM</option>
+              <option value="13:00:00+08:00">1:00 PM</option>
+              <option value="14:00:00+08:00">2:00 PM</option>
+              <option value="15:00:00+08:00">3:00 PM</option>
+              <option value="16:00:00+08:00">4:00 PM</option>
+              <option value="17:00:00+08:00">5:00 PM</option>
+              <option value="18:00:00+08:00">6:00 PM</option>
+              <option value="19:00:00+08:00">7:00 PM</option>
+              <option value="20:00:00+08:00">8:00 PM</option>
+              <option value="21:00:00+08:00">9:00 PM</option>
           </select>
         </div>
         <label for="email">End Time:</label><span class="text-danger">*</span>
@@ -55,22 +55,22 @@
           <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
               <option value="" selected disabled hidden>Select Time</option>
               <!-- there's probably a cleaner option to do this -->
-              <option value="06:00:00">6:00 AM</option>
-              <option value="07:00:00">7:00 AM</option>
-              <option value="08:00:00">8:00 AM</option>
-              <option value="09:00:00">9:00 AM</option>
-              <option value="10:00:00">10:00 AM</option>
-              <option value="11:00:00">11:00 AM</option>
-              <option value="12:00:00">12:00 PM</option>
-              <option value="13:00:00">1:00 PM</option>
-              <option value="14:00:00">2:00 PM</option>
-              <option value="15:00:00">3:00 PM</option>
-              <option value="16:00:00">4:00 PM</option>
-              <option value="17:00:00">5:00 PM</option>
-              <option value="18:00:00">6:00 PM</option>
-              <option value="19:00:00">7:00 PM</option>
-              <option value="20:00:00">8:00 PM</option>
-              <option value="21:00:00">9:00 PM</option>
+              <option value="06:00:00+08:00">6:00 AM</option>
+              <option value="07:00:00+08:00">7:00 AM</option>
+              <option value="08:00:00+08:00">8:00 AM</option>
+              <option value="09:00:00+08:00">9:00 AM</option>
+              <option value="10:00:00+08:00">10:00 AM</option>
+              <option value="11:00:00+08:00">11:00 AM</option>
+              <option value="12:00:00+08:00">12:00 PM</option>
+              <option value="13:00:00+08:00">1:00 PM</option>
+              <option value="14:00:00+08:00">2:00 PM</option>
+              <option value="15:00:00+08:00">3:00 PM</option>
+              <option value="16:00:00+08:00">4:00 PM</option>
+              <option value="17:00:00+08:00">5:00 PM</option>
+              <option value="18:00:00+08:00">6:00 PM</option>
+              <option value="19:00:00+08:00">7:00 PM</option>
+              <option value="20:00:00+08:00">8:00 PM</option>
+              <option value="21:00:00+08:00">9:00 PM</option>
           </select>
         </div>
         <div class="footer">

@@ -7,15 +7,43 @@
     </div>
     
     <section class='section-body'>
+
+      @if (session()->has('success'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session()->get('success') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      @endif
+
+      @if (session()->has('updated'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session()->get('updated') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      @endif
+
+      @if (session()->has('deleted'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ session()->get('deleted') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      @endif
+
       <div class="row">
-        <div class="col-lg-4" id="tite">
+        <div class="col-lg-4" id="title">
           <div class="card shadow">
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Title</option>
                       @foreach ($subjects as $subject)
                           <option value="{{ $subject->subject_code }}">
@@ -26,67 +54,67 @@
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Day</option>
                       <!-- this looks ugly -->
-                      <option value="Sun">Sunday</option>
-                      <option value="Mon">Monday</option>
-                      <option value="Tue">Tueday</option>
-                      <option value="Wed">Wedday</option>
-                      <option value="Thu">Thuday</option>
-                      <option value="Fri">Friday</option>
-                      <option value="Sat">Satday</option>
+                      <option value="2022-09-04T">Sunday</option>
+                      <option value="2022-09-05T">Monday</option>
+                      <option value="2022-09-06T">Tuesday</option>
+                      <option value="2022-09-07T">Wednesday</option>
+                      <option value="2022-09-08T">Thursday</option>
+                      <option value="2022-09-09T">Friday</option>
+                      <option value="2022-09-10T">Saturday</option>
                   </select>
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectStart" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Time</option>
                       <!-- this looks ugly -->
-                      <option value="06:00:00">6:00 AM</option>
-                      <option value="07:00:00">7:00 AM</option>
-                      <option value="08:00:00">8:00 AM</option>
-                      <option value="09:00:00">9:00 AM</option>
-                      <option value="10:00:00">10:00 AM</option>
-                      <option value="11:00:00">11:00 AM</option>
-                      <option value="12:00:00">12:00 PM</option>
-                      <option value="13:00:00">1:00 PM</option>
-                      <option value="14:00:00">2:00 PM</option>
-                      <option value="15:00:00">3:00 PM</option>
-                      <option value="16:00:00">4:00 PM</option>
-                      <option value="17:00:00">5:00 PM</option>
-                      <option value="18:00:00">6:00 PM</option>
-                      <option value="19:00:00">7:00 PM</option>
-                      <option value="20:00:00">8:00 PM</option>
-                      <option value="21:00:00">9:00 PM</option>
+                      <option value="06:00:00+08:00">6:00 AM</option>
+                      <option value="07:00:00+08:00">7:00 AM</option>
+                      <option value="08:00:00+08:00">8:00 AM</option>
+                      <option value="09:00:00+08:00">9:00 AM</option>
+                      <option value="10:00:00+08:00">10:00 AM</option>
+                      <option value="11:00:00+08:00">11:00 AM</option>
+                      <option value="12:00:00+08:00">12:00 PM</option>
+                      <option value="13:00:00+08:00">1:00 PM</option>
+                      <option value="14:00:00+08:00">2:00 PM</option>
+                      <option value="15:00:00+08:00">3:00 PM</option>
+                      <option value="16:00:00+08:00">4:00 PM</option>
+                      <option value="17:00:00+08:00">5:00 PM</option>
+                      <option value="18:00:00+08:00">6:00 PM</option>
+                      <option value="19:00:00+08:00">7:00 PM</option>
+                      <option value="20:00:00+08:00">8:00 PM</option>
+                      <option value="21:00:00+08:00">9:00 PM</option>
                   </select>
                 </div>
                 <label for="email">End Time:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="select1" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectEnd" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Time</option>
                       <!-- there's probably a cleaner option to do this -->
-                      <option value="06:00:00">6:00 AM</option>
-                      <option value="07:00:00">7:00 AM</option>
-                      <option value="08:00:00">8:00 AM</option>
-                      <option value="09:00:00">9:00 AM</option>
-                      <option value="010:00:00">10:00 AM</option>
-                      <option value="011:00:00">11:00 AM</option>
-                      <option value="12:00:00">12:00 PM</option>
-                      <option value="13:00:00">1:00 PM</option>
-                      <option value="14:00:00">2:00 PM</option>
-                      <option value="15:00:00">3:00 PM</option>
-                      <option value="16:00:00">4:00 PM</option>
-                      <option value="17:00:00">5:00 PM</option>
-                      <option value="18:00:00">6:00 PM</option>
-                      <option value="19:00:00">7:00 PM</option>
-                      <option value="20:00:00">8:00 PM</option>
-                      <option value="21:00:00">9:00 PM</option>
+                      <option value="06:00:00+08:00">6:00 AM</option>
+                      <option value="07:00:00+08:00">7:00 AM</option>
+                      <option value="08:00:00+08:00">8:00 AM</option>
+                      <option value="09:00:00+08:00">9:00 AM</option>
+                      <option value="10:00:00+08:00">10:00 AM</option>
+                      <option value="11:00:00+08:00">11:00 AM</option>
+                      <option value="12:00:00+08:00">12:00 PM</option>
+                      <option value="13:00:00+08:00">1:00 PM</option>
+                      <option value="14:00:00+08:00">2:00 PM</option>
+                      <option value="15:00:00+08:00">3:00 PM</option>
+                      <option value="16:00:00+08:00">4:00 PM</option>
+                      <option value="17:00:00+08:00">5:00 PM</option>
+                      <option value="18:00:00+08:00">6:00 PM</option>
+                      <option value="19:00:00+08:00">7:00 PM</option>
+                      <option value="20:00:00+08:00">8:00 PM</option>
+                      <option value="21:00:00+08:00">9:00 PM</option>
                   </select>
                 </div>
                 <div class="footer">
                   <button type="button" class="btn btn-secondary">Clear</button>
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button id="save" name="save" type="submit" class="btn btn-primary">Save</button>
               </div>
               </div>
             </div>
@@ -145,73 +173,78 @@
 </section>
 @endsection
 
+{{-- comment 
+  // import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+  // import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+  // var draggableEl = document.getElementById('mydraggable');
+  // var containerEl = document.getElementById('draggable-el');
+
+  // new Draggable(draggableEl);
+
+  // new Draggable(containerEl, {
+  //   itemSelector: '.item-class',
+  //   eventData: function(eventEl) {
+  //     return {
+  //       title: eventEl.innerText,
+  //       duration: '02:00'
+  //     };
+  //   }
+  // });
+
+  // $('#external-events .fc-event').each(function() {
+
+  //   // store data so the calendar knows to render an event upon drop
+  //   $(this).data('event', {
+  //     title: $.trim($(this).text()), // use the element's text as the event title
+  //     uniqueid: "XXX",
+  //     stick: true, // maintain when user navigates (see docs on the renderEvent method)
+  //     color : 'black',
+  //     textColor: 'red' 
+  //   });
+
+  //   // make the event draggable using jQuery UI
+  //   $(this).draggable({
+  //     zIndex: 999,
+  //     revert: true,      // will cause the event to go back to its
+  //     revertDuration: 0,  //  original position after the drag
+  //     //start: function (event, ui) {
+  //     //alert("Salvare tuti i dati in variabile globale");
+  //     //},
+  //     //stop: function (event, ui) {
+  //     //  alert(event);
+  //     //}
+  //   });
+
+  //   });
+
+  // resources: [
+
+  //       { id: 'a', title: 'Sunday' },
+  //       { id: 'b', title: 'Monday' },
+  //       { id: 'c', title: 'Tuesday' },
+  //       { id: 'd', title: 'Wednesday' },
+  //       { id: 'e', title: 'Thursday' },
+  //       { id: 'e', title: 'Friday' },
+  //       { id: 'e', title: 'Saturday' },
+
+  // ],
+
+  --}}
+
+
 @section('scripts')   
 <script>
-    // import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-    // import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
-      // var draggableEl = document.getElementById('mydraggable');
 
-      // var containerEl = document.getElementById('draggable-el');
-      var subjects = @json($subjects);
+      var subjects = @json($events);
 
       console.log(subjects);
-
-      // new Draggable(draggableEl);
-
-      // new Draggable(containerEl, {
-      //   itemSelector: '.item-class',
-      //   eventData: function(eventEl) {
-      //     return {
-      //       title: eventEl.innerText,
-      //       duration: '02:00'
-      //     };
-      //   }
-      // });
-
-      // $('#external-events .fc-event').each(function() {
-
-      //   // store data so the calendar knows to render an event upon drop
-      //   $(this).data('event', {
-      //     title: $.trim($(this).text()), // use the element's text as the event title
-      //     uniqueid: "XXX",
-      //     stick: true, // maintain when user navigates (see docs on the renderEvent method)
-      //     color : 'black',
-      //     textColor: 'red' 
-      //   });
-
-      //   // make the event draggable using jQuery UI
-      //   $(this).draggable({
-      //     zIndex: 999,
-      //     revert: true,      // will cause the event to go back to its
-      //     revertDuration: 0,  //  original position after the drag
-      //     //start: function (event, ui) {
-      //     //alert("Salvare tuti i dati in variabile globale");
-      //     //},
-      //     //stop: function (event, ui) {
-      //     //  alert(event);
-      //     //}
-      //   });
-
-      //   });
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         
         initialView: 'timeGridFourDay',
-
-        // resources: [
-
-        //       { id: 'a', title: 'Sunday' },
-        //       { id: 'b', title: 'Monday' },
-        //       { id: 'c', title: 'Tuesday' },
-        //       { id: 'd', title: 'Wednesday' },
-        //       { id: 'e', title: 'Thursday' },
-        //       { id: 'e', title: 'Friday' },
-        //       { id: 'e', title: 'Saturday' },
-
-        // ],
     
         headerToolbar: {
           left: '',
@@ -248,24 +281,52 @@
             }
           }
         },
-        events: [
-          {
-            title: 'Title',
-            start: '2022-09-06T10:00:00+08:00',
-            end: '2022-09-06T10:00:00+08:00'
-          }
-        ],
+        events: subjects,
         selectable: true,
         selectHelper: true,
         editable: true,
         droppable: true,
+        eventOverlap: false,
         select: function(start, end, allDays) {
           console.log(start)
-        } 
+        }, 
       });
       calendar.render();
-      
     });
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#save').click(function() {
+      var title = $('#selectTitle').val();
+      var day = $('#selectDay').val();
+      var start = $('#selectStart').val();
+      var end = $('#selectEnd').val();
+
+      var start_date = day + start;
+      var end_date = day + end;
+
+      $.ajax({
+        type: 'POST',
+        url: '{{ route('courseload.post') }}',
+        data: { 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
+
+        success: function(response)
+        {
+          $('#calendar').fullCalendar('renderEvent', {
+            'title'       : response.title,
+            'start_date'  : response.start_date,
+            'end_date'    : response.end_date,
+          });
+          // FullCalendar.calendar('renderEvent', {
+          //   'title'       : response.title,
+          //   'start_date'  : response.start_date,
+          //   'end_date'    : response.end_date,
+          // });
+        },
+      });
+    });
+  });
 </script>
 
 <script type="text/javascript">
@@ -288,7 +349,7 @@
         data: {'course':course, 'period':period, 'level':level},
         success: function(data){
           // console.log(data);
-          $('#tite').html(data);
+          $('#title').html(data);
         },
       });
     });
@@ -296,6 +357,15 @@
   });
 
 </script>
-
+ 
+<script>
+  // Call the dataTables jQuery plugin
+  // ok, so... wtf is this for??
+  // $(document).ready(function() {
+  //     $('#teachers-table').DataTable({
+  //         "ordering": false
+  //     });
+  // });
+</script>
 
 @endsection

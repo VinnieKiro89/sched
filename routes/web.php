@@ -74,6 +74,7 @@ Route::group([ 'prefix' => 'courseload'], function() {
     Route::get('',[App\Http\Controllers\CourseLoadController::class, 'index'])->name('courseload.index');
     Route::post('/store',[App\Http\Controllers\CourseLoadController::class, 'store'])->name('courseload.store');
     Route::get('/get',[App\Http\Controllers\CourseLoadController::class, 'get_subjects'])->name('courseload.get');
+    Route::post('/post',[App\Http\Controllers\CourseLoadController::class, 'store_event'])->name('courseload.post');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CourseLoadController::class, 'destroy'])->name('courseload.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\CourseLoadController::class, 'update'])->name('courseload.update');
 });
