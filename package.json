@@ -16,8 +16,6 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "fullcalendar": "^5.11.3",
-        "fullcalendar-scheduler": "^5.11.3",
         "jquery-ui-dist": "^1.13.2"
     }
 }

@@ -158,7 +158,9 @@
                   </div>
                 </div>
               </div>
-              <div id='calendar'></div>
+              <div id='forcal'>
+                <div id='calendar'></div>
+              </div>
             </div>
           </div>
         </div>
@@ -237,7 +239,7 @@
 
       console.log(subjects);
 
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         
         initialView: 'timeGridFourDay',
@@ -277,9 +279,12 @@
             }
           }
         },
+        eventDidMount: function (event) {
+            $(event.el).attr('data-trigger', 'focus')
+            $(event.el).attr('tabindex', 0)
+        },
         events: subjects,
         selectable: true,
-        selectHelper: true,
         editable: true,
         droppable: true,
         eventOverlap: false,
@@ -290,6 +295,7 @@
       calendar.render();
     });
 </script>
+
 
 <script>
   $(document).ready(function(){
@@ -303,7 +309,6 @@
 
       var start_date = day + start;
       var end_date = day + end;
-      console.log('before ajax')
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
@@ -311,63 +316,9 @@
 
         success: function(response)
         {
-          console.log('success')
-          var calendarEl = document.getElementById('calendar');
-
-          var subjects = @json($events);
-
-          console.log(subjects);
-
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            
-            initialView: 'timeGridFourDay',
-        
-            headerToolbar: {
-              left: '',
-              center: '',
-              right: ''
-            },
-            footerToolbar: {
-              left: 'custom1,custom2',
-              center: '',
-              right: ''
-            },
-            views: {
-              timeGridFourDay: {
-                // type: 'resourceTimeGridDay',
-                type: 'timeGridWeek',
-                slotMinTime: '6:00:00',
-                slotMaxTime: '22:00:00',
-                allDaySlot: false,
-                expandRows: true,
-                dayHeaderFormat: { weekday: 'long' },
-              }
-            },
-            customButtons: {
-              custom1: {
-                text: 'Save',
-                click: function() {
-                  alert('clicked custom button 1!');
-                }
-              },
-              custom2: {
-                text: 'Cancel',
-                click: function() {
-                  alert('clicked custom button 2!');
-                }
-              }
-            },
-            events: subjects,
-            selectable: true,
-            selectHelper: true,
-            editable: true,
-            droppable: true,
-            eventOverlap: false,
-            select: function(start, end, allDays) {
-              console.log(start)
-            }, 
-          });
+          console.log('refetch1')
+          calendar.refetchEvents();
+          console.log('refetch2')
           calendar.render();
           // FullCalendar.calendar('renderEvent', {
           //   'title'       : response.title,
@@ -398,13 +349,39 @@
         url: '{{ route('courseload.get') }}',
         data: {'course':course, 'period':period, 'level':level},
         success: function(data){
-          // console.log(data);
+          console.log('col4');
           $('#title').html(data);
-          $('#calendar').html(data);
         },
       });
     });
+  });
 
+</script>
+
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#course, #level, #period').change(function(){
+      var course = $('#course').val();
+      var period = $('#period').val();
+      var level = $('#level').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('courseload.getcal') }}',
+        data: {'course':course, 'period':period, 'level':level},
+        success: function(data){
+          console.log('cal');
+          // $('#forcal').html(data);
+          calendar.refetchEvents();
+        },
+      });
+    });
   });
 
 </script>

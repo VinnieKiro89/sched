@@ -9,6 +9,7 @@ use App\Models\CourseLoad;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
+use Acaronlex\LaravelCalendar\Calendar;
 
 class CourseLoadController extends Controller
 {
@@ -69,6 +70,72 @@ class CourseLoadController extends Controller
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
         return view('new', compact('subjects', 'courses', 'curriculum', 'events'))->render();
+    }
+
+    public function get_cal(Request $request)                                  
+    {
+        // hope your brand table contain category_id or any name as you wish which act as foreign key
+        $curriculum = Curriculum::where('course_id',$request->course)
+                                ->where('level', $request->level)
+                                ->where('period', $request->period)
+                                ->first();
+        $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
+
+        //$id = $curriculum->id;
+
+        $courses = Course::all();
+
+        // return response() -> json($subjects);
+        // return json_encode($subjects);
+
+        // $eventss = [];
+        // $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
+        // foreach($course_load as $courseload){
+        //     $eventss[] = Calendar::event(
+        //         $courseload->title,
+        //         false,
+        //         $courseload->start_date,
+        //         $courseload->end_date,
+        //         $courseload->curriculum_id
+        //     );
+        // }
+
+        // $calendar = new Calendar();
+        // $calendar->addEvents($eventss);
+        // $calendar->setOptions([
+        //     'type' => 'timeGridWeek',
+        //     'slotMinTime' => '6:00:00',
+        //     'slotMaxTime' => '22:00:00',
+        //     'allDaySlot' => false,
+        //     'expandRows' => true,
+        //     'dayHeaderFormat' => [ 'weekday' => 'long' ],
+        //     'selectable' => true,
+        //     'selectHelper' => true,
+        //     'editable' => true,
+        //     'droppable' => true,
+        //     'eventOverlap' => false,
+        // ]);
+        // $calendar->setId('1');
+        // $calendar->setCallbacks([
+        //     'select' => 'function(selectionInfo){}',
+        //     'eventClick' => 'function(event){}'
+        // ]);
+        
+
+        $events = array();
+        $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
+        foreach($course_load as $courseload){
+            $events[] = [
+                'id' => $courseload->id,
+                'curriculum_id' => $courseload->curriculum_id,
+                'title' => $courseload->title,
+                'start' => $courseload->start_date,
+                'end' => $courseload->end_date,
+            ];
+        }
+        
+        // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
+        return view('newcal', compact('subjects', 'courses', 'curriculum', 'events'))->render();
     }
 
     public function store_event(Request $request)
