@@ -19,12 +19,13 @@ class CourseLoadController extends Controller
      */
     public function index()
     {
-        // obob fullcalendar di nagana >:(
+        // obob fullcalendar di nagana >:( || nagana nmn ata
         $events = array();
         $course_load = CourseLoad::all();
         foreach($course_load as $courseload){
             $events[] = [
                 'id' => $courseload->id,
+                'curriculum_id' => $courseload->curriculum_id,
                 'title' => $courseload->title,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
@@ -47,13 +48,27 @@ class CourseLoadController extends Controller
                                 ->first();
         $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 
+        //$id = $curriculum->id;
+
         $courses = Course::all();
 
         // return response() -> json($subjects);
         // return json_encode($subjects);
+
+        $events = array();
+        $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
+        foreach($course_load as $courseload){
+            $events[] = [
+                'id' => $courseload->id,
+                'curriculum_id' => $courseload->curriculum_id,
+                'title' => $courseload->title,
+                'start' => $courseload->start_date,
+                'end' => $courseload->end_date,
+            ];
+        }
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
-        return view('new', compact('subjects', 'courses'))->render();
+        return view('new', compact('subjects', 'courses', 'curriculum', 'events'))->render();
     }
 
     public function store_event(Request $request)
@@ -67,6 +82,7 @@ class CourseLoadController extends Controller
         }
 
         $request->validate([
+            'curriculum_id' => 'required|string',
             'title' => 'required|string',
             'day' => 'required|string',
             'start_date' => 'required|string',
@@ -74,6 +90,7 @@ class CourseLoadController extends Controller
         ]);
 
         $newcourseload = CourseLoad::create([
+            'curriculum_id' => $request->curriculum_id,
             'title' => $request->title,
             // 'day' => $request->day,
             'start_date' => Carbon::parse($request->start_date),

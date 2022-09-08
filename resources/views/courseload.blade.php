@@ -41,6 +41,7 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
@@ -298,26 +299,81 @@
 <script>
   $(document).ready(function(){
     $('#save').click(function() {
+      var curriculum_id = $('#curriculum_id').val();
       var title = $('#selectTitle').val();
       var day = $('#selectDay').val();
       var start = $('#selectStart').val();
       var end = $('#selectEnd').val();
+      
 
       var start_date = day + start;
       var end_date = day + end;
-
+      console.log('before ajax')
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
-        data: { 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
+        data: { 'curriculum_id':curriculum_id, 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
 
         success: function(response)
         {
-          $('#calendar').fullCalendar('renderEvent', {
-            'title'       : response.title,
-            'start_date'  : response.start_date,
-            'end_date'    : response.end_date,
+          console.log('success')
+          var calendarEl = document.getElementById('calendar');
+
+          var subjects = @json($events);
+
+          console.log(subjects);
+
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            
+            initialView: 'timeGridFourDay',
+        
+            headerToolbar: {
+              left: '',
+              center: '',
+              right: ''
+            },
+            footerToolbar: {
+              left: 'custom1,custom2',
+              center: '',
+              right: ''
+            },
+            views: {
+              timeGridFourDay: {
+                // type: 'resourceTimeGridDay',
+                type: 'timeGridWeek',
+                slotMinTime: '6:00:00',
+                slotMaxTime: '22:00:00',
+                allDaySlot: false,
+                expandRows: true,
+                dayHeaderFormat: { weekday: 'long' },
+              }
+            },
+            customButtons: {
+              custom1: {
+                text: 'Save',
+                click: function() {
+                  alert('clicked custom button 1!');
+                }
+              },
+              custom2: {
+                text: 'Cancel',
+                click: function() {
+                  alert('clicked custom button 2!');
+                }
+              }
+            },
+            events: subjects,
+            selectable: true,
+            selectHelper: true,
+            editable: true,
+            droppable: true,
+            eventOverlap: false,
+            select: function(start, end, allDays) {
+              console.log(start)
+            }, 
           });
+          calendar.render();
           // FullCalendar.calendar('renderEvent', {
           //   'title'       : response.title,
           //   'start_date'  : response.start_date,
@@ -338,7 +394,6 @@
 
   $(document).ready(function(){
     $('#course, #level, #period').change(function(){
-
       var course = $('#course').val();
       var period = $('#period').val();
       var level = $('#level').val();

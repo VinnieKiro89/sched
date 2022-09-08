@@ -56,6 +56,7 @@ class SubjectController extends Controller
             'subject_code' => 'required',
             'subject_title' => 'required',
             'cred_units' => 'required',
+            'subj_hours' => 'required',
         ]);
 
         $subject = new Subject();
@@ -66,6 +67,7 @@ class SubjectController extends Controller
         $subject->subject_code = $request->input('subject_code');
         $subject->subject_title = $request->input('subject_title');
         $subject->cred_units = $request->input('cred_units');
+        $subject->subj_hours = $request->input('subj_hours');
         $subject->pre_requisite = $request->input('pre-requisite');
         $subject->co_requisite = $request->input('co-requisite');
 

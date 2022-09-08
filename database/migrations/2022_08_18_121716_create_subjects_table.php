@@ -21,6 +21,7 @@ class CreateSubjectsTable extends Migration
             $table->string('subject_code');
             $table->string('subject_title');
             $table->string('cred_units');
+            $table->string('subj_hours');
             $table->string('pre_requisite')->nullable();
             $table->string('co_requisite')->nullable();
             $table->timestamps();

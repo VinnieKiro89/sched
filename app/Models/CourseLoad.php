@@ -9,5 +9,15 @@ class CourseLoad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'day', 'start_date', 'end_date'];
+    protected $fillable = ['curriculum_id', 'title', 'day', 'start_date', 'end_date'];
+
+    public function curriculum()
+    {
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'curriculum_id');
+    }
 }

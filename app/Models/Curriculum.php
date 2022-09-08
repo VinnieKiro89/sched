@@ -32,4 +32,9 @@ class Curriculum extends Model
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function courseload()
+    {
+        return $this->hasMany(CourseLoad::class);
+    }
 }

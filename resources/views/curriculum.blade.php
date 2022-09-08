@@ -119,7 +119,7 @@
                 <form method="POST" id="add" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row justify-content-md-center">
                             <input id="curriculum_id" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly> 
                             <input id="period" type="text" class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" hidden readonly> 
                             <input id="level" type="text" class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" hidden readonly> 
@@ -145,14 +145,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="cred_units">Credited units/Lecture hours:</label><span class="text-danger">*</span>
-                                    <input id="cred_units" type="text"
-                                        class="form-control{{ $errors->has('cred_units') ? ' is-invalid' : '' }}" name="cred_units"
-                                        tabindex="1" placeholder="Enter Units" autofocus required>
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('cred_units') }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cred_units">Credited units:</label><span class="text-danger">*</span>
+                                        <input id="cred_units" type="text"
+                                            class="form-control{{ $errors->has('cred_units') ? ' is-invalid' : '' }}" name="cred_units"
+                                            tabindex="1" placeholder="Enter Units" autofocus required>
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('cred_units') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="subj_hours">Subject Hours:</label><span class="text-danger">*</span>
+                                        <input id="subj_hours" type="text"
+                                            class="form-control{{ $errors->has('subj_hours') ? ' is-invalid' : '' }}" name="subj_hours"
+                                            tabindex="1" placeholder="Enter Units" autofocus required>
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('subj_hours') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

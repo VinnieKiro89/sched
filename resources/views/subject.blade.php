@@ -49,6 +49,7 @@
                                             <th style="color:white;">Subject Code</th>
                                             <th style="color:white;">Subject Title</th>
                                             <th style="color:white;">Credited Units</th>
+                                            <th style="color:white;">Subject Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
                                             <th style="color:white;">Action</th>
@@ -60,6 +61,7 @@
                                                 <td>{{ $subject->subject_code }}</td>
                                                 <td>{{ $subject->subject_title }}</td>
                                                 <td>{{ $subject->cred_units }}</td>
+                                                <td>{{ $subject->subj_hours }}</td>
                                                 <td>{{ $subject->pre_requisite }}</td>
                                                 <td>{{ $subject->co_requisite }}</td>
                                                     <td style="white-space:nowrap; width: 20px;">
@@ -72,8 +74,8 @@
                                                             class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                             data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
                                                             data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
-                                                            data-cred_units="{{ $subject->cred_units }}" data-pre_requisite="{{ $subject->pre_requisite }}"
-                                                            data-co_requisite="{{ $subject->co_requisite }}">
+                                                            data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
+                                                            data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
                                                             <i class="far fa-edit"></i>
                                                             Edit
                                                         </button>
@@ -115,7 +117,7 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row justify-content-center">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="subject_code">Subject Code:</label><span class="text-danger">*</span>
@@ -128,10 +130,18 @@
                                     <input id="subject_title" type="text" class="form-control" name="subject_title" tabindex="1" placeholder="Enter Subject Title" autofocus required>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="cred_units">Credited Units:</label><span class="text-danger">*</span>
-                                    <input id="cred_units" type="text" class="form-control" name="cred_units" tabindex="1" placeholder="Enter Credited Units" autofocus>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cred_units">Credited Units:</label><span class="text-danger">*</span>
+                                        <input id="cred_units" type="text" class="form-control" name="cred_units" tabindex="1" placeholder="Enter Credited Units" autofocus required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="subj_hours">Subject Hours:</label><span class="text-danger">*</span>
+                                        <input id="subj_hours" type="text" class="form-control" name="subj_hours" tabindex="1" placeholder="Enter Subject Hours" autofocus required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -207,6 +217,7 @@
                     $('input[name="subject_code"]').val($(this).data('subject_code'));
                     $('input[name="subject_title"]').val($(this).data('subject_title'));
                     $('input[name="cred_units"]').val($(this).data('cred_units'));
+                    $('input[name="subj_hours"]').val($(this).data('subj_hours'));
                     $('input[name="pre_requisite"]').val($(this).data('pre_requisite'));
                     $('input[name="co_requisite"]').val($(this).data('co_requisite'));
                 });
