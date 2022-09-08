@@ -46,11 +46,6 @@
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Title</option>
-                      @foreach ($subjects as $subject)
-                          <option value="{{ $subject->subject_code }}">
-                              {{ $subject->subject_title }}
-                          </option>
-                      @endforeach
                   </select>
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
@@ -405,6 +400,7 @@
         success: function(data){
           // console.log(data);
           $('#title').html(data);
+          $('#calendar').html(data);
         },
       });
     });

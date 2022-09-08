@@ -82,6 +82,8 @@
   </div>
 </div>
 
+<div id='calendar'></div>
+
 <script>
   $(document).ready(function(){
     $('#save').click(function() {
