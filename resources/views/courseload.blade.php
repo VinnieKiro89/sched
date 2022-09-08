@@ -232,7 +232,13 @@
 
 @section('scripts')   
 <script>
+  var calendar;
+
     document.addEventListener('DOMContentLoaded', function() {
+      
+
+      var token = $("meta[name='scrf-token']").attr("content");
+
       var calendarEl = document.getElementById('calendar');
 
       var subjects = @json($events);
@@ -284,6 +290,26 @@
             $(event.el).attr('tabindex', 0)
         },
         events: subjects,
+        eventClick:function(clickedInfo)
+        {
+            if(confirm("Are you sure you want to delete this event?"))
+            {
+                var id = clickedInfo.event.id;
+                $.ajax({
+                    url:"courseload/destroy/" + id,
+                    type:"DELETE",
+                    data:{'id':id, '_token':token},
+                    success: function() {
+
+                        alert('Deleted!');
+
+                        //calendar.refetchEvents(); // remove this
+
+                        clickedInfo.event.remove(); // try this instead
+                    }
+                })
+            }
+        },
         selectable: true,
         editable: true,
         droppable: true,
@@ -293,11 +319,19 @@
         }, 
       });
       calendar.render();
+
+      $("#save").click(function() {
+        var promise = saveEvent();
+
+        promise.done(function(data) {
+          calendar.refetchEvents();
+        });
+      });
     });
 </script>
 
-
-<script>
+<!-- FOR SAVE -->
+{{-- <script>
   $(document).ready(function(){
     $('#save').click(function() {
       var curriculum_id = $('#curriculum_id').val();
@@ -306,7 +340,6 @@
       var start = $('#selectStart').val();
       var end = $('#selectEnd').val();
       
-
       var start_date = day + start;
       var end_date = day + end;
       $.ajax({
@@ -316,9 +349,7 @@
 
         success: function(response)
         {
-          console.log('refetch1')
           calendar.refetchEvents();
-          console.log('refetch2')
           calendar.render();
           // FullCalendar.calendar('renderEvent', {
           //   'title'       : response.title,
@@ -329,8 +360,35 @@
       });
     });
   });
+
+  function refetch(){
+    calendar.refetchEvents();
+  };
+</script> --}}
+
+<script>
+  function saveEvent()
+  {
+    var curriculum_id = document.getElementById("curriculum_id").value;      
+    var title = document.getElementById("selectTitle").value;
+    var day = document.getElementById("selectDay").value;
+    var start = document.getElementById("selectStart").value;
+    var end = document.getElementById("selectEnd").value;
+
+    var start_date = day + start;
+    var end_date = day + end;
+
+    var promise = $.ajax({
+      type: "POST",
+      url: '{{ route('courseload.post') }}',
+      data:{ 'curriculum_id': curriculum_id, 'title': title, 'day': day, 'start_date':start_date, 'end_date':end_date },
+    });
+
+    return promise;
+  }
 </script>
 
+<!-- FOR ONCHANGE SUBJECT LIST -->
 <script type="text/javascript">
   $.ajaxSetup({
     headers: {
@@ -348,9 +406,15 @@
         type: 'get',
         url: '{{ route('courseload.get') }}',
         data: {'course':course, 'period':period, 'level':level},
-        success: function(data){
+        dataType: 'json',
+        success: function(result){
           console.log('col4');
-          $('#title').html(data);
+          
+          $('#selectTitle').html('<option value="" hidden>Select Title</option>');
+          $.each(result.events, function (key, value) {
+            $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_title + '</option>');
+            $('input[name="curriculum_id"]').val(value.curriculum_id);
+          });
         },
       });
     });
@@ -367,6 +431,7 @@
 
   $(document).ready(function(){
     $('#course, #level, #period').change(function(){
+      // $("#selectTitle").html('')
       var course = $('#course').val();
       var period = $('#period').val();
       var level = $('#level').val();
@@ -377,8 +442,7 @@
         data: {'course':course, 'period':period, 'level':level},
         success: function(data){
           console.log('cal');
-          // $('#forcal').html(data);
-          calendar.refetchEvents();
+          
         },
       });
     });

@@ -82,8 +82,6 @@
   </div>
 </div>
 
-<div id='calendar'></div>
-
 <script>
   $(document).ready(function(){
     $('#save').click(function() {
@@ -96,7 +94,6 @@
 
       var start_date = day + start;
       var end_date = day + end;
-      console.log(curriculum_id, title, start_date, end_date)
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
@@ -104,64 +101,7 @@
 
         success: function(response)
         {
-          console.log('success')
-          var calendarEl = document.getElementById('calendar');
-
-          var subjects = @json($events);
-
-          console.log(subjects);
-
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            
-            initialView: 'timeGridFourDay',
-        
-            headerToolbar: {
-              left: '',
-              center: '',
-              right: ''
-            },
-            footerToolbar: {
-              left: 'custom1,custom2',
-              center: '',
-              right: ''
-            },
-            views: {
-              timeGridFourDay: {
-                // type: 'resourceTimeGridDay',
-                type: 'timeGridWeek',
-                slotMinTime: '6:00:00',
-                slotMaxTime: '22:00:00',
-                allDaySlot: false,
-                expandRows: true,
-                dayHeaderFormat: { weekday: 'long' },
-              }
-            },
-            customButtons: {
-              custom1: {
-                text: 'Save',
-                click: function() {
-                  alert('clicked custom button 1!');
-                }
-              },
-              custom2: {
-                text: 'Cancel',
-                click: function() {
-                  alert('clicked custom button 2!');
-                }
-              }
-            },
-            events: subjects,
-            selectable: true,
-            selectHelper: true,
-            editable: true,
-            droppable: true,
-            eventOverlap: false,
-            select: function(start, end, allDays) {
-              console.log(start)
-            }, 
-          });
-          calendar.render();
+          refetch();
           // FullCalendar.calendar('renderEvent', {
           //   'title'       : response.title,
           //   'start_date'  : response.start_date,
