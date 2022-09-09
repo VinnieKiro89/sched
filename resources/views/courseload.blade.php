@@ -295,7 +295,7 @@
             $(event.el).attr('data-trigger', 'focus')
             $(event.el).attr('tabindex', 0)
         },
-        events: subjects,
+        // events: subjects,
         eventClick:function(clickedInfo)
         {
             if(confirm("Are you sure you want to delete this event?"))
@@ -358,6 +358,12 @@
             }
           })
         },
+        // eventsSet: function(events)
+        // {
+        //   console.log('hi', events)
+        //   calendar.refetchEvents();
+        //   calendar.render();
+        // },
         droppable: true,
         eventOverlap: false,
         select: function(start, end, allDays) {
@@ -395,10 +401,6 @@
       });
     });
   });
-
-  function refetch(){
-    calendar.refetchEvents();
-  };
 </script>
 
 {{-- <script>
@@ -446,8 +448,6 @@
         data: {'course':course, 'period':period, 'level':level},
         dataType: 'json',
         success: function(result){
-          console.log('col4');
-          
           $('#selectTitle').html('<option value="" hidden>Select Title</option>');
           $.each(result.events, function (key, value) {
             $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_title + '</option>');
@@ -460,6 +460,7 @@
 
 </script>
 
+<!-- FOR ONCHANGE CALENDAR -->
 <script type="text/javascript">
   $.ajaxSetup({
     headers: {
@@ -479,8 +480,13 @@
         url: '{{ route('courseload.getcal') }}',
         data: {'course':course, 'period':period, 'level':level},
         success: function(data){
-          console.log('cal');
-          
+          console.log(data);
+          console.log(data[0].curriculum_id);
+          var id = data[0].curriculum_id;
+
+          calendar.removeAllEvents();
+          calendar.addEventSource(data)
+
         },
       });
     });
