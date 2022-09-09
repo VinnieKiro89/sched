@@ -222,9 +222,22 @@ class CourseLoadController extends Controller
      * @param  \App\Models\CourseLoad  $courseLoad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CourseLoad $courseLoad)
+    public function update(Request $request, $id)
     {
-        //
+        $courseload = CourseLoad::find($id);
+        if(! $courseload)
+        {
+            return response()->json([
+                'error' => 'unable to find event'
+            ], 404);
+        }
+
+        $courseload->update([
+            'start_date' => Carbon::parse($request->start_date),
+            'end_date' => Carbon::parse($request->end_date),
+        ]);
+
+        return response()->json('Event Updated');
     }
 
     /**
@@ -235,9 +248,18 @@ class CourseLoadController extends Controller
      */
     public function destroy($id)
     {
-        $courseload = CourseLoad::findorfail($id);
+
+        $courseload = CourseLoad::find($id);
+        if(! $courseload)
+        {
+            return response()->json([
+                'error' => 'unable to find event'
+            ], 404);
+        }
+
         $courseload->delete();
+        return $id;
         
-        return redirect()->route('courseload.index')->with('deleted', 'Subject Deleted.');
+        // return redirect()->route('courseload.index')->with('deleted', 'Subject Deleted.');
     }
 }

@@ -232,6 +232,12 @@
 
 @section('scripts')   
 <script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
   var calendar;
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -295,12 +301,15 @@
             if(confirm("Are you sure you want to delete this event?"))
             {
                 var id = clickedInfo.event.id;
-                $.ajax({
-                    url:"courseload/destroy/" + id,
+                $.ajax
+                ({
+                    url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
                     type:"DELETE",
-                    data:{'id':id, '_token':token},
-                    success: function() {
-
+                    dataType: 'json',
+                    success: function(response) 
+                    {
+                      var id = response
+                      console.log(id)
                         alert('Deleted!');
 
                         //calendar.refetchEvents(); // remove this
@@ -312,26 +321,54 @@
         },
         selectable: true,
         editable: true,
+        eventDrop: function(info) {
+          var id = info.event.id;
+          var start_date = moment(info.event.start).format();
+          var end_date = moment(info.event.end).format();
+
+          $.ajax
+          ({
+            type: 'PATCH',
+            url: "{{ route('courseload.update', '') }}" +'/'+ id,
+            data: { 'start_date':start_date, 'end_date':end_date },
+            dataType: 'json',
+
+            success: function(response)
+            {
+              console.log(response);
+            }
+          })
+        },
+        eventResize: function(info) 
+        {
+          var id = info.event.id;
+          var start_date = moment(info.event.start).format();
+          var end_date = moment(info.event.end).format();
+
+          $.ajax
+          ({
+            type: 'PATCH',
+            url: "{{ route('courseload.update', '') }}" +'/'+ id,
+            data: { 'start_date':start_date, 'end_date':end_date },
+            dataType: 'json',
+
+            success: function(response)
+            {
+              console.log(response);
+            }
+          })
+        },
         droppable: true,
         eventOverlap: false,
         select: function(start, end, allDays) {
-          console.log(start)
-        }, 
+        },
       });
       calendar.render();
-
-      $("#save").click(function() {
-        var promise = saveEvent();
-
-        promise.done(function(data) {
-          calendar.refetchEvents();
-        });
-      });
     });
 </script>
 
 <!-- FOR SAVE -->
-{{-- <script>
+<script>
   $(document).ready(function(){
     $('#save').click(function() {
       var curriculum_id = $('#curriculum_id').val();
@@ -349,13 +386,11 @@
 
         success: function(response)
         {
-          calendar.refetchEvents();
-          calendar.render();
-          // FullCalendar.calendar('renderEvent', {
-          //   'title'       : response.title,
-          //   'start_date'  : response.start_date,
-          //   'end_date'    : response.end_date,
-          // });
+          calendar.addEvent({
+            'title': response.title,
+            'start': response.start_date,
+            'end': response.end_date,
+          });
         },
       });
     });
@@ -364,9 +399,9 @@
   function refetch(){
     calendar.refetchEvents();
   };
-</script> --}}
+</script>
 
-<script>
+{{-- <script>
   function saveEvent()
   {
     var curriculum_id = document.getElementById("curriculum_id").value;      
@@ -385,8 +420,11 @@
     });
 
     return promise;
+    calendar.refetch();
+    calendar.refetchEvents();
+    calendar.render();
   }
-</script>
+</script> --}}
 
 <!-- FOR ONCHANGE SUBJECT LIST -->
 <script type="text/javascript">
