@@ -1,7 +1,5 @@
 require('./bootstrap');
 
-import Alpine from 'alpinejs';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
-window.Alpine = Alpine;
-
-Alpine.start();
+// require('fullcalendar');
