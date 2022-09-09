@@ -138,9 +138,7 @@ class CourseLoadController extends Controller
         }
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
-        // return view('newcal', compact('subjects', 'courses', 'curriculum', 'events'))->render();
-
-        return response()->json($events);
+        return view('newcal', compact('subjects', 'courses', 'curriculum', 'events'))->render();
     }
 
     public function store_event(Request $request)
