@@ -41,7 +41,7 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" readonly>
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
@@ -475,6 +475,8 @@
       var period = $('#period').val();
       var level = $('#level').val();
 
+      calendar.removeAllEvents();
+
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.getcal') }}',
@@ -484,7 +486,7 @@
           console.log(data[0].curriculum_id);
           var id = data[0].curriculum_id;
 
-          calendar.removeAllEvents();
+          // calendar.removeAllEvents();
           calendar.addEventSource(data)
 
         },
