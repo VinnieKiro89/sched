@@ -20,7 +20,7 @@ class SubjectController extends Controller
         return view('subject',['subjects'=>$subject]);
     }
 
-    public function selectsubject(Subject $curriculum)
+    public function selectsubject(Curriculum $curriculum) // 1
     {
        
         $subjects = Subject::where('curriculum_id', $curriculum->id)->get();

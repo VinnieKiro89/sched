@@ -152,6 +152,10 @@ class CourseLoadController extends Controller
         {
             return redirect()->route('courseload.index')->with('deleted', 'lmao error.');
         }
+        elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
+        {
+            
+        }
         else
         {
             $request->validate([

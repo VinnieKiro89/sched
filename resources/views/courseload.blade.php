@@ -262,7 +262,7 @@
           right: ''
         },
         footerToolbar: {
-          left: 'custom1,custom2',
+          left: '',
           center: '',
           right: ''
         },
@@ -277,20 +277,20 @@
             dayHeaderFormat: { weekday: 'long' },
           }
         },
-        customButtons: {
-          custom1: {
-            text: 'Save',
-            click: function() {
-              alert('clicked custom button 1!');
-            }
-          },
-          custom2: {
-            text: 'Cancel',
-            click: function() {
-              alert('clicked custom button 2!');
-            }
-          }
-        },
+        // customButtons: {
+        //   custom1: {
+        //     text: 'Save',
+        //     click: function() {
+        //       alert('clicked custom button 1!');
+        //     }
+        //   },
+        //   custom2: {
+        //     text: 'Cancel',
+        //     click: function() {
+        //       alert('clicked custom button 2!');
+        //     }
+        //   }
+        // },
         eventDidMount: function (event) {
             $(event.el).attr('data-trigger', 'focus')
             $(event.el).attr('tabindex', 0)
@@ -366,6 +366,7 @@
         // },
         droppable: true,
         eventOverlap: false,
+        selectOverlap: false,
         select: function(start, end, allDays) {
         },
       });
@@ -385,6 +386,7 @@
       
       var start_date = day + start;
       var end_date = day + end;
+
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
@@ -398,6 +400,10 @@
             'end': response.end_date,
           });
         },
+        error: function(error)
+        {
+          console.log(error)
+        }
       });
     });
   });

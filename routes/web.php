@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//route to Course list, kinda redundant and probably not needed anymore
-Route::resource('/course', 'App\Http\Controllers\CourseController');
+// route to Course list, kinda redundant and probably not needed anymore
+// Route::resource('/course', 'App\Http\Controllers\CourseController');
 
 // idk what these are for, ignore them
 Route::get('/', function () {
@@ -33,7 +33,7 @@ Route::group([ 'prefix' => 'auth'], function() {
     Route::get('/register',[App\Http\Controllers\MainController::class, 'register'])->name('auth.register');
     Route::post('/save',[App\Http\Controllers\MainController::class, 'save'])->name('auth.save');
     Route::post('/check',[App\Http\Controllers\MainController::class, 'check'])->name('auth.check');
-    Route::post('/logout',[App\Http\Controllers\MainController::class, 'logout'])->name('auth.logout');
+    Route::get('/logout',[App\Http\Controllers\MainController::class, 'logout'])->name('auth.logout');
 });
 
 //dashboard
@@ -42,7 +42,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function()
 });
 
 //Course
-Route::group([ 'prefix' => 'course'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'course'], function() {
     Route::get('',[App\Http\Controllers\CourseController::class, 'index'])->name('course.index');
     Route::post('/store',[App\Http\Controllers\CourseController::class, 'store'])->name('course.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CourseController::class, 'destroy'])->name('course.destroy');
@@ -50,7 +50,7 @@ Route::group([ 'prefix' => 'course'], function() {
 });
 
 //Curriculum
-Route::group([ 'prefix' => 'curriculum'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'curriculum'], function() {
     Route::get('',[App\Http\Controllers\CurriculumController::class, 'index'])->name('curriculum.index');
     Route::post('/store',[App\Http\Controllers\CurriculumController::class, 'store'])->name('curriculum.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CurriculumController::class, 'destroy'])->name('curriculum.destroy');
@@ -58,7 +58,7 @@ Route::group([ 'prefix' => 'curriculum'], function() {
 });
 
 //Subject
-Route::group([ 'prefix' => 'subject'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'subject'], function() {
     Route::get('',[App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
     Route::get('/{curriculum}',[App\Http\Controllers\SubjectController::class, 'selectsubject'])->name('subject.selectsubject');
     Route::post('/store',[App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');
@@ -67,7 +67,7 @@ Route::group([ 'prefix' => 'subject'], function() {
 });
 
 //Faculty (not done)
-Route::group([ 'prefix' => 'faculty'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'faculty'], function() {
     Route::get('',[App\Http\Controllers\FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/view/{id}',[App\Http\Controllers\FacultyController::class, 'view'])->name('faculty.view');
     Route::get('/edit/{id}',[App\Http\Controllers\FacultyController::class, 'edit'])->name('faculty.edit');
@@ -79,7 +79,7 @@ Route::group([ 'prefix' => 'faculty'], function() {
 });
 
 //CourseLoading
-Route::group([ 'prefix' => 'courseload'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'courseload'], function() {
     Route::get('',[App\Http\Controllers\CourseLoadController::class, 'index'])->name('courseload.index');
     Route::post('/store',[App\Http\Controllers\CourseLoadController::class, 'store'])->name('courseload.store');
     Route::get('/get',[App\Http\Controllers\CourseLoadController::class, 'get_subjects'])->name('courseload.get');

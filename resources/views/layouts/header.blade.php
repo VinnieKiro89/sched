@@ -9,6 +9,29 @@
 </ul>
 
 <ul class="navbar-nav navbar-right">
+    <li class="dropdown">
+        <a href="#" data-toggle="dropdown"
+            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            <div class="d-sm-none d-lg-inline-block">
+                Hi, User</div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-title">Action</div>
+            <a href="{{ route('auth.logout') }}" class="dropdown-item has-icon text-danger"
+               onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+            <form id="logout-form" action="{{ route('auth.logout') }}" method="GET" class="d-none">
+                {{ csrf_field() }}
+            </form>
+        </div>
+    </li>
+</ul>
+
+<!-- <ul class="navbar-nav navbar-right">
 
     @if(\Illuminate\Support\Facades\Auth::user())
         <li class="dropdown">
@@ -56,4 +79,4 @@
             </div>
         </li>
     @endif
-</ul>
+</ul> -->
