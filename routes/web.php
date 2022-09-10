@@ -27,8 +27,17 @@ Route::get('/home', function () {
 });
 // end
 
+//Login?
+Route::group([ 'prefix' => 'auth'], function() {
+    Route::get('/login',[App\Http\Controllers\MainController::class, 'login'])->name('auth.login');
+    Route::get('/register',[App\Http\Controllers\MainController::class, 'register'])->name('auth.register');
+    Route::post('/save',[App\Http\Controllers\MainController::class, 'save'])->name('auth.save');
+    Route::post('/check',[App\Http\Controllers\MainController::class, 'check'])->name('auth.check');
+    Route::post('/logout',[App\Http\Controllers\MainController::class, 'logout'])->name('auth.logout');
+});
+
 //dashboard
-Route::group([ 'prefix' => 'dashboard'], function() {
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function() {
     Route::get('',[App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 });
 
