@@ -8,18 +8,18 @@
 
 
     <!-- Curriculum -->
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
-                style="color: #606060;"></i> <span style="color:#606060">Curriculum Management</span></a>
-        <ul class="dropdown-menu" style="{{ request()->is('course/index') || request()->is('curriculum/index') ? 'active-nav' : '' }}">
-            <li><a class="nav-link pl-5 {{ request()->is('course/index') ? 'active-nav' : '' }}" href="{{ route('course.index') }}" style="color: #606060; font-weight:600;"><i
-                        class=" fas fa-building icon" style="color: #606060;"></i>Course List</a></li>
-            <li><a class="nav-link pl-5 {{ request()->is('curriculum/index') ? 'active-nav' : '' }}" href="{{ route('curriculum.index') }}" style="color: #606060; font-weight:600;"><i
-                        class=" fas fa-building icon" style="color: #606060;"></i>curriculum List</a></li>
-        </ul>
-    </li>
-
-
+    @if(Auth::user()->role == "Academic Head" || Auth::user()->role == "Admin")
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
+                    style="color: #606060;"></i> <span style="color:#606060">Curriculum Management</span></a>
+            <ul class="dropdown-menu" style="{{ request()->is('course/index') || request()->is('curriculum/index') ? 'active-nav' : '' }}">
+                <li><a class="nav-link pl-5 {{ request()->is('course/index') ? 'active-nav' : '' }}" href="{{ route('course.index') }}" style="color: #606060; font-weight:600;"><i
+                            class=" fas fa-building icon" style="color: #606060;"></i>Course List</a></li>
+                <li><a class="nav-link pl-5 {{ request()->is('curriculum/index') ? 'active-nav' : '' }}" href="{{ route('curriculum.index') }}" style="color: #606060; font-weight:600;"><i
+                            class=" fas fa-building icon" style="color: #606060;"></i>curriculum List</a></li>
+            </ul>
+        </li>
+    @endif
 
     <!-- Faculty -->
     <li class="nav-item dropdown">

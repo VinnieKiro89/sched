@@ -45,6 +45,17 @@
                         <span class="text-danger">@error('username'){{ $message }} @enderror</span>
 					</div>
 					<div class="form-group">
+						<select class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" required autofocus>
+
+							<option value="" selected disabled hidden>Enter Role:</option>
+							<option value="1st Year">1.	Academic Head</option>
+							<option value="2nd Year">2. Faculty</option>
+							<option value="3rd Year">3. Director</option>
+							<option value="4th Year">4. Admin</option>
+
+						</select>
+					</div>
+					<div class="form-group">
 						<label>Password</label>
 						<input type="password" class="form-control" name="password" placeholder="Enter password Here">
                         <span class="text-danger">@error('password'){{ $message }} @enderror</span>
