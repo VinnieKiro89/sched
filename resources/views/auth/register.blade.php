@@ -45,13 +45,13 @@
                         <span class="text-danger">@error('username'){{ $message }} @enderror</span>
 					</div>
 					<div class="form-group">
-						<select class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" required autofocus>
+						<select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" required autofocus>
 
 							<option value="" selected disabled hidden>Enter Role:</option>
-							<option value="1st Year">1.	Academic Head</option>
-							<option value="2nd Year">2. Faculty</option>
-							<option value="3rd Year">3. Director</option>
-							<option value="4th Year">4. Admin</option>
+							<option value="Academic Head">1. Academic Head</option>
+							<option value="Faculty">2. Faculty</option>
+							<option value="Director">3. Director</option>
+							<option value="Admin">4. Admin</option>
 
 						</select>
 					</div>

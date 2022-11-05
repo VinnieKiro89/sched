@@ -5,10 +5,10 @@
         </a>
     </li>
 
-
+    <!-- {{ $role = session()->get('Role') }} -->
 
     <!-- Curriculum -->
-    @if(Auth::user()->role == "Academic Head" || Auth::user()->role == "Admin")
+    @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Admin")
         <li class="nav-item dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                     style="color: #606060;"></i> <span style="color:#606060">Curriculum Management</span></a>
@@ -22,23 +22,29 @@
     @endif
 
     <!-- Faculty -->
+    @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Admin" || session()->get('Role') == "Faculty")
     <li class="nav-item dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                 style="color: #606060;"></i> <span style="color:#606060">Faculty Management</span></a>
         <ul class="dropdown-menu" style="{{ request()->is('faculty/index') || request()->is('faculty/load') ? 'active-nav' : '' }}">
             <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.index') }}" style="color: #606060; font-weight:600;"><i
                         class=" fas fa-building icon" style="color: #606060;"></i>Faculty</a></li>
+            @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Admin")
             <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
                         class=" fas fa-building icon" style="color: #606060;"></i>Faculty Loading</a></li>
+            @endif
         </ul>
     </li>
+    @endif
 
     <!-- Course loading -->
+    @if(!session()->get('Role') == "Faculty")
     <li class="side-menus {{ request()->is('courseload') ? 'active-nav' : '' }}">
         <a class="nav-link" href="{{ route('courseload.index') }}">
             <i class=" fas fa-building icon" style="color: #606060;"></i> <span style="color:#606060">Course Loading</span>
         </a>
     </li>
+    @endif
 
 
 @can('patient management permission for nurse')
