@@ -46,7 +46,7 @@
 					</div>
 					<button type="submit" class="btn btn-block btn-primary">Log in</button>
 					<br>
-					<a href="{{ route('auth.register') }}">Register with a new account</a>
+					<!-- <a href="{{ route('auth.register') }}">Register with a new account</a> -->
 				</form>
 			</div>
 		</div>

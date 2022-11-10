@@ -18,8 +18,8 @@ class MainController extends Controller
         return view('auth.register');
     }
 
-    function save(Request $request){
-
+    function save(Request $request)
+    {
         $request->validate([
             'fname'=>'required',
             'username'=>'required|unique:users',
@@ -39,8 +39,6 @@ class MainController extends Controller
         }else{
             return back()->with('fail', 'Something went wrong, try again later');
         }
-
-        
     }
 
     function check(Request $request){

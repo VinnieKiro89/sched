@@ -15,6 +15,7 @@ class CreateFacultiesTable extends Migration
     {
         Schema::create('faculties', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('undergraduate')->nullable();
             $table->string('graduate')->nullable();
@@ -28,6 +29,9 @@ class CreateFacultiesTable extends Migration
             $table->string('status')->nullable();
             $table->string('email')->nullable();
             $table->string('contact')->nullable();
+            $table->string('num_of_subj')->nullable();
+            $table->string('hour_avail_from')->nullable();
+            $table->string('hour_avail_to')->nullable();
             $table->timestamps();
         });
     }

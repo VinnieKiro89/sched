@@ -117,6 +117,6 @@ class CourseController extends Controller
         Curriculum::where('course_id',$id)->delete();
         $course->delete();
         
-        return redirect()->route('course.index')->with('deleted', 'Course Deleted!');
+        return redirect()->route('usermanage.index')->with('deleted', 'Course Deleted!');
     }
 }

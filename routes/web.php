@@ -41,6 +41,15 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function()
     Route::get('',[App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 });
 
+//User Management
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'usermanage'], function() {
+    Route::get('',[App\Http\Controllers\UserController::class, 'index'])->name('usermanage.index');
+    Route::post('/store',[App\Http\Controllers\UserController::class, 'store'])->name('usermanage.store');
+    Route::post('/storefaculty',[App\Http\Controllers\UserController::class, 'storefaculty'])->name('usermanage.storefaculty');
+    Route::delete('/destroy/{id}',[App\Http\Controllers\UserController::class, 'destroy'])->name('usermanage.destroy');
+    Route::put('/update/{id}',[App\Http\Controllers\UserController::class, 'update'])->name('usermanage.update');
+});
+
 //Course
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'course'], function() {
     Route::get('',[App\Http\Controllers\CourseController::class, 'index'])->name('course.index');
@@ -70,11 +79,13 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'subject'], function() {
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'faculty'], function() {
     Route::get('',[App\Http\Controllers\FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/view/{id}',[App\Http\Controllers\FacultyController::class, 'view'])->name('faculty.view');
+    Route::get('/viewonly/{user_id}',[App\Http\Controllers\FacultyController::class, 'viewonly'])->name('faculty.viewonly');
     Route::get('/edit/{id}',[App\Http\Controllers\FacultyController::class, 'edit'])->name('faculty.edit');
     Route::get('/add',[App\Http\Controllers\FacultyController::class, 'add'])->name('faculty.add');
     Route::post('/store',[App\Http\Controllers\FacultyController::class, 'store'])->name('faculty.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\FacultyController::class, 'destroy'])->name('faculty.destroy');
     Route::PUT('/update/{id}',[App\Http\Controllers\FacultyController::class, 'update'])->name('faculty.update');
+    Route::PUT('/updateSubjTime/{user_id}',[App\Http\Controllers\FacultyController::class, 'updateSubjTime'])->name('faculty.updateSubjTime');
     Route::get('/load',[App\Http\Controllers\FacultyController::class, 'load'])->name('faculty.load'); // temp
 });
 

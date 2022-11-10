@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
@@ -23,6 +24,12 @@ class FacultyController extends Controller
     public function view($id)
     {
         $faculty = Faculty::findorfail($id);
+        return view('faculty.viewfaculty', compact('faculty'));
+    }
+
+    public function viewonly($user_id)
+    {
+        $faculty = Faculty::where('user_id', $user_id)->first();
         return view('faculty.viewfaculty', compact('faculty'));
     }
 
@@ -142,6 +149,24 @@ class FacultyController extends Controller
         // $course->assignRole($request->role);
 
         return redirect()->route('faculty.index')->with('updated', 'Update Success!');
+    }
+
+    public function updateSubjTime(Request $request, $user_id)
+    {
+        $this->validate($request,[
+            'num_of_subj' => 'required',
+            'hour_avail_from' => 'required',
+            'hour_avail_to' => 'required',
+        ]);
+
+        Faculty::where('user_id', $user_id)->update([
+            'num_of_subj' => $request->num_of_subj,
+            'hour_avail_from' => Carbon::parse($request->hour_avail_from)->isoFormat('hh:mm A'),
+            'hour_avail_to' => Carbon::parse($request->hour_avail_to)->isoFormat('hh:mm A'),
+        ]);
+
+        $faculty = Faculty::where('user_id', $user_id)->first();
+        return view('faculty.viewfaculty', compact('faculty'));
     }
 
     /**
