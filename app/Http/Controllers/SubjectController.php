@@ -24,11 +24,13 @@ class SubjectController extends Controller
     {
        
         $subjects = Subject::where('curriculum_id', $curriculum->id)->get();
+        $id = $curriculum->id;
         $code = $curriculum->course->course_code;
+        $section = $curriculum->section;
         $period = $curriculum->period;
         $level = $curriculum->level;
         
-        return view('subject', compact('subjects', 'code', 'period', 'level'));
+        return view('subject', compact('subjects', 'id', 'code', 'section', 'period', 'level'));
     }
 
     /**
@@ -49,9 +51,11 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request,[
             'curriculum_id' => 'required',
             'period' => 'required',
+            'section' => 'required',
             'level' => 'required',
             'subject_code' => 'required',
             'subject_title' => 'required',
@@ -59,11 +63,14 @@ class SubjectController extends Controller
             'subj_hours' => 'required',
         ]);
 
+        
+
         $subject = new Subject();
 
         $subject->curriculum_id = $request->input('curriculum_id');
         $subject->period = $request->input('period');
         $subject->level = $request->input('level');
+        $subject->section = $request->input('section');
         $subject->subject_code = $request->input('subject_code');
         $subject->subject_title = $request->input('subject_title');
         $subject->cred_units = $request->input('cred_units');
@@ -73,7 +80,8 @@ class SubjectController extends Controller
 
         $subject->save();
         
-        return redirect()->route('curriculum.index')->with('success', 'Subject Added Successfully.');
+        //return redirect()->route('curriculum.index')->with('success', 'Subject Added Successfully.');
+        return redirect()->back()->with('success', 'Subject Added Successfully.');
     }
 
     /**

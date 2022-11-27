@@ -124,7 +124,7 @@
                   <div class="form-group col">
                     <label for="email">Course:</label><span class="text-danger">*</span>
                     <div class="select w-100 mb-3">
-                      <select id="course" class="form-control w-100" placeholder="Enter Course" name="course" required autofocus>
+                      <select id="course" class="form-control w-100" name="course" required autofocus>
                           <option value="" selected disabled hidden>Select Course</option>
                           @foreach ($courses as $course)
                               <option value="{{ $course->id }}">
@@ -135,19 +135,19 @@
                     </div>
                   </div>
                   <div class="form-group col">
-                    <label for="email">Period:</label><span class="text-danger">*</span>
+                    <label for="section">Section:</label><span class="text-danger">*</span>
                     <div class="select w-100 mb-3">
-                      <select id="period" class="form-control w-100" placeholder="Enter Course" name="period" required autofocus>
-                          <option value="" selected disabled hidden>Select Period</option>
-                          <option value="1st Semester">1st Semester</option>
-                          <option value="2nd Semester">2nd Semester</option>
+                      <select id="section" class="form-control w-100" name="section" required autofocus>
+                          <option value="" selected disabled hidden>Select Section</option>
+                          <option value="Section 1">Section 1</option>
+                          <option value="Section 2">Section 2</option>
                       </select>
                     </div>
                   </div>
                   <div class="form-group col">
                     <label for="email">Level:</label><span class="text-danger">*</span>
                     <div class="select w-100 mb-3">
-                      <select id="level" class="form-control w-100" placeholder="Enter Course" name="level" required autofocus>
+                      <select id="level" class="form-control w-100" name="level" required autofocus>
                           <option value="" selected disabled hidden>Select Level</option>                          
                           <option value="1st Year">1st Year</option>
                           <option value="2nd Year">2nd Year</option>
@@ -255,6 +255,7 @@
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         
         initialView: 'timeGridFourDay',
+        initialDate: '2022-09-05',
     
         headerToolbar: {
           left: '',
@@ -443,15 +444,15 @@
   });
 
   $(document).ready(function(){
-    $('#course, #level, #period').change(function(){
+    $('#course, #level, #section').change(function(){
       var course = $('#course').val();
-      var period = $('#period').val();
+      var section = $('#section').val();
       var level = $('#level').val();
 
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.get') }}',
-        data: {'course':course, 'period':period, 'level':level},
+        data: {'course':course, 'section':section, 'level':level},
         dataType: 'json',
         success: function(result){
           $('#selectTitle').html('<option value="" hidden>Select Title</option>');
@@ -475,10 +476,10 @@
   });
 
   $(document).ready(function(){
-    $('#course, #level, #period').change(function(){
+    $('#course, #level, #section').change(function(){
       // $("#selectTitle").html('')
       var course = $('#course').val();
-      var period = $('#period').val();
+      var section = $('#section').val();
       var level = $('#level').val();
 
       calendar.removeAllEvents();
@@ -486,7 +487,7 @@
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.getcal') }}',
-        data: {'course':course, 'period':period, 'level':level},
+        data: {'course':course, 'section':section, 'level':level},
         success: function(data){
           console.log(data);
           console.log(data[0].curriculum_id);

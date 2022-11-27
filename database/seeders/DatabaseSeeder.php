@@ -24,6 +24,11 @@ class DatabaseSeeder extends Seeder
             'role' => 'Admin',
             'password' => Hash::make('admin1'),
         ]);
+
+        //course seeder
+        DB::table('courses')->insert([
+            
+        ]);
     }
 
     

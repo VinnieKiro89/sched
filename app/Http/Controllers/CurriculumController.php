@@ -39,14 +39,14 @@ class CurriculumController extends Controller
     {
         $this->validate($request,[
             'course_id' => 'required',
-            'period' => 'required',
+            'section' => 'required',
             'level' => 'required',
         ]);
 
         $curriculum = new Curriculum();
 
         $curriculum->course_id = $request->input('course_id');
-        $curriculum->period = $request->input('period');
+        $curriculum->section = $request->input('section');
         $curriculum->level = $request->input('level');
 
         $curriculum->save();
@@ -89,7 +89,7 @@ class CurriculumController extends Controller
 
             Curriculum::where('id',$request->id)->update([
                 'course_code'=>$request->course_code,
-                'period'=>$request->period,
+                'section'=>$request->section,
                 'level'=>$request->level,
             ]);
     

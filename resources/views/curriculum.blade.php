@@ -44,7 +44,7 @@
                                     <thead style="background-color: #800000;">
                                         <tr>
                                             <th style="color:white;">Course Code</th>
-                                            <th style="color:white;">Period</th>
+                                            <th style="color:white;">Section</th>
                                             <th style="color:white;">Level</th>
                                             <th style="color:white;">Action</th>
                                         </tr>
@@ -53,34 +53,28 @@
                                         @foreach ($curriculums as $curriculum)
                                             <tr style="border: 1px solid #000000;">
                                                 <td>{{ $curriculum->course->course_code }}</td>
-                                                <td>{{ $curriculum->period }}</td>
+                                                <td>{{ $curriculum->section }}</td>
+                                                {{-- <td>{{ $curriculum->period }}</td> --}}
                                                 <td>{{ $curriculum->level }}</td>
                                                 <td style="white-space:nowrap; width: 20px;">
                                                     <!-- I add 20px and it fix the extra space, don't know why || probably won't need this when we change UI package -->
-                                                    <button type="button"
+                                                    {{-- <button type="button"
                                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                                         data-toggle="modal" data-target=".add" data-uid="{{ $curriculum->id }}"
                                                         data-course_code="{{ $curriculum->course->course_code }}" data-period="{{ $curriculum->period }}"
                                                         data-level="{{ $curriculum->level }}">
                                                         <i class="fas fa-plus"></i>
                                                         Add Subject
-                                                    </button>
-                                                    @if($curriculum->subjects->count() != 0)
+                                                    </button> --}} 
                                                     <a href="{{ route('subject.selectsubject', [$curriculum->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                         <i class="fas fa-book"></i>
                                                         View Subjects
                                                     </a>
-                                                    @else
-                                                    <button type="button" class="btn btn-icon icon-left mr-3 btn-outline-secondary user-add" disabled>
-                                                        <i class="fas fa-book"></i>
-                                                        No Subjects
-                                                    </button>
-                                                    @endif
                                                     <button type="button"
                                                         class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                         data-toggle="modal" data-target=".edit"
                                                         data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course->course_code }}"
-                                                        data-period="{{ $curriculum->period }}" data-level="{{ $curriculum->level }}">
+                                                        data-section="{{ $curriculum->section }}" data-level="{{ $curriculum->level }}">
                                                         <i class="far fa-edit"></i>
                                                         Edit
                                                     </button>
@@ -212,7 +206,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
+                                    <label for="course_code">Tae:</label><span class="text-danger">*</span>
                                     <input id="course_code" type="text"
                                         class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
                                         tabindex="1" placeholder="e.g BSIT" autofocus>
@@ -266,14 +260,14 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="Level">Period:</label><span class="text-danger">*</span>
+                                    <label for="section">section:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" required autofocus>
+                                        class="form-control{{ $errors->has('section') ? ' is-invalid' : '' }}" name="section" required autofocus>
 
-                                        <option value= "" selected disabled hidden>Period</option>
-                                        <option value="1st Semester">1st Semester</option>
-                                        <option value="2nd Semester">2nd Semester</option>
+                                        <option value= "" selected disabled hidden>Section</option>
+                                        <option value="Section 1">Section 1</option>
+                                        <option value="Section 2">Section 2</option>
 
                                     </select>
                                     <div class="invalid-feedback">
@@ -352,7 +346,7 @@
                     $('#modal-title').html(head);
 
                     $('input[name="curriculum_id"]').val($(this).data('uid'));
-                    $('input[name="period"]').val($(this).data('period'));
+                    $('input[name="section"]').val($(this).data('section'));
                     $('input[name="level"]').val($(this).data('level'));
                     $('input[name="subject_code"]').val($(this).data('subject_code'));
 
@@ -381,7 +375,7 @@
                 $(this).click(function(event) {
                     $('#update').attr("action", "/curriculum/update/" + $(this).data('uid') + "");
                     $('input[name="course_code"]').val($(this).data('course_code'));
-                    $('select[name="period"]').val($(this).data('period'));
+                    $('select[name="section"]').val($(this).data('section'));
                     $('select[name="level"]').val($(this).data('level'));
                 });
             });

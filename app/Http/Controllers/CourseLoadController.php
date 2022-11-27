@@ -45,7 +45,7 @@ class CourseLoadController extends Controller
         // hope your brand table contain category_id or any name as you wish which act as foreign key
         $curriculum = Curriculum::where('course_id',$request->course)
                                 ->where('level', $request->level)
-                                ->where('period', $request->period)
+                                ->where('section', $request->section)
                                 ->first();
         $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 
@@ -80,7 +80,7 @@ class CourseLoadController extends Controller
         // hope your brand table contain category_id or any name as you wish which act as foreign key
         $curriculum = Curriculum::where('course_id',$request->course)
                                 ->where('level', $request->level)
-                                ->where('period', $request->period)
+                                ->where('section', $request->section)
                                 ->first();
         $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 

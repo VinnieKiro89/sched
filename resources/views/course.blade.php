@@ -50,8 +50,8 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">Course Code</th>
-                                            <th style="color:white;">Description</th>
+                                            <th style="color:white;">Program</th>
+                                            <th style="color:white;">Course Title</th>
                                             <th style="color:white;">Action</th>
                                         </tr>
                                     </thead>
@@ -234,14 +234,14 @@
                             <input id="course_id" type="text" class="form-control{{ $errors->has('course_id') ? ' is-invalid' : '' }}" name="course_id" hidden readonly> 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="Level">Period:</label><span class="text-danger">*</span>
+                                    <label for="section">Section:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
-                                        class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}" name="period" required autofocus>
+                                        class="form-control{{ $errors->has('section') ? ' is-invalid' : '' }}" name="section" required autofocus>
 
-                                        <option value="" selected disabled hidden>Enter Period</option>
-                                        <option value="1st Semester">1st Semester</option>
-                                        <option value="2nd Semester">2nd Semester</option>
+                                        <option value="" selected disabled hidden>Enter Section</option>
+                                        <option value="Section 1">Section 1</option>
+                                        <option value="Section 2">Section 2</option>
 
                                     </select>
                                     <div class="invalid-feedback">
@@ -295,7 +295,7 @@
                     $('#modal-title').html(head);
 
                     $('input[name="course_id"]').val($(this).data('uid'));
-                    $('input[name="period"]').val($(this).data('period'));
+                    $('input[name="section"]').val($(this).data('section'));
                     $('input[name="level"]').val($(this).data('level'));
 
                 });

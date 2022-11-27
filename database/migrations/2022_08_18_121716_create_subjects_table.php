@@ -17,6 +17,7 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->integer('curriculum_id');
             $table->string('period');
+            $table->string('section');
             $table->string('level');
             $table->string('subject_code');
             $table->string('subject_title');

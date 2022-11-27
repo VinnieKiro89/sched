@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Curriculum;
 use App\Models\Dashboard;
+use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Patient;
-use App\Models\Consultation;
-use App\Models\Medicine;
-use App\Models\Supply;
+
 
 class DashboardController extends Controller
 {
@@ -19,16 +20,16 @@ class DashboardController extends Controller
     public function index()
     {
 
-        // $for_interventions = Consultation::doesntHave('doctor_intervention')->where('severe','=', 'severe')->count();
-        // $patients = Patient::count();
-        // $medicines = Medicine::all();
-        // $supplies = Supply::all();
+        $users = User::count();
+        $courses = Course::count();
+        $curricula = Curriculum::count();
+        $subjects = Subject::count();
 
         // $past_consultations = Consultation::with('patient')->latest()->take(5)->get();
 
         // return view('dashboard.index',compact('patients','for_interventions','medicines','supplies','past_consultations'));
 
-        return view('dashboard');
+        return view('dashboard', compact('users', 'courses', 'curricula', 'subjects'));
 
 
     }

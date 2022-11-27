@@ -49,7 +49,7 @@ class UserController extends Controller
             'fname'=>'required',
             'username'=>'required|unique:users',
             'role'=>'required',
-            'password'=>'required|min:5|max:12',
+            'password'=>'required|min:5|max:8',
         ]);
 
         $user = new User;
