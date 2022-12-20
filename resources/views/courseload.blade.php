@@ -41,14 +41,15 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id"  readonly>
+                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod"  readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Title</option>
                   </select>
                 </div>
-                <label for="email">Start Time:</label><span class="text-danger">*</span>
+                <label for="email">Day:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Day</option>
@@ -60,6 +61,12 @@
                       <option value="2022-09-08T">Thursday</option>
                       <option value="2022-09-09T">Friday</option>
                       <option value="2022-09-10T">Saturday</option>
+                  </select>
+                </div>
+                <label for="email">Select Faculty:</label><span class="text-danger">*</span>
+                <div class="select mb-3">
+                  <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                      <option value="" selected disabled hidden>Select Day</option>
                   </select>
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
@@ -120,10 +127,10 @@
           <div class="card shadow">
             <div class="card-body">
               <div class="">
-                <div class="row row-cols-3">
+                <div class="row row-cols-4">
                   <div class="form-group col">
                     <label for="email">Course:</label><span class="text-danger">*</span>
-                    <div class="select w-100 mb-3">
+                    <div class="select w-100 mb-4">
                       <select id="course" class="form-control w-100" name="course" required autofocus>
                           <option value="" selected disabled hidden>Select Course</option>
                           @foreach ($courses as $course)
@@ -136,7 +143,7 @@
                   </div>
                   <div class="form-group col">
                     <label for="section">Section:</label><span class="text-danger">*</span>
-                    <div class="select w-100 mb-3">
+                    <div class="select w-100 mb-4">
                       <select id="section" class="form-control w-100" name="section" required autofocus>
                           <option value="" selected disabled hidden>Select Section</option>
                           <option value="Section 1">Section 1</option>
@@ -146,13 +153,23 @@
                   </div>
                   <div class="form-group col">
                     <label for="email">Level:</label><span class="text-danger">*</span>
-                    <div class="select w-100 mb-3">
+                    <div class="select w-100 mb-4">
                       <select id="level" class="form-control w-100" name="level" required autofocus>
                           <option value="" selected disabled hidden>Select Level</option>                          
                           <option value="1st Year">1st Year</option>
                           <option value="2nd Year">2nd Year</option>
                           <option value="3rd Year">3rd Year</option>
                           <option value="4th Year">4th Year</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group col">
+                    <label for="email">Period:</label><span class="text-danger">*</span>
+                    <div class="select w-100 mb-4">
+                      <select id="period" class="form-control w-100" name="period" required autofocus>
+                          <option value="" selected disabled hidden>Select Period</option>                          
+                          <option value="1st Semester">1st Semester</option>
+                          <option value="2nd Semester">2nd Semester</option>
                       </select>
                     </div>
                   </div>
@@ -380,6 +397,7 @@
   $(document).ready(function(){
     $('#save').click(function() {
       var curriculum_id = $('#curriculum_id').val();
+      var period = $('#realperiod').val();
       var title = $('#selectTitle').val();
       var day = $('#selectDay').val();
       var start = $('#selectStart').val();
@@ -391,12 +409,13 @@
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
-        data: { 'curriculum_id':curriculum_id, 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
+        data: { 'curriculum_id':curriculum_id, 'period':period, 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
 
         success: function(response)
         {
           calendar.addEvent({
             'title': response.title,
+            // 'period': response.period,
             'start': response.start_date,
             'end': response.end_date,
           });
@@ -444,21 +463,23 @@
   });
 
   $(document).ready(function(){
-    $('#course, #level, #section').change(function(){
+    $('#course, #level, #section, #period').change(function(){
       var course = $('#course').val();
       var section = $('#section').val();
       var level = $('#level').val();
+      var period = $('#period').val();
 
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.get') }}',
-        data: {'course':course, 'section':section, 'level':level},
+        data: {'course':course, 'section':section, 'level':level, 'period':period},
         dataType: 'json',
         success: function(result){
           $('#selectTitle').html('<option value="" hidden>Select Title</option>');
           $.each(result.events, function (key, value) {
             $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_title + '</option>');
-            $('input[name="curriculum_id"]').val(value.curriculum_id);
+            $('input[name="curriculum_id"]').val(value.curriculum_id); 
+            $('input[name="realperiod"]').val(value.period);
           });
         },
       });
@@ -476,18 +497,19 @@
   });
 
   $(document).ready(function(){
-    $('#course, #level, #section').change(function(){
+    $('#course, #level, #section, #period').change(function(){
       // $("#selectTitle").html('')
       var course = $('#course').val();
       var section = $('#section').val();
       var level = $('#level').val();
+      var period = $('#period').val();
 
       calendar.removeAllEvents();
 
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.getcal') }}',
-        data: {'course':course, 'section':section, 'level':level},
+        data: {'course':course, 'section':section, 'level':level, 'period':period},
         success: function(data){
           console.log(data);
           console.log(data[0].curriculum_id);
@@ -497,6 +519,7 @@
           calendar.addEventSource(data)
 
         },
+
       });
     });
   });

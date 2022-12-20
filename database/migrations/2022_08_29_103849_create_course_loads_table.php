@@ -16,6 +16,7 @@ class CreateCourseLoadsTable extends Migration
         Schema::create('course_loads', function (Blueprint $table) {
             $table->id();
             $table->integer('curriculum_id');
+            $table->string('period');
             $table->string('title');
             $table->dateTime('start_date');
             $table->dateTime('end_date');

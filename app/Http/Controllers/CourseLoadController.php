@@ -27,6 +27,7 @@ class CourseLoadController extends Controller
             $events[] = [
                 'id' => $courseload->id,
                 'curriculum_id' => $courseload->curriculum_id,
+                'period' => $courseload->period,
                 'title' => $courseload->title,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
@@ -44,31 +45,13 @@ class CourseLoadController extends Controller
     {
         // hope your brand table contain category_id or any name as you wish which act as foreign key
         $curriculum = Curriculum::where('course_id',$request->course)
-                                ->where('level', $request->level)
                                 ->where('section', $request->section)
+                                ->where('level', $request->level)
                                 ->first();
-        $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 
         //$id = $curriculum->id;
 
-        $courses = Course::all();
-
-        // return response() -> json($subjects);
-        // return json_encode($subjects);
-
-        // $events = array();
-        // $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
-        // foreach($course_load as $courseload){
-        //     $events[] = [
-        //         'id' => $courseload->id,
-        //         'curriculum_id' => $courseload->curriculum_id,
-        //         'title' => $courseload->title,
-        //         'start' => $courseload->start_date,
-        //         'end' => $courseload->end_date,
-        //     ];
-        // }
-
-        $events['events'] = Subject::where('curriculum_id',$curriculum->id)->get(["subject_code", "subject_title", "curriculum_id"]);
+        $events['events'] = Subject::where('curriculum_id', $curriculum->id)->where('period', $request->period)->get(["subject_code", "subject_title", "curriculum_id", "period"]);
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
         // return view('new', compact('subjects', 'courses', 'curriculum', 'events'))->render();
@@ -79,58 +62,21 @@ class CourseLoadController extends Controller
     {
         // hope your brand table contain category_id or any name as you wish which act as foreign key
         $curriculum = Curriculum::where('course_id',$request->course)
-                                ->where('level', $request->level)
                                 ->where('section', $request->section)
+                                ->where('level', $request->level)
                                 ->first();
-        $subjects = Subject::where('curriculum_id',$curriculum->id)->get();
+        //$subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 
         //$id = $curriculum->id;
-
-        $courses = Course::all();
-
-        // return response() -> json($subjects);
-        // return json_encode($subjects);
-
-        // $eventss = [];
-        // $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
-        // foreach($course_load as $courseload){
-        //     $eventss[] = Calendar::event(
-        //         $courseload->title,
-        //         false,
-        //         $courseload->start_date,
-        //         $courseload->end_date,
-        //         $courseload->curriculum_id
-        //     );
-        // }
-
-        // $calendar = new Calendar();
-        // $calendar->addEvents($eventss);
-        // $calendar->setOptions([
-        //     'type' => 'timeGridWeek',
-        //     'slotMinTime' => '6:00:00',
-        //     'slotMaxTime' => '22:00:00',
-        //     'allDaySlot' => false,
-        //     'expandRows' => true,
-        //     'dayHeaderFormat' => [ 'weekday' => 'long' ],
-        //     'selectable' => true,
-        //     'selectHelper' => true,
-        //     'editable' => true,
-        //     'droppable' => true,
-        //     'eventOverlap' => false,
-        // ]);
-        // $calendar->setId('1');
-        // $calendar->setCallbacks([
-        //     'select' => 'function(selectionInfo){}',
-        //     'eventClick' => 'function(event){}'
-        // ]);
-        
+        //dd($request);
 
         $events = array();
-        $course_load = CourseLoad::where('curriculum_id',$curriculum->id)->get();
+        $course_load = CourseLoad::where(['curriculum_id' => $curriculum->id, 'period' => $request->period])->get();
         foreach($course_load as $courseload){
             $events[] = [
                 'id' => $courseload->id,
                 'curriculum_id' => $courseload->curriculum_id,
+                'period' => $courseload->period,
                 'title' => $courseload->title,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
@@ -150,7 +96,7 @@ class CourseLoadController extends Controller
 
         if($verify != null)
         {
-            return redirect()->route('courseload.index')->with('deleted', 'lmao error.');
+            return redirect()->route('courseload.index')->with('deleted', 'error.');
         }
         elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
         {
@@ -160,19 +106,33 @@ class CourseLoadController extends Controller
         {
             $request->validate([
                 'curriculum_id' => 'required|string',
+                'period' => 'required|string',
                 'title' => 'required|string',
-                'day' => 'required|string',
+                // 'day' => 'required|string',
                 'start_date' => 'required|string',
                 'end_date' => 'required|string',
             ]);
-    
-            $newcourseload = CourseLoad::create([
-                'curriculum_id' => $request->curriculum_id,
-                'title' => $request->title,
-                // 'day' => $request->day,
-                'start_date' => Carbon::parse($request->start_date),
-                'end_date' => Carbon::parse($request->end_date),
-            ]);
+            
+            // why isnt this one working? its practically the same tho?
+            // $newcourseload = CourseLoad::create([
+            //     'curriculum_id' => $request->curriculum_id,
+            //     'period' => $request->period,
+            //     'title' => $request->title,
+            //     // 'day' => $request->day,
+            //     'start_date' => Carbon::parse($request->start_date),
+            //     'end_date' => Carbon::parse($request->end_date),
+            // ]);
+
+            $newcourseload = new CourseLoad();
+
+            $newcourseload->curriculum_id = $request->curriculum_id;
+            $newcourseload->period = $request->period;
+            $newcourseload->title = $request->title;
+            $newcourseload->start_date = Carbon::parse($request->start_date);
+            $newcourseload->end_date = Carbon::parse($request->end_date);
+
+            $newcourseload -> save();
+
             return response()->json($newcourseload);
         }
         
@@ -241,6 +201,7 @@ class CourseLoadController extends Controller
         $courseload->update([
             'start_date' => Carbon::parse($request->start_date),
             'end_date' => Carbon::parse($request->end_date),
+            //'faculty' => $request->faculty,
         ]);
 
         return response()->json('Event Updated');
