@@ -65,8 +65,8 @@
                 </div>
                 <label for="email">Select Faculty:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
-                      <option value="" selected disabled hidden>Select Day</option>
+                  <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                      <option value="" selected disabled hidden>Select Faculty</option>
                   </select>
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
@@ -184,8 +184,116 @@
       </div>
         
     </section> 
-
 </section>
+
+<!-- test modal -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Subject</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="update" enctype="multipart/form-data" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="email">Subject Title:</label><span class="text-danger">*</span>
+                <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <option value="" selected disabled hidden>Select Title</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="day">Day:</label><span class="text-danger">*</span>
+                <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <option value="" selected disabled hidden>Select Day</option>
+                  <!-- this looks ugly -->
+                  <option value="2022-09-04T">Sunday</option>
+                  <option value="2022-09-05T">Monday</option>
+                  <option value="2022-09-06T">Tuesday</option>
+                  <option value="2022-09-07T">Wednesday</option>
+                  <option value="2022-09-08T">Thursday</option>
+                  <option value="2022-09-09T">Friday</option>
+                  <option value="2022-09-10T">Saturday</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="course_code">Select Faculty:</label><span class="text-danger">*</span>
+                <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <option value="" selected disabled hidden>Select Faculty</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="course_code">Start Time:</label><span class="text-danger">*</span>
+                <select id="selectStart" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <option value="" selected disabled hidden>Select Time</option>
+                  <!-- there's probably a cleaner option to do this -->
+                  <option value="06:00:00+08:00">6:00 AM</option>
+                  <option value="07:00:00+08:00">7:00 AM</option>
+                  <option value="08:00:00+08:00">8:00 AM</option>
+                  <option value="09:00:00+08:00">9:00 AM</option>
+                  <option value="10:00:00+08:00">10:00 AM</option>
+                  <option value="11:00:00+08:00">11:00 AM</option>
+                  <option value="12:00:00+08:00">12:00 PM</option>
+                  <option value="13:00:00+08:00">1:00 PM</option>
+                  <option value="14:00:00+08:00">2:00 PM</option>
+                  <option value="15:00:00+08:00">3:00 PM</option>
+                  <option value="16:00:00+08:00">4:00 PM</option>
+                  <option value="17:00:00+08:00">5:00 PM</option>
+                  <option value="18:00:00+08:00">6:00 PM</option>
+                  <option value="19:00:00+08:00">7:00 PM</option>
+                  <option value="20:00:00+08:00">8:00 PM</option>
+                  <option value="21:00:00+08:00">9:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="course_code">End Time:</label><span class="text-danger">*</span>
+                <select id="selectEnd" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <option value="" selected disabled hidden>Select Time</option>
+                  <!-- there's probably a cleaner option to do this -->
+                  <option value="06:00:00+08:00">6:00 AM</option>
+                  <option value="07:00:00+08:00">7:00 AM</option>
+                  <option value="08:00:00+08:00">8:00 AM</option>
+                  <option value="09:00:00+08:00">9:00 AM</option>
+                  <option value="10:00:00+08:00">10:00 AM</option>
+                  <option value="11:00:00+08:00">11:00 AM</option>
+                  <option value="12:00:00+08:00">12:00 PM</option>
+                  <option value="13:00:00+08:00">1:00 PM</option>
+                  <option value="14:00:00+08:00">2:00 PM</option>
+                  <option value="15:00:00+08:00">3:00 PM</option>
+                  <option value="16:00:00+08:00">4:00 PM</option>
+                  <option value="17:00:00+08:00">5:00 PM</option>
+                  <option value="18:00:00+08:00">6:00 PM</option>
+                  <option value="19:00:00+08:00">7:00 PM</option>
+                  <option value="20:00:00+08:00">8:00 PM</option>
+                  <option value="21:00:00+08:00">9:00 PM</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 {{-- comment 
@@ -314,28 +422,32 @@
             $(event.el).attr('tabindex', 0)
         },
         // events: subjects,
-        eventClick:function(clickedInfo)
+        eventClick:function(info)
         {
-            if(confirm("Are you sure you want to delete this event?"))
-            {
-                var id = clickedInfo.event.id;
-                $.ajax
-                ({
-                    url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
-                    type:"DELETE",
-                    dataType: 'json',
-                    success: function(response) 
-                    {
-                      var id = response
-                      console.log(id)
-                        alert('Deleted!');
+          $('#edit').modal('show');
 
-                        //calendar.refetchEvents(); // remove this
+          // document.getElementById('modalTitle').innerHTML = info.event.title;
+          // document.getElementById('modalStart').innerHTML = info.event.start;
+            // if(confirm("Are you sure you want to delete this event?"))
+            // {
+            //     var id = clickedInfo.event.id;
+            //     $.ajax
+            //     ({
+            //         url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
+            //         type:"DELETE",
+            //         dataType: 'json',
+            //         success: function(response) 
+            //         {
+            //           var id = response
+            //           console.log(id)
+            //             alert('Deleted!');
 
-                        clickedInfo.event.remove(); // try this instead
-                    }
-                })
-            }
+            //             //calendar.refetchEvents(); // remove this
+
+            //             clickedInfo.event.remove(); // try this instead
+            //         }
+            //     })
+            // }
         },
         selectable: true,
         editable: true,
