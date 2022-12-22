@@ -41,8 +41,8 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id"  readonly>
-                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod"  readonly>
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
+                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
@@ -201,18 +201,21 @@
         @method('PUT')
         <div class="modal-body">
           <div class="row">
+            <input id="event_idModal" value="" type="text" class="form-control" name="event_idModal" hidden readonly>
+            <input id="curriculum_idModal" value="" type="text" class="form-control{{ $errors->has('curriculum_idModal') ? ' is-invalid' : '' }}" name="curriculum_idModal" hidden readonly>
+            <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal" hidden readonly>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
-                <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectTitleModal" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                   <option value="" selected disabled hidden>Select Title</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-12">
+            {{-- <div class="col-md-12">
               <div class="form-group">
                 <label for="day">Day:</label><span class="text-danger">*</span>
-                <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectDayModal" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                   <option value="" selected disabled hidden>Select Day</option>
                   <!-- this looks ugly -->
                   <option value="2022-09-04T">Sunday</option>
@@ -224,19 +227,19 @@
                   <option value="2022-09-10T">Saturday</option>
                 </select>
               </div>
-            </div>
+            </div> --}}
             <div class="col-md-12">
               <div class="form-group">
                 <label for="course_code">Select Faculty:</label><span class="text-danger">*</span>
-                <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectFacultyModal" class="form-control" placeholder="Enter Course" name="course" autofocus>
                   <option value="" selected disabled hidden>Select Faculty</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-12">
+            {{-- <div class="col-md-12">
               <div class="form-group">
                 <label for="course_code">Start Time:</label><span class="text-danger">*</span>
-                <select id="selectStart" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectStartModal" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                   <option value="" selected disabled hidden>Select Time</option>
                   <!-- there's probably a cleaner option to do this -->
                   <option value="06:00:00+08:00">6:00 AM</option>
@@ -261,7 +264,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="course_code">End Time:</label><span class="text-danger">*</span>
-                <select id="selectEnd" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectEndModal" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                   <option value="" selected disabled hidden>Select Time</option>
                   <!-- there's probably a cleaner option to do this -->
                   <option value="06:00:00+08:00">6:00 AM</option>
@@ -282,12 +285,12 @@
                   <option value="21:00:00+08:00">9:00 PM</option>
                 </select>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" id="deleteModal" name="deleteModal" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>
@@ -425,29 +428,64 @@
         eventClick:function(info)
         {
           $('#edit').modal('show');
+          var id = info.event.id;
+          var title = info.event.title;
+          
+          var course = $('#course').val();
+          var section = $('#section').val();
+          var level = $('#level').val();
+          var period = $('#period').val();
 
-          // document.getElementById('modalTitle').innerHTML = info.event.title;
-          // document.getElementById('modalStart').innerHTML = info.event.start;
-            // if(confirm("Are you sure you want to delete this event?"))
-            // {
-            //     var id = clickedInfo.event.id;
-            //     $.ajax
-            //     ({
-            //         url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
-            //         type:"DELETE",
-            //         dataType: 'json',
-            //         success: function(response) 
-            //         {
-            //           var id = response
-            //           console.log(id)
-            //             alert('Deleted!');
+          
+          // $('#edit').attr("action", "/courseload/update/" + id + "");
+          
 
-            //             //calendar.refetchEvents(); // remove this
+          $.ajax({
+            type: 'get',
+            url: '{{ route('courseload.get') }}',
+            data: {'course':course, 'section':section, 'level':level, 'period':period},
+            dataType: 'json',
+            success: function(result){
+              $('#selectTitleModal').html('<option value="" hidden>Select Title</option>');
+              $.each(result.events, function (key, value) {
+                $("#selectTitleModal").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
+                $('input[name="event_idModal"]').val(id);
+                $('select[name="selectTitleModal"]').val(title);
+                $('input[name="curriculum_idModal"]').val(value.curriculum_id); 
+                $('input[name="realperiodModal"]').val(value.period);
+              });
+            },
+          });
 
-            //             clickedInfo.event.remove(); // try this instead
-            //         }
-            //     })
-            // }
+          $('#deleteModal').click(function(){
+          if(confirm("Are you sure you want to delete this event?"))
+          {
+            $.ajax
+            ({ 
+                url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
+                type:"DELETE",
+                dataType: 'json',
+                success: function(response) 
+                {
+                  var id = response
+                  console.log(id)
+                    alert('Deleted!');
+
+                    //calendar.refetchEvents(); // remove this
+
+                    info.event.remove(); // try this instead
+
+                    $('#edit').modal('hide');
+                },
+                error: function(error)
+                {
+                  console.log(error)
+                }
+              });
+
+            };
+
+          });
         },
         selectable: true,
         editable: true,
@@ -472,6 +510,8 @@
         eventResize: function(info) 
         {
           var id = info.event.id;
+          var curriculum_id = info.event.curriculum_id;
+          var title = info.event.title;
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
 
@@ -479,7 +519,7 @@
           ({
             type: 'PATCH',
             url: "{{ route('courseload.update', '') }}" +'/'+ id,
-            data: { 'start_date':start_date, 'end_date':end_date },
+            data: { 'curriculum_id':curriculum_id, 'title':title, 'start_date':start_date, 'end_date':end_date },
             dataType: 'json',
 
             success: function(response)
@@ -541,6 +581,44 @@
   });
 </script>
 
+<!-- FOR DELETE TESTING* -->
+{{-- <script>
+  $(document).ready(function(){
+    $('#deleteModal').click(function(){
+      if(confirm("Are you sure you want to delete this event?"))
+      {
+        var id = $('#event_idModal').val();
+        console.log(id);
+
+        $.ajax
+        ({ 
+            url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
+            type:"DELETE",
+            dataType: 'json',
+            success: function(response) 
+            {
+              var id = response
+              console.log(id)
+                alert('Deleted!');
+
+                //calendar.refetchEvents(); // remove this
+
+                clickedInfo.event.remove(); // try this instead
+
+                $('#edit').modal('hide');
+            },
+            error: function(error)
+            {
+              console.log(error)
+            }
+        });
+
+      };
+    });
+  });
+  
+</script> --}}
+
 {{-- <script>
   function saveEvent()
   {
@@ -589,7 +667,7 @@
         success: function(result){
           $('#selectTitle').html('<option value="" hidden>Select Title</option>');
           $.each(result.events, function (key, value) {
-            $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_title + '</option>');
+            $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
             $('input[name="curriculum_id"]').val(value.curriculum_id); 
             $('input[name="realperiod"]').val(value.period);
           });

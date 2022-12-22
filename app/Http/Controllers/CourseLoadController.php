@@ -190,6 +190,8 @@ class CourseLoadController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+
         $courseload = CourseLoad::find($id);
         if(! $courseload)
         {
@@ -197,14 +199,46 @@ class CourseLoadController extends Controller
                 'error' => 'unable to find event'
             ], 404);
         }
+        else
+        {
+            $verify = Courseload::where('start_date', '=', Carbon::parse($request->start_date))
+                            ->where('end_date', '=', Carbon::parse($request->end_date))->first();
 
-        $courseload->update([
-            'start_date' => Carbon::parse($request->start_date),
-            'end_date' => Carbon::parse($request->end_date),
-            //'faculty' => $request->faculty,
-        ]);
-
-        return response()->json('Event Updated');
+            if($verify != null)
+            {
+                return redirect()->route('courseload.index')->with('deleted', 'error.');
+            }
+            elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
+            {
+                
+            }
+            else
+            {
+                // $day = $request->day;
+                // $start = $request->
+                // $end
+                if($request->curriculum_id != null)
+                {
+                    $courseload->update([
+                        'curriculum_id' => $request->curriculum_id,
+                        'period' => $request->period,
+                        'title' => $request->title,
+                        'start_date' => Carbon::parse($request->start_date),
+                        'end_date' => Carbon::parse($request->end_date),
+                        //'faculty' => $request->faculty,
+                    ]);
+                }
+                else 
+                {
+                    $courseload->update([
+                        'start_date' => Carbon::parse($request->start_date),
+                        'end_date' => Carbon::parse($request->end_date),
+                    ]);
+                }
+        
+                return response()->json('Event Updated');
+            }
+        }
     }
 
     /**
