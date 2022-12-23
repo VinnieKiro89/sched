@@ -210,7 +210,7 @@ class CourseLoadController extends Controller
             }
             elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
             {
-                
+                // i do not know what this is for...
             }
             else
             {
@@ -220,12 +220,10 @@ class CourseLoadController extends Controller
                 if($request->curriculum_id != null)
                 {
                     $courseload->update([
-                        'curriculum_id' => $request->curriculum_id,
-                        'period' => $request->period,
-                        'title' => $request->title,
+                        'title' => $request->newTitle,
+                        //'faculty' => $request->faculty,
                         'start_date' => Carbon::parse($request->start_date),
                         'end_date' => Carbon::parse($request->end_date),
-                        //'faculty' => $request->faculty,
                     ]);
                 }
                 else 
@@ -238,6 +236,34 @@ class CourseLoadController extends Controller
         
                 return response()->json('Event Updated');
             }
+        }
+    }
+
+    public function update2(Request $request)
+    {
+        
+
+        $courseload = CourseLoad::find($request->id);
+        if(! $courseload)
+        {
+            return response()->json([
+                'error' => 'unable to find event'
+            ], 404);
+        }
+        else
+        {
+  
+
+                // $courseload = CourseLoad::find($request->id);
+                $courseload->update([
+                    'title' => $request->newTitle,
+                    //'faculty' => $request->faculty,
+                    'start_date' => Carbon::parse($request->start_date),
+                    'end_date' => Carbon::parse($request->end_date),
+                ]);
+                return response()->json('Event Updated');
+                
+            
         }
     }
 

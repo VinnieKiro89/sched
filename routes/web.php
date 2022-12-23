@@ -98,4 +98,5 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'courseload'], function(
     Route::post('/post',[App\Http\Controllers\CourseLoadController::class, 'store_event'])->name('courseload.post');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CourseLoadController::class, 'destroy'])->name('courseload.destroy');
     Route::patch('/update/{id}',[App\Http\Controllers\CourseLoadController::class, 'update'])->name('courseload.update');
+    Route::put('/update2',[App\Http\Controllers\CourseLoadController::class, 'update2'])->name('courseload.update2');
 });
