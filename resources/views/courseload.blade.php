@@ -522,10 +522,6 @@
                 error: function(error)
                 {
                   console.log(error)
-                  console.log(id)
-                  console.log(title)
-                  console.log(start_date)
-                  console.log(end_date)
                 }
             });
           });
@@ -614,6 +610,29 @@
             // 'period': response.period,
             'start': response.start_date,
             'end': response.end_date,
+          });
+        
+          var course = $('#course').val();
+          var section = $('#section').val();
+          var level = $('#level').val();
+          var period = $('#period').val();
+
+          calendar.removeAllEvents();
+
+          $.ajax({
+            type: 'get',
+            url: '{{ route('courseload.getcal') }}',
+            data: {'course':course, 'section':section, 'level':level, 'period':period},
+            success: function(data){
+              console.log(data);
+              console.log(data[0].curriculum_id);
+              var id = data[0].curriculum_id;
+
+              // calendar.removeAllEvents();
+              calendar.addEventSource(data)
+
+            },
+
           });
         },
         error: function(error)
