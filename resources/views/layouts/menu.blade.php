@@ -25,7 +25,7 @@
                 <li><a class="nav-link pl-5 {{ request()->is('course/index') ? 'active-nav' : '' }}" href="{{ route('course.index') }}" style="color: #606060; font-weight:600;"><i
                             class=" fas fa-building icon" style="color: #606060;"></i>Course List</a></li>
                 <li><a class="nav-link pl-5 {{ request()->is('curriculum/index') ? 'active-nav' : '' }}" href="{{ route('curriculum.index') }}" style="color: #606060; font-weight:600;"><i
-                            class=" fas fa-building icon" style="color: #606060;"></i>curriculum List</a></li>
+                            class=" fas fa-building icon" style="color: #606060;"></i>Curriculum List</a></li>
             </ul>
         </li>
     @endif

@@ -67,6 +67,11 @@
                 <div class="select mb-3">
                   <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Faculty</option>
+                      @foreach ($faculties as $faculty)
+                        <option value="{{ $faculty->name }}">
+                          {{ $faculty->name }}
+                        </option>
+                      @endforeach
                   </select>
                 </div>
                 <label for="email">Start Time:</label><span class="text-danger">*</span>
@@ -235,6 +240,11 @@
                 <label for="course_code">Select Faculty:</label><span class="text-danger">*</span>
                 <select id="selectFacultyModal" class="form-control" placeholder="Enter Course" name="course" autofocus>
                   <option value="" selected disabled hidden>Select Faculty</option>
+                  @foreach ($faculties as $faculty)
+                    <option value="{{ $faculty->id }}">
+                      {{ $faculty->name }}
+                    </option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -301,6 +311,7 @@
 
 @endsection
 
+<!-- what the hell is this for? -->
 {{-- comment 
   // import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
   // import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
@@ -386,6 +397,18 @@
         
         initialView: 'timeGridFourDay',
         initialDate: '2022-09-05',
+
+        // timeGridWeek: {
+        //   eventRender: function(info) {
+        //     var eventEl = info.el;
+
+        //     var descriptionEl = document.createElement('div');
+        //     descriptionEl.className = 'fc-description';
+        //     descriptionEl.innerHTML = info.event.extendedProps.description;
+
+        //     eventEl.appendChild(descriptionEl);
+        //   }
+        // },
     
         headerToolbar: {
           left: '',
@@ -399,13 +422,17 @@
         },
         views: {
           timeGridFourDay: {
-            // type: 'resourceTimeGridDay',
             type: 'timeGridWeek',
             slotMinTime: '6:00:00',
             slotMaxTime: '22:00:00',
             allDaySlot: false,
             expandRows: true,
             dayHeaderFormat: { weekday: 'long' },
+            eventContent: function (eventInfo) {
+              return {
+                html: eventInfo.timeText + '<br/>' + eventInfo.event.title + '<br/>' + eventInfo.event.extendedProps.description
+              };
+            },
           }
         },
         // customButtons: {
@@ -432,6 +459,8 @@
           $('#edit').modal('show');
           var id = info.event.id;
           var title = info.event.title;
+          var faculty = info.event.period;
+          var faculty2 = info.event.description;
 
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
@@ -451,6 +480,8 @@
             data: {'course':course, 'section':section, 'level':level, 'period':period},
             dataType: 'json',
             success: function(result){
+              console.log(faculty);
+              console.log(faculty2);
               // $('#update').attr("action", "/courseload/update/" + id + "");
               $('#selectTitleModal').html('<option value="" hidden>Select Title</option>');
               $.each(result.events, function (key, value) {
@@ -459,6 +490,7 @@
                 $('input[name="event_startModal"]').val(start_date);
                 $('input[name="event_endModal"]').val(end_date);
                 $('select[name="selectTitleModal"]').val(title);
+                $('select[name="selectFacultyModal"]').val(faculty);
                 $('input[name="curriculum_idModal"]').val(value.curriculum_id); 
                 $('input[name="realperiodModal"]').val(value.period);
               });
@@ -504,13 +536,14 @@
 
             var id = $('#event_idModal').val();
             var newTitle = $('#selectTitleModal').val();
+            var newFaculty = $('#selectFacultyModal').val();
             var start_date = $('#event_startModal').val();
             var end_date = $('#event_endModal').val();
 
             $.ajax({ 
                 method: 'PUT',
                 url: $('#update').data('url'),
-                data: { 'id':id, 'newTitle':newTitle, 'start_date':start_date, 'end_date':end_date },
+                data: { 'id':id, 'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
                 dataType: 'json',
                 success: function(response) 
                 {
@@ -550,7 +583,7 @@
         eventResize: function(info) 
         {
           var id = info.event.id;
-          var curriculum_id = info.event.curriculum_id;
+          var curriculum_id = info.event.extendedProps.curriculum_id;
           var title = info.event.title;
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
@@ -565,6 +598,8 @@
             success: function(response)
             {
               console.log(response);
+              console.log(curriculum_id);
+              
             }
           })
         },
@@ -592,6 +627,7 @@
       var period = $('#realperiod').val();
       var title = $('#selectTitle').val();
       var day = $('#selectDay').val();
+      var faculty = $('#selectFaculty').val();
       var start = $('#selectStart').val();
       var end = $('#selectEnd').val();
       
@@ -601,13 +637,21 @@
       $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
-        data: { 'curriculum_id':curriculum_id, 'period':period, 'title':title, 'day':day, 'start_date':start_date, 'end_date':end_date },
+        data: { 
+              'curriculum_id':curriculum_id, 
+              'period':period, 
+              'title':title, 
+              'day':day, 
+              'start_date':start_date, 
+              'end_date':end_date, 
+              'faculty':faculty 
+              },
 
         success: function(response)
         {
           calendar.addEvent({
             'title': response.title,
-            // 'period': response.period,
+            'subtitle': response.faculty,
             'start': response.start_date,
             'end': response.end_date,
           });
@@ -619,6 +663,7 @@
 
           calendar.removeAllEvents();
 
+          // nested ajax, because re-initializing FC does not work.
           $.ajax({
             type: 'get',
             url: '{{ route('courseload.getcal') }}',
@@ -696,17 +741,43 @@
 
       calendar.removeAllEvents();
 
+      // calendar.addEventSource({
+      //   events: function(callback) {
+      //     $.ajax({
+      //       type: 'get',
+      //       url: '{{ route('courseload.getcal') }}',
+      //       data: {'course':course, 'section':section, 'level':level, 'period':period},
+
+      //       success: function(events) { 
+      //         console.log(events);
+
+      //         callback(events);
+      //       }
+      //     });
+      //   },
+      //   eventRender: function(event, element) {
+      //     element.qtip({
+      //       content: event.description
+      //     });
+      //   }
+      // });
+
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.getcal') }}',
         data: {'course':course, 'section':section, 'level':level, 'period':period},
         success: function(data){
           console.log(data);
-          console.log(data[0].curriculum_id);
-          var id = data[0].curriculum_id;
+          
 
           // calendar.removeAllEvents();
-          calendar.addEventSource(data)
+          calendar.addEventSource({
+            events: data,
+            eventRender: function(event, element) { 
+              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+            },
+          });
+          
 
         },
 

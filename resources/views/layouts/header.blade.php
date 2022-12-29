@@ -4,9 +4,9 @@
     </ul>
 </form>
 
-<ul class="navbar-nav navbar-left">
+{{-- <ul class="navbar-nav navbar-left">
     <h3>Work in Progress</h3>
-</ul>
+</ul> --}}
 
 <ul class="navbar-nav navbar-right">
     <li class="dropdown">

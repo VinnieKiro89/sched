@@ -20,4 +20,9 @@ class CourseLoad extends Model
     {
         return $this->belongsTo(Course::class, 'curriculum_id');
     }
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class, 'faculty_id');
+    }
 }

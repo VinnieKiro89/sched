@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Faculty;
+use App\Models\CourseLoad;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 
@@ -185,6 +186,20 @@ class FacultyController extends Controller
 
     public function load()
     {
-        return view('Faculty.loadfaculty');
+        $faculty = Faculty::all();
+        $events = array();
+        $course_load = CourseLoad::all();
+        foreach($course_load as $courseload){
+            $events[] = [
+                'id' => $courseload->id,
+                'curriculum_id' => $courseload->curriculum_id,
+                'period' => $courseload->period,
+                'title' => $courseload->title,
+                'start' => $courseload->start_date,
+                'end' => $courseload->end_date,
+            ];
+        }
+
+        return view('Faculty.loadfaculty', ['faculties' => $faculty, 'events' => $events]);
     }
 }

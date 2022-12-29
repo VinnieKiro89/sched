@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Course;
+use App\Models\Faculty;
 use App\Models\Subject;
 use App\Models\CourseLoad;
 use App\Models\Curriculum;
@@ -34,11 +35,13 @@ class CourseLoadController extends Controller
             ];
         }
 
+        $faculty = Faculty::all();
+
         $courses = Course::all();
         $subjects = Subject::all();
         $curricula = Curriculum::all();
 
-        return view('courseload', ['events' => $events, 'courses' => $courses, 'subjects' => $subjects]);
+        return view('courseload', ['events' => $events, 'courses' => $courses, 'subjects' => $subjects, 'faculties' => $faculty]);
     }                                                                           
 
     public function get_subjects(Request $request)                                  
@@ -78,6 +81,7 @@ class CourseLoadController extends Controller
                 'curriculum_id' => $courseload->curriculum_id,
                 'period' => $courseload->period,
                 'title' => $courseload->title,
+                'description' => $courseload->faculty->name,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
             ];
@@ -109,6 +113,7 @@ class CourseLoadController extends Controller
                 'period' => 'required|string',
                 'title' => 'required|string',
                 // 'day' => 'required|string',
+                'faculty' => 'required|string',
                 'start_date' => 'required|string',
                 'end_date' => 'required|string',
             ]);
@@ -128,6 +133,7 @@ class CourseLoadController extends Controller
             $newcourseload->curriculum_id = $request->curriculum_id;
             $newcourseload->period = $request->period;
             $newcourseload->title = $request->title;
+            $newcourseload->faculty_id = $request->faculty;
             $newcourseload->start_date = Carbon::parse($request->start_date);
             $newcourseload->end_date = Carbon::parse($request->end_date);
 
@@ -221,7 +227,7 @@ class CourseLoadController extends Controller
                 {
                     $courseload->update([
                         'title' => $request->newTitle,
-                        //'faculty' => $request->faculty,
+                        'faculty_id' => $request->faculty,
                         'start_date' => Carbon::parse($request->start_date),
                         'end_date' => Carbon::parse($request->end_date),
                     ]);
@@ -257,7 +263,7 @@ class CourseLoadController extends Controller
                 // $courseload = CourseLoad::find($request->id);
                 $courseload->update([
                     'title' => $request->newTitle,
-                    //'faculty' => $request->faculty,
+                    'faculty_id' => $request->newFaculty,
                     'start_date' => Carbon::parse($request->start_date),
                     'end_date' => Carbon::parse($request->end_date),
                 ]);
