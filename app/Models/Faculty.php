@@ -13,4 +13,9 @@ class Faculty extends Model
     {
         return $this->hasMany(CourseLoad::class);
     }
+
+    public function subject()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

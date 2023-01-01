@@ -93,6 +93,25 @@ class CourseLoadController extends Controller
         return response()->json($events);
     }
 
+    public function get_pref(Request $request)                                  
+    {
+        $subject = Subject::where('subject_code', $request->title)->first();
+        $faculty = Faculty::wherein('id', $subject->selectFaculty)->get();
+
+        // foreach($faculty as $fac){
+        //     $events[] = [
+        //         'id' => $fac->id,
+        //         'name' => $fac->name,
+        //     ];
+        // }
+        
+        // $allfaculty = $faculty->all();
+
+        // $faculty = Subject::with('faculty')->where('subject_code', $request->title)->get();
+
+        return response()->json($faculty);
+    }
+
     public function store_event(Request $request)
     {
         $verify = Courseload::where('start_date', '=', Carbon::parse($request->start_date))

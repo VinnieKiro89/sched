@@ -797,4 +797,36 @@
   // });
 </script>
 
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectTitle').change(function(){
+      var title = $('#selectTitle').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('courseload.getpref') }}',
+        data: {'title':title},
+        success: function(result){
+          $('#selectFaculty').html('<option value="" hidden>Select Faculty</option>');
+          $.each(result, function (i, element) {
+            $("#selectFaculty").append($('<option>', {
+              value: element.id,
+              text: element.name,
+            }));
+          });
+
+        },
+
+      });
+    });
+  });
+
+</script>
+
 @endsection

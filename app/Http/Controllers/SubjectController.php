@@ -79,6 +79,7 @@ class SubjectController extends Controller
         $subject->subj_hours = $request->input('subj_hours');
         $subject->pre_requisite = $request->input('pre-requisite');
         $subject->co_requisite = $request->input('co-requisite');
+        $subject->selectFaculty = $request->input('selectFaculty');
 
         $subject->save();
         

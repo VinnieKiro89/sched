@@ -16,6 +16,7 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "jquery-ui-dist": "^1.13.2"
+        "jquery-ui-dist": "^1.13.2",
+        "select2": "^4.1.0-rc.0"
     }
 }

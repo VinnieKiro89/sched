@@ -368,8 +368,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="co-requisite">Chosen Faculty Members:</label>
-                                    <select class=" select2-multiple form-control"
-                                        name="selectFaculty[]" multiple="multiple" id="select2Multiple">
+                                    <!-- why do I need to use style for this ass select2 -->
+                                    <select style="width:367px" class=" select2-multiple form-control"
+                                        name="selectFaculty[]" multiple="multiple" id="select2-multiple">
 
                                         @foreach ($faculties as $faculty)
                                             <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
@@ -541,5 +542,19 @@
             });
         </script>
     @endif
+
+    <!-- select2 -->
+    <script>
+        $(document).ready(function() {
+            $('#select2-multiple').select2(
+            {
+                placeholder: 'Select Faculty',
+                multiple: true,
+                allowClear: true,
+            });
+        });
+        
+
+    </script>
 
 @endsection

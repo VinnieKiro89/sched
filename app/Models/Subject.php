@@ -19,6 +19,10 @@ class Subject extends Model
         'password',
     ];
 
+    protected $casts = [
+        'selectFaculty' => 'array',
+    ];
+
     public function curriculum()
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
@@ -27,6 +31,11 @@ class Subject extends Model
     public function course()
     {
         return $this->belongsTo(Course::class, 'curriculum_id');
+    }
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class);
     }
 }
 
