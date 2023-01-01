@@ -86,7 +86,8 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'faculty'], function() {
     Route::delete('/destroy/{id}',[App\Http\Controllers\FacultyController::class, 'destroy'])->name('faculty.destroy');
     Route::PUT('/update/{id}',[App\Http\Controllers\FacultyController::class, 'update'])->name('faculty.update');
     Route::PUT('/updateSubjTime/{user_id}',[App\Http\Controllers\FacultyController::class, 'updateSubjTime'])->name('faculty.updateSubjTime');
-    Route::get('/load',[App\Http\Controllers\FacultyController::class, 'load'])->name('faculty.load'); // temp
+    Route::get('/load',[App\Http\Controllers\FacultyController::class, 'load'])->name('faculty.load');
+    Route::get('/facultyLoad',[App\Http\Controllers\FacultyController::class, 'facultyLoad'])->name('faculty.facultyLoad');
 });
 
 //CourseLoading

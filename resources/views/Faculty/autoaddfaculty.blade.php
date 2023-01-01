@@ -29,12 +29,9 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="name">Name:</label><span class="text-danger">*</span>
-                                                    <input id="name" type="text" value={{ $name }}
-                                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
+                                                    <input id="name" type="text" value="{{ $fullname }}"
+                                                        class="form-control" name="name"
                                                         tabindex="1" readonly autofocus>
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('name') }}
-                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="email">Email:</label><span class="text-danger">*</span>

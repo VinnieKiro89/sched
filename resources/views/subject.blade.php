@@ -195,6 +195,89 @@
                                 </table>
                             </div>
 
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card shadow">
+                        <div class="card-body"> 
+
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
+                                </div>
+                                <div class="p-2">
+                                    <button type="button"
+                                        class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
+                                        data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
+                                        data-course_code="{{ $code }}" data-section="{{ $section }}" 
+                                        data-period="Summer Semester" data-level="{{ $level }}">
+                                        <i class="fas fa-plus"></i>
+                                        Add Subject
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                <!-- Header goes here, i think -->
+                                
+                                <table class="table mt-4"
+                                    style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
+                                    <thead style="background-color: #800000;">
+                                        <tr>
+                                            <th style="color:white;">Subject Code</th>
+                                            <th style="color:white;">Subject Title</th>
+                                            <th style="color:white;">Credited Units</th>
+                                            <th style="color:white;">Subject Hours</th>
+                                            <th style="color:white;">Pre-requisite</th>
+                                            <th style="color:white;">Co-requisite</th>
+                                            <th style="color:white;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                    
+                                        @foreach ($subjects as $subject)
+                                            @if($subject->period == 'Summer Semester')
+                                                <tr style="border: 1px solid #000000;">
+                                                    <td>{{ $subject->subject_code }}</td>
+                                                    <td>{{ $subject->subject_title }}</td>
+                                                    <td>{{ $subject->cred_units }}</td>
+                                                    <td>{{ $subject->subj_hours }}</td>
+                                                    <td>{{ $subject->pre_requisite }}</td>
+                                                    <td>{{ $subject->co_requisite }}</td>
+                                                    <td style="white-space:nowrap; width: 20px;">
+                                                        <!-- I add 20px and it fix the extra space, don't know why | don't fix, don't change :) -->
+                                                        {{-- <a href="#" class="btn btn-icon icon-left mr-3 btn-outline-primary">
+                                                        <i class="far fa-edit"></i>
+                                                        Edit</a> --}}
+
+                                                        <button type="button"
+                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                            data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
+                                                            data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
+                                                            data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
+                                                            data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
+                                                            <i class="far fa-edit"></i>
+                                                            Edit
+                                                        </button>
+
+
+                                                        <button type="button"
+                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                            data-toggle="modal" data-target=".delete"
+                                                            data-uid="{{ $subject->id }}">
+                                                            <i class="fas fa-trash"></i>
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -280,6 +363,18 @@
                                     <input id="co-requisite" type="text"
                                         class="form-control" name="co-requisite"
                                         tabindex="1" placeholder="Enter co-requisites">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="co-requisite">Chosen Faculty Members:</label>
+                                    <select class=" select2-multiple form-control"
+                                        name="selectFaculty[]" multiple="multiple" id="select2Multiple">
+
+                                        @foreach ($faculties as $faculty)
+                                            <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

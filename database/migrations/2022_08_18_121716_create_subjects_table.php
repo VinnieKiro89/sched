@@ -25,6 +25,7 @@ class CreateSubjectsTable extends Migration
             $table->string('subj_hours');
             $table->string('pre_requisite')->nullable();
             $table->string('co_requisite')->nullable();
+            $table->array('selectFaculty')->nullable();
             $table->timestamps();
         });
     }

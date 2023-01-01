@@ -9,8 +9,8 @@ class Faculty extends Model
 {
     use HasFactory;
 
-    // public function courseload()
-    // {
-    //     return $this->hasMany(CourseLoad::class, 'subject_id');
-    // }
+    public function courseload()
+    {
+        return $this->hasMany(CourseLoad::class);
+    }
 }

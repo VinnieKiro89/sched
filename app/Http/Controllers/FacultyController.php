@@ -184,6 +184,8 @@ class FacultyController extends Controller
         return redirect()->route('faculty.index')->with('deleted', 'Faculty Deleted!');
     }
 
+    // rest of functions here are for Faculty Loading
+
     public function load()
     {
         $faculty = Faculty::all();
@@ -201,5 +203,27 @@ class FacultyController extends Controller
         }
 
         return view('Faculty.loadfaculty', ['faculties' => $faculty, 'events' => $events]);
+    }
+
+    public function facultyLoad(Request $request)
+    {
+        $faculty = Faculty::where('name',$request->faculty)
+                                ->first();
+
+        $events = array();
+        $course_load = CourseLoad::where(['faculty_id' => $faculty->id])->get();
+        foreach($course_load as $courseload){
+            $events[] = [
+                'id' => $courseload->id,
+                'curriculum_id' => $courseload->curriculum_id,
+                'period' => $courseload->period,
+                'title' => $courseload->title,
+                'description' => $courseload->faculty->name,
+                'start' => $courseload->start_date,
+                'end' => $courseload->end_date,
+            ];
+        }
+
+        return response()->json($events);
     }
 }

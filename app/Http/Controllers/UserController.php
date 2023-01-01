@@ -62,7 +62,7 @@ class UserController extends Controller
         $user->save();
         
         if($request->role == 'Faculty'){
-            return view('faculty.autoaddfaculty', ['name'=>$user->fname, 'user_id'=>$user->id]);
+            return view('faculty.autoaddfaculty', ['fullname'=>$user->fname, 'user_id'=>$user->id]);
         }else{
             return redirect()->route('usermanage.index')->with('success', 'User Added Successfully.');
         }

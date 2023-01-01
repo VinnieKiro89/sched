@@ -68,7 +68,7 @@
                   <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
                       <option value="" selected disabled hidden>Select Faculty</option>
                       @foreach ($faculties as $faculty)
-                        <option value="{{ $faculty->name }}">
+                        <option value="{{ $faculty->id }}">
                           {{ $faculty->name }}
                         </option>
                       @endforeach

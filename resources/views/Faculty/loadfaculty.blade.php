@@ -42,11 +42,11 @@
             <div class="card-body">
               <h5>Faculty List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
-                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
+                {{-- <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
+                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly> --}}
                 <label for="email">Faculty Members:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectFaculty" class="form-control" name="selectFaculty" required autofocus>
                       <option value="" selected disabled hidden>Select Faculty</option>
                       @foreach ($faculties as $faculty)
                         <option> {{ $faculty->name }}</option>
@@ -279,8 +279,8 @@
     });
 </script>
 
-{{-- <!-- FOR SAVE -->
-<script>
+<!-- FOR SAVE -->
+{{-- <script>
   $(document).ready(function(){
     $('#save').click(function() {
       var curriculum_id = $('#curriculum_id').val();
@@ -346,7 +346,7 @@
       });
     });
   });
-</script>
+</script> --}}
 
 <!-- FOR ONCHANGE SUBJECT LIST -->
 <script type="text/javascript">
@@ -357,23 +357,21 @@
   });
 
   $(document).ready(function(){
-    $('#course, #level, #section, #period').change(function(){
-      var course = $('#course').val();
-      var section = $('#section').val();
-      var level = $('#level').val();
-      var period = $('#period').val();
+    $('#selectFaculty').change(function(){
+      var faculty = $('#selectFaculty').val();
 
       $.ajax({
         type: 'get',
-        url: '{{ route('courseload.get') }}',
-        data: {'course':course, 'section':section, 'level':level, 'period':period},
+        url: '{{ route('faculty.facultyLoad') }}',
+        data: { 'faculty':faculty },
         dataType: 'json',
-        success: function(result){
-          $('#selectTitle').html('<option value="" hidden>Select Title</option>');
-          $.each(result.events, function (key, value) {
-            $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
-            $('input[name="curriculum_id"]').val(value.curriculum_id); 
-            $('input[name="realperiod"]').val(value.period);
+        success: function(data){
+          console.log('bobo si jonah')
+          calendar.addEventSource({
+            events: data,
+            eventRender: function(event, element) { 
+              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+            },
           });
         },
       });
@@ -381,7 +379,7 @@
   });
 
 </script>
-
+{{-- 
 <!-- FOR ONCHANGE CALENDAR -->
 <script type="text/javascript">
   $.ajaxSetup({
