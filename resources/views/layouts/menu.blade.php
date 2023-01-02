@@ -7,6 +7,13 @@
 
     <!-- {{ $role = session()->get('Role') }} -->
 
+    <!-- Approval -->
+    <li class="side-menus {{ request()->is('approval') ? 'active-nav' : '' }}" >
+        <a class="nav-link" href="{{ route( 'approval.index' ) }}">
+            <i class="fas fa-building icon" style="color: #606060;"></i> <span style="color: #606060">Approval</span>
+        </a>
+    </li>
+
     <!-- User Management -->
     @if(session()->get('Role') == "Admin")
         <li class="side-menus {{ request()->is('usermanage') ? 'active-nav' : '' }}">

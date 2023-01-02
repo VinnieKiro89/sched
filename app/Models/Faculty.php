@@ -18,4 +18,9 @@ class Faculty extends Model
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function assignmentApproval()
+    {
+        return $this->hasMany(AssignmentApprovals::class);
+    }
 }

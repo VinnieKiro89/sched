@@ -389,7 +389,7 @@
         </div>
     </div>
 
-    <!-- user Modal edit Curriculum-->
+    <!-- user Modal edit Subject-->
     <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -440,6 +440,19 @@
                                 <div class="form-group">
                                     <label for="co_requisite">Co-requisites:</label>
                                     <input id="co_requisite" type="text" class="form-control" name="co_requisite" tabindex="1" placeholder="Enter co-requisites">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="co-requisite">Chosen Faculty Members:</label>
+                                    <!-- why do I need to use style for this ass select2 -->
+                                    <select style="width:367px" class=" select2-multiple form-control"
+                                        name="selectFaculty[]" multiple="multiple" id="select2-multiple">
+
+                                        @foreach ($faculties as $faculty)
+                                            <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

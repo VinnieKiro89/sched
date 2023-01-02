@@ -126,6 +126,7 @@ class SubjectController extends Controller
                 'cred_units'=>$request->cred_units,
                 'pre_requisite'=>$request->pre_requisite,
                 'co_requisite'=>$request->co_requisite,
+                'selectFaculty' => $request->selectFaculty
             ]);
     
             // DB::table('model_has_roles')->where('model_id',$request->id)->delete();

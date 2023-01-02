@@ -41,6 +41,12 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function()
     Route::get('',[App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 });
 
+//Approval
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'approval'], function() {
+    Route::get('',[App\Http\Controllers\AssignmentApprovalsController::class, 'index'])->name('approval.index');
+    Route::post('/store',[App\Http\Controllers\AssignmentApprovalsController::class, 'store'])->name('approval.store');
+});
+
 //User Management
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'usermanage'], function() {
     Route::get('',[App\Http\Controllers\UserController::class, 'index'])->name('usermanage.index');

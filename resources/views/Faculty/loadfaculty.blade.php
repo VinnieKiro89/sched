@@ -66,6 +66,9 @@
               </div>
               <div id='forcal'>
                 <div id='calendar'></div>
+                <div class="footer text-right">
+                  <button id="approve" name="approve" type="button" class="btn btn-success">Send for Approval</button>
+                </div>
               </div>
             </div>
           </div>
@@ -279,75 +282,6 @@
     });
 </script>
 
-<!-- FOR SAVE -->
-{{-- <script>
-  $(document).ready(function(){
-    $('#save').click(function() {
-      var curriculum_id = $('#curriculum_id').val();
-      var period = $('#realperiod').val();
-      var title = $('#selectTitle').val();
-      var day = $('#selectDay').val();
-      var faculty = $('#selectFaculty').val();
-      var start = $('#selectStart').val();
-      var end = $('#selectEnd').val();
-      
-      var start_date = day + start;
-      var end_date = day + end;
-
-      $.ajax({
-        type: 'POST',
-        url: '{{ route('courseload.post') }}',
-        data: { 
-              'curriculum_id':curriculum_id, 
-              'period':period, 
-              'title':title, 
-              'day':day, 
-              'start_date':start_date, 
-              'end_date':end_date, 
-              'faculty':faculty 
-              },
-
-        success: function(response)
-        {
-          calendar.addEvent({
-            'title': response.title,
-            'subtitle': response.faculty,
-            'start': response.start_date,
-            'end': response.end_date,
-          });
-        
-          var course = $('#course').val();
-          var section = $('#section').val();
-          var level = $('#level').val();
-          var period = $('#period').val();
-
-          calendar.removeAllEvents();
-
-          // nested ajax, because re-initializing FC does not work.
-          $.ajax({
-            type: 'get',
-            url: '{{ route('courseload.getcal') }}',
-            data: {'course':course, 'section':section, 'level':level, 'period':period},
-            success: function(data){
-              console.log(data);
-              console.log(data[0].curriculum_id);
-              var id = data[0].curriculum_id;
-              
-              calendar.addEventSource(data)
-
-            },
-
-          });
-        },
-        error: function(error)
-        {
-          console.log(error)
-        }
-      });
-    });
-  });
-</script> --}}
-
 <!-- FOR ONCHANGE SUBJECT LIST -->
 <script type="text/javascript">
   $.ajaxSetup({
@@ -366,7 +300,7 @@
         data: { 'faculty':faculty },
         dataType: 'json',
         success: function(data){
-          console.log('bobo si jonah')
+          calendar.removeAllEvents()
           calendar.addEventSource({
             events: data,
             eventRender: function(event, element) { 
@@ -379,45 +313,30 @@
   });
 
 </script>
-{{-- 
-<!-- FOR ONCHANGE CALENDAR -->
+
+<!-- FOR SENDING APPROVAL -->
 <script type="text/javascript">
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
+  $('#approve').click(function(e){
+    e.preventDefault(); // do I need this?
 
-  $(document).ready(function(){
-    $('#course, #level, #section, #period').change(function(){
-      var course = $('#course').val();
-      var section = $('#section').val();
-      var level = $('#level').val();
-      var period = $('#period').val();
+    var faculty = $('#selectFaculty').val();
 
-      calendar.removeAllEvents();
-
-      $.ajax({
-        type: 'get',
-        url: '{{ route('courseload.getcal') }}',
-        data: {'course':course, 'section':section, 'level':level, 'period':period},
-        success: function(data){
-          console.log(data);
-          
-          calendar.addEventSource({
-            events: data,
-            eventRender: function(event, element) { 
-              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
-            },
-          });
-          
-
+    $.ajax({ 
+        method: 'POST',
+        url: '{{ route('approval.store') }}',
+        data: { 'faculty':faculty },
+        success: function(response) 
+        {
+          console.log(response);
+          alert('Approval Sent')
         },
-
-      });
+        error: function(error)
+        {
+          console.log(error)
+          alert(error);
+        }
     });
   });
-
-</script> --}}
+</script>
 
 @endsection

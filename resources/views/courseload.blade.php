@@ -123,7 +123,7 @@
                 <div class="footer">
                   <button type="button" class="btn btn-secondary">Clear</button>
                   <button id="save" name="save" type="submit" class="btn btn-primary">Save</button>
-              </div>
+                </div>
               </div>
             </div>
           </div>
@@ -661,8 +661,6 @@
           var level = $('#level').val();
           var period = $('#period').val();
 
-          calendar.removeAllEvents();
-
           // nested ajax, because re-initializing FC does not work.
           $.ajax({
             type: 'get',
@@ -673,7 +671,7 @@
               console.log(data[0].curriculum_id);
               var id = data[0].curriculum_id;
 
-              // calendar.removeAllEvents();
+              calendar.removeAllEvents();
               calendar.addEventSource(data)
 
             },
