@@ -8,11 +8,13 @@
     <!-- {{ $role = session()->get('Role') }} -->
 
     <!-- Approval -->
-    <li class="side-menus {{ request()->is('approval') ? 'active-nav' : '' }}" >
-        <a class="nav-link" href="{{ route( 'approval.index' ) }}">
-            <i class="fas fa-building icon" style="color: #606060;"></i> <span style="color: #606060">Approval</span>
-        </a>
-    </li>
+    @if(session()->get('Role') == "Director")
+        <li class="side-menus {{ request()->is('approval') ? 'active-nav' : '' }}" >
+            <a class="nav-link" href="{{ route( 'approval.index' ) }}">
+                <i class="fas fa-building icon" style="color: #606060;"></i> <span style="color: #606060">Approval</span>
+            </a>
+        </li>
+    @endif
 
     <!-- User Management -->
     @if(session()->get('Role') == "Admin")
@@ -64,67 +66,6 @@
         </a>
     </li>
     @endif
-
-
-@can('patient management permission for nurse')
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
-                style="color: #033571;"></i> <span>Patient Management</span></a>
-        <ul class="dropdown-menu" style="display: none;">
-            <li><a class="nav-link pl-5" href="{{route('patients.index')}}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Patient List</a></li>
-        
-                        </ul>
-                    </li>
-@endcan
-
-
-
-
-@can('inventory permission')
-
-<li class="nav-item dropdown">
-    <a href="" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
-            style="color: #033571;"></i> <span>Inventory</span></a>
-    <ul class="dropdown-menu" style="">
-        <li><a class="nav-link pl-5" href="{{ route('inventory.index') }}" style="color: #033571; font-weight:600;"><i
-                    class=" fas fa-building icon" style="color: #033571;"></i>Medicine/Supply</a></li>
-        {{-- <li><a class="nav-link pl-5" href="" style="color: #033571; font-weight:600;"><i
-                    class=" fas fa-building icon" style="color: #033571;"></i>Delivery</a></li>
-        <li><a class="nav-link pl-5" href="" style="color: #033571; font-weight:600;"><i
-                    class=" fas fa-building icon" style="color: #033571;"></i>Option</a></li> --}}
-
-    </ul>
-</li>
-    {{-- <li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('inventory.index') }}">
-            <i class=" fas fa-building icon" style="color: #033571;"></i> <span>Inventory</span>
-        </a>
-    </li> --}}
-@endcan
-
-
-@can('reports permission')
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
-                style="color: #033571;"></i> <span>Reports</span></a>
-        <ul class="dropdown-menu" style="display: none;">
-            <li><a class="nav-link pl-5" href="{{ route('physician_report.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Physician Report </a></li>
-            <li><a class="nav-link pl-5" href="{{ route('nurse_assestment_report.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Nurse Assessment </a></li>
-            <li><a class="nav-link pl-5" href="{{ route('daily_medication_report.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571; "></i> <span style="line-height: 16px;">Daily Medication Consumption</span>
-                </a></li>
-            <li><a class="nav-link pl-5" href="{{ route('top10data.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Top 10 Data</a></li>
-            <li><a class="nav-link pl-5" href="{{ route('monthlyreport.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Monthly Report</a></li>
-            <li><a class="nav-link pl-5" href="{{ route('delivery_report.index') }}" style="color: #033571; font-weight:600;"><i class=" fas fa-building icon"
-                        style="color: #033571;"></i>Delivery Report</a></li>
-        </ul>
-    </li>
-@endcan
 
 
 <style>

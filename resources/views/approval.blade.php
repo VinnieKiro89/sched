@@ -67,6 +67,10 @@
               <div id='forcal'>
                 <div id='calendar'></div>
               </div>
+              <div class="footer text-right">
+                <button id="decline" name="decline" type="button" class="btn btn-danger">Decline</button>
+                <button id="approve" name="approve" type="button" class="btn btn-success">Approve</button>
+              </div>
             </div>
           </div>
         </div>
