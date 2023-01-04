@@ -19,6 +19,13 @@ class CurriculumController extends Controller
         return view('curriculum', compact('curriculums'));
     }
 
+    public function view($id)
+    {
+        $curriculums = Curriculum::with('subjects')->where('course_id', $id)->get();
+        //dd($curriculums);
+        return view('curriculum', compact('curriculums'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

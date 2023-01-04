@@ -69,7 +69,8 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'course'], function() {
 
 //Curriculum
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'curriculum'], function() {
-    Route::get('',[App\Http\Controllers\CurriculumController::class, 'index'])->name('curriculum.index');
+    Route::get('',[App\Http\Controllers\CurriculumController::class, 'index'])->name('curriculum.index'); // deprecated
+    Route::get('/{id}',[App\Http\Controllers\CurriculumController::class, 'view'])->name('curriculum.view');
     Route::post('/store',[App\Http\Controllers\CurriculumController::class, 'store'])->name('curriculum.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CurriculumController::class, 'destroy'])->name('curriculum.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculum.update');
@@ -82,6 +83,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'subject'], function() {
     Route::post('/store',[App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');
     Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
+    Route::put('/updateFaculty/{id}',[App\Http\Controllers\SubjectController::class, 'updateFaculty'])->name('subject.updateFaculty');
 });
 
 //Faculty (not done)

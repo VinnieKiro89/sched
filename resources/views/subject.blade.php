@@ -43,16 +43,18 @@
                                 <div class="mr-auto p-2">
                                     <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} 1st Semester </h5>
                                 </div>
-                                <div class="p-2">
-                                    <button type="button"
-                                        class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
-                                        data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
-                                        data-course_code="{{ $code }}" data-section="{{ $section }}" 
-                                        data-period="1st Semester" data-level="{{ $level }}">
-                                        <i class="fas fa-plus"></i>
-                                        Add Subject
-                                    </button>
-                                </div>
+                                @if(session()->get('Role') != "Academic Head")
+                                    <div class="p-2">
+                                        <button type="button"
+                                            class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
+                                            data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
+                                            data-course_code="{{ $code }}" data-section="{{ $section }}" 
+                                            data-period="1st Semester" data-level="{{ $level }}">
+                                            <i class="fas fa-plus"></i>
+                                            Add Subject
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="d-flex justify-content-center">
@@ -86,25 +88,37 @@
                                                         {{-- <a href="#" class="btn btn-icon icon-left mr-3 btn-outline-primary">
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
+                                                        
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                                data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
+                                                                data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
+                                                                data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
+                                                                data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
-                                                            data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
-                                                            data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
-                                                            data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
-                                                            data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
-                                                            <i class="far fa-edit"></i>
-                                                            Edit
-                                                        </button>
+                                                        @if(session()->get('Role') == "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
+                                                                data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
-
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                            data-toggle="modal" data-target=".delete"
-                                                            data-uid="{{ $subject->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                            Delete
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                                data-toggle="modal" data-target=".delete"
+                                                                data-uid="{{ $subject->id }}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete
+                                                            </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endif
@@ -116,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- Second Sem -->
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body"> 
@@ -169,24 +183,36 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
-                                                            data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
-                                                            data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
-                                                            data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
-                                                            data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
-                                                            <i class="far fa-edit"></i>
-                                                            Edit
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                                data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
+                                                                data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
+                                                                data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
+                                                                data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
+                                                        @if(session()->get('Role') == "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
+                                                                data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                            data-toggle="modal" data-target=".delete"
-                                                            data-uid="{{ $subject->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                            Delete
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                                data-toggle="modal" data-target=".delete"
+                                                                data-uid="{{ $subject->id }}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete
+                                                            </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endif
@@ -199,6 +225,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Summer Sem -->
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body"> 
@@ -251,24 +278,36 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
-                                                            data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
-                                                            data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
-                                                            data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
-                                                            data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
-                                                            <i class="far fa-edit"></i>
-                                                            Edit
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                                data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
+                                                                data-subject_code="{{ $subject->subject_code }}" data-subject_title="{{ $subject->subject_title }}"
+                                                                data-cred_units="{{ $subject->cred_units }}" data-subj_hours="{{ $subject->subj_hours }}" 
+                                                                data-pre_requisite="{{ $subject->pre_requisite }}" data-co_requisite="{{ $subject->co_requisite }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
+                                                        @if(session()->get('Role') == "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
+                                                                data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                            data-toggle="modal" data-target=".delete"
-                                                            data-uid="{{ $subject->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                            Delete
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                                data-toggle="modal" data-target=".delete"
+                                                                data-uid="{{ $subject->id }}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete
+                                                            </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endif
@@ -276,11 +315,10 @@
                                     </tbody>
                                 </table>
                             </div>
-
-                            
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -365,19 +403,6 @@
                                         tabindex="1" placeholder="Enter co-requisites">
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="co-requisite">Chosen Faculty Members:</label>
-                                    <!-- why do I need to use style for this ass select2 -->
-                                    <select style="width:367px" class=" select2-multiple form-control"
-                                        name="selectFaculty[]" multiple="multiple" id="select2-multiple">
-
-                                        @foreach ($faculties as $faculty)
-                                            <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -442,19 +467,6 @@
                                     <input id="co_requisite" type="text" class="form-control" name="co_requisite" tabindex="1" placeholder="Enter co-requisites">
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="co-requisite">Chosen Faculty Members:</label>
-                                    <!-- why do I need to use style for this ass select2 -->
-                                    <select style="width:367px" class=" select2-multiple form-control"
-                                        name="selectFaculty[]" multiple="multiple" id="select2-multiple">
-
-                                        @foreach ($faculties as $faculty)
-                                            <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -485,6 +497,45 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Choose Faculty Member modal -->
+    <div class="modal fade faculty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Edit Subject</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="updateFaculty" enctype="multipart/form-data" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="co-requisite">Chosen Faculty Members:</label>
+                                    <!-- why do I need to use style for this ass select2 -->
+                                    <select style="width:367px" class=" select2-multiple form-control"
+                                        name="selectFaculty[]" multiple="multiple" id="select2-multiple">
+                        
+                                        @foreach ($faculties as $faculty)
+                                            <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
@@ -547,6 +598,19 @@
         });
     </script>
 
+    <!-- faculty script -->
+    <script>
+        $(document).ready(function() {
+            // $('option').val($(this).data('role')).attr('selected', 'selected');
+
+            $('.user-faculty').each(function() {
+                $(this).click(function(event) {
+                    $('#updateFaculty').attr("action", "/subject/updateFaculty/" + $(this).data('uid') + "");
+                });
+            });
+        });
+    </script>
+
     <!-- show modal when has error script -->
     @if (count($errors) > 0)
         <script>
@@ -567,7 +631,6 @@
             });
         });
         
-
     </script>
 
 @endsection

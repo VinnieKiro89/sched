@@ -75,6 +75,11 @@
                                                             Add Curriculum
                                                         </button>
 
+                                                        <a href="{{ route('curriculum.view', [$course->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
+                                                            <i class="fas fa-book"></i>
+                                                            View Curriculum
+                                                        </a>
+
                                                         <button type="button"
                                                             class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                             data-toggle="modal" data-target=".edit"
