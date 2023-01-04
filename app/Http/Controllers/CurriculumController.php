@@ -21,9 +21,10 @@ class CurriculumController extends Controller
 
     public function view($id)
     {
+        $curriculum_id = $id;
         $curriculums = Curriculum::with('subjects')->where('course_id', $id)->get();
         //dd($curriculums);
-        return view('curriculum', compact('curriculums'));
+        return view('curriculum', compact('curriculums', 'curriculum_id'));
     }
 
     /**

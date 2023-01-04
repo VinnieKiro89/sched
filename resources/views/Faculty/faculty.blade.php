@@ -39,11 +39,13 @@
                     <div class="card shadow">
                         <div class="card-body">
 
-                            <div class="d-flex justify-content-end">
-                                <a href="{{ route('faculty.add') }}" class="btn btn-success mr-5">
-                                    Add Faculty
-                                </a>
-                            </div>
+                            @if(session()->get('Role') != "Academic Head")
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route('faculty.add') }}" class="btn btn-success mr-5">
+                                        Add Faculty
+                                    </a>
+                                </div>
+                            @endif
 
                             <div class="d-flex justify-content-center">
                                 <table class="table mt-4"
@@ -68,17 +70,22 @@
                                                         <i class="fas fa-book"></i>
                                                         View
                                                     </a>
-                                                    <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
-                                                        <i class="fas fa-book"></i>
-                                                        Edit
-                                                    </a>
-                                                    <button type="button"
-                                                        class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                        data-toggle="modal" data-target=".delete"
-                                                        data-uid="{{ $faculty->id }}">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
+
+                                                    @if(session()->get('Role') != "Faculty")
+                                                        <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
+                                                            <i class="fas fa-book"></i>
+                                                            Edit
+                                                        </a>
+
+                                                        <button type="button"
+                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                            data-toggle="modal" data-target=".delete"
+                                                            data-uid="{{ $faculty->id }}">
+                                                            <i class="fas fa-trash"></i>
+                                                            Delete
+                                                        </button>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach

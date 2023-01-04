@@ -34,6 +34,8 @@
                 </div>
             @endif
 
+            {{-- {{ Breadcrumbs::render('subject', $id) }} --}}
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card shadow">

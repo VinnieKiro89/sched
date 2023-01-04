@@ -42,6 +42,13 @@
 
 
 @yield('page_css')
+    <!-- haha lost code -->
+    <style>
+        .breadcrumbs a {
+            color: red;
+        }
+    </style>
+
 <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('web/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/components.css')}}">

@@ -55,7 +55,7 @@
             
             <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
                         class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
-            @else
+            @elseif(session()->get('Role') != "Faculty")
             <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.viewonly', ['user_id' => session()->get('LoggedUser') ]) }}" style="color: #606060; font-weight:600;"><i
                 class=" fas fa-magnifying-glass" style="color: #606060;"></i>View Info</a></li>
             @endif
@@ -64,7 +64,7 @@
     
 
     <!-- Course loading -->
-    @if(session()->get('Role') != "Faculty")
+    @if(session()->get('Role') != "Faculty" || session()->get('Role') != "Academic Head")
     <li class="side-menus {{ request()->is('courseload') ? 'active-nav' : '' }}">
         <a class="nav-link" href="{{ route('courseload.index') }}">
             <i class=" fas fa-calendar-alt" style="color: #606060;"></i> <span style="color:#606060">Course Loading</span>
