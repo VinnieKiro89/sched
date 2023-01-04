@@ -15,7 +15,7 @@ class CreateAssignmentApprovalsTable extends Migration
     {
         Schema::create('assignment_approvals', function (Blueprint $table) {
             $table->id();
-            $table->string('faculty_id');
+            $table->string('faculty_id'); // this might need to be unique.
             $table->string('approval')->nullable();
             $table->timestamps();
         });

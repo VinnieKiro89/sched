@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Faculty;
 use App\Models\CourseLoad;
 use Illuminate\Http\Request;
+use App\Models\AssignmentApprovals;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 
 class FacultyController extends Controller
@@ -225,5 +226,23 @@ class FacultyController extends Controller
         }
 
         return response()->json($events);
+    }
+
+    public function facultyLoadApproval(Request $request)
+    {
+        $faculty = Faculty::where('name',$request->faculty)
+                                ->first();
+
+        $approvals = AssignmentApprovals::where('faculty_id', $faculty->id)
+                                        ->where('approval', 'Pending')
+                                        ->first();
+
+        if ($approvals != null) {
+            $approvalWaitResult = '1';
+        } elseif ($approvals == null ) {
+            $approvalWaitResult = '0';
+        }
+
+        return response($approvalWaitResult);
     }
 }

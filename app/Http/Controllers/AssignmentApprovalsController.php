@@ -16,6 +16,8 @@ class AssignmentApprovalsController extends Controller
      */
     public function index()
     {
+        $approvals = AssignmentApprovals::where('approval', 'Pending')->get();
+
         $events = array();
         $course_load = CourseLoad::all();
         foreach($course_load as $courseload){
@@ -29,7 +31,27 @@ class AssignmentApprovalsController extends Controller
             ];
         }
 
-        return view('approval', ['events' => $events]);
+        return view('approval', ['events' => $events, 'approvals' => $approvals]);
+    }
+
+    public function recall()
+    {
+        $approvals = AssignmentApprovals::where('approval', 'Pending')->get();
+        $events[] = [];
+
+        if (! $approvals) {
+            $events[] = [];
+        } else {
+            foreach($approvals as $approval){
+                $events[] = [
+                    'name' => $approval->faculty->name,
+                ];
+            }
+        }
+        
+        return response()->json($events);
+        
+        
     }
 
     /**
@@ -53,7 +75,6 @@ class AssignmentApprovalsController extends Controller
         $faculty = Faculty::where('name', $request->faculty)->first();
         // my brain doesn't work, so band aid fix
         
-
         $approvals = new AssignmentApprovals();
 
         $approvals->faculty_id = $faculty->id;
@@ -95,10 +116,32 @@ class AssignmentApprovalsController extends Controller
      * @param  \App\Models\AssignmentApprovals  $assignmentApprovals
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AssignmentApprovals $assignmentApprovals)
+    public function approve(Request $request)
     {
-        //
+        $faculty = Faculty::where('name', $request->faculty)->first();
+
+        AssignmentApprovals::where('faculty_id', $faculty->id)
+                                        ->where('approval', 'Pending')
+                                        ->update([
+                                            'approval' => 'Approved',
+                                        ]);
+
+        return response('Approved');
     }
+
+    public function decline(Request $request)
+    {
+        $faculty = Faculty::where('name', $request->faculty)->first();
+
+        AssignmentApprovals::where('faculty_id', $faculty->id)
+                                        ->where('approval', 'Pending')
+                                        ->update([
+                                            'approval' => 'Declined',
+                                        ]);
+
+        return response('Declined');
+    }
+    // Honestly, I think I can combine approve and decline functions
 
     /**
      * Remove the specified resource from storage.

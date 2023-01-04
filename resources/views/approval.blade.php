@@ -48,9 +48,9 @@
                 <div class="select mb-3">
                   <select id="selectFaculty" class="form-control" name="selectFaculty" required autofocus>
                       <option value="" selected disabled hidden>Select Faculty Load</option>
-                      {{-- @foreach ($faculties as $faculty)
-                        <option> {{ $faculty->name }}</option>
-                      @endforeach --}}
+                      @foreach ($approvals as $approval)
+                        <option> {{ $approval->faculty->name }}</option>
+                      @endforeach
                   </select>
                 </div>
                 <div class="footer">
@@ -322,4 +322,178 @@
       calendar.render();
     });
 </script>
+
+<!-- For changing calendar -->
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectFaculty').change(function(){
+      var faculty = $('#selectFaculty').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('faculty.facultyLoad') }}',
+        data: { 'faculty':faculty },
+        dataType: 'json',
+        success: function(data){
+          calendar.removeAllEvents()
+          calendar.addEventSource({
+            events: data,
+            eventRender: function(event, element) { 
+              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+            },
+          });
+        },
+      });
+    });
+  });
+</script>
+
+<!-- For populating dropdown -->
+<!-- do I need this? -->
+
+{{-- <script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectFaculty').change(function(){
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('approval.recall') }}',
+        dataType: 'json',
+        success: function(result){
+          console.log(result)
+          $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+          $.each(result, function (i, element) {
+            $("#selectFaculty").append($('<option>', {
+              value: element.name,
+              text: element.name,
+            }));
+          });
+        },
+      });
+    });
+  });
+
+</script> --}}
+
+<!-- For approving -->
+<script type="text/javascript">
+  $('#approve').click(function(e){
+    e.preventDefault(); // do I need this?
+
+    var faculty = $('#selectFaculty').val();
+
+    $.ajax({ 
+      method: 'PUT',
+      url: '{{ route('approval.approve') }}',
+      data: { 'faculty':faculty },
+      success: function(response) 
+      {
+        console.log(response);
+        alert('Approved')
+
+        $.ajax({
+          type: 'get',
+          url: '{{ route('approval.recall') }}',
+          dataType: 'json',
+          success: function(result){
+            console.log(result)
+            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+            if (result == null) {
+              
+            } else {
+              $.each(result, function (i, element) {
+                $("#selectFaculty").append($('<option>', {
+                  value: element.name,
+                  text: element.name,
+                }));
+              });
+            }
+            
+            calendar.removeAllEvents()
+          },
+          error: function(error)
+          {
+            console.log(error)
+          }
+        });
+
+      },
+      error: function(error)
+      {
+        console.log(error)
+        alert(error);
+      }
+    });
+
+  });
+</script>
+
+
+<!-- For declining -->
+<script>
+  $('#decline').click(function(e){
+    e.preventDefault(); // do I need this?
+
+    var faculty = $('#selectFaculty').val();
+
+    $.ajax({ 
+      method: 'PUT',
+      url: '{{ route('approval.decline') }}',
+      data: { 'faculty':faculty },
+      success: function(response) 
+      {
+        console.log(response);
+        alert('Declined')
+
+        $.ajax({
+          type: 'get',
+          url: '{{ route('approval.recall') }}',
+          dataType: 'json',
+          success: function(result){
+            console.log(result)
+            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+            if (result == null) {
+
+            } else {
+              $.each(result, function (i, element) {
+                $("#selectFaculty").append($('<option>', {
+                  value: element.name,
+                  text: element.name,
+                }));
+              });
+            }
+            
+            calendar.removeAllEvents()
+          },
+          error: function(error)
+          {
+            console.log(error)
+          }
+        });
+
+      },
+      error: function(error)
+      {
+        console.log(error)
+        alert(error);
+      }
+    });
+
+  });
+</script>
+
+
 @endsection

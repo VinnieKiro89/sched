@@ -44,6 +44,9 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function()
 //Approval
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'approval'], function() {
     Route::get('',[App\Http\Controllers\AssignmentApprovalsController::class, 'index'])->name('approval.index');
+    Route::get('/recall',[App\Http\Controllers\AssignmentApprovalsController::class, 'recall'])->name('approval.recall');
+    Route::put('/approve',[App\Http\Controllers\AssignmentApprovalsController::class, 'approve'])->name('approval.approve');
+    Route::put('/decline',[App\Http\Controllers\AssignmentApprovalsController::class, 'decline'])->name('approval.decline');
     Route::post('/store',[App\Http\Controllers\AssignmentApprovalsController::class, 'store'])->name('approval.store');
 });
 
@@ -94,6 +97,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'faculty'], function() {
     Route::PUT('/updateSubjTime/{user_id}',[App\Http\Controllers\FacultyController::class, 'updateSubjTime'])->name('faculty.updateSubjTime');
     Route::get('/load',[App\Http\Controllers\FacultyController::class, 'load'])->name('faculty.load');
     Route::get('/facultyLoad',[App\Http\Controllers\FacultyController::class, 'facultyLoad'])->name('faculty.facultyLoad');
+    Route::get('/facultyLoadApproval',[App\Http\Controllers\FacultyController::class, 'facultyLoadApproval'])->name('faculty.facultyLoadApproval');
 });
 
 //CourseLoading

@@ -136,143 +136,143 @@
             $(event.el).attr('data-trigger', 'focus')
             $(event.el).attr('tabindex', 0)
         },
-        eventClick:function(info)
-        {
-          $('#edit').modal('show');
-          var id = info.event.id;
-          var title = info.event.title;
-          var faculty = info.event.period;
-          var faculty2 = info.event.description;
+        // eventClick:function(info)
+        // {
+        //   $('#edit').modal('show');
+        //   var id = info.event.id;
+        //   var title = info.event.title;
+        //   var faculty = info.event.period;
+        //   var faculty2 = info.event.description;
 
-          var start_date = moment(info.event.start).format();
-          var end_date = moment(info.event.end).format();
+        //   var start_date = moment(info.event.start).format();
+        //   var end_date = moment(info.event.end).format();
           
-          var course = $('#course').val();
-          var section = $('#section').val();
-          var level = $('#level').val();
-          var period = $('#period').val();
+        //   var course = $('#course').val();
+        //   var section = $('#section').val();
+        //   var level = $('#level').val();
+        //   var period = $('#period').val();
           
-          $.ajax({
-            type: 'get',
-            url: '{{ route('courseload.get') }}',
-            data: {'course':course, 'section':section, 'level':level, 'period':period},
-            dataType: 'json',
-            success: function(result){
-              console.log(faculty);
-              console.log(faculty2);
-              $('#selectTitleModal').html('<option value="" hidden>Select Title</option>');
-              $.each(result.events, function (key, value) {
-                $("#selectTitleModal").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
-                $('input[name="event_idModal"]').val(id);
-                $('input[name="event_startModal"]').val(start_date);
-                $('input[name="event_endModal"]').val(end_date);
-                $('select[name="selectTitleModal"]').val(title);
-                $('select[name="selectFacultyModal"]').val(faculty);
-                $('input[name="curriculum_idModal"]').val(value.curriculum_id); 
-                $('input[name="realperiodModal"]').val(value.period);
-              });
-            },
-          });
+        //   $.ajax({
+        //     type: 'get',
+        //     url: '{{ route('courseload.get') }}',
+        //     data: {'course':course, 'section':section, 'level':level, 'period':period},
+        //     dataType: 'json',
+        //     success: function(result){
+        //       console.log(faculty);
+        //       console.log(faculty2);
+        //       $('#selectTitleModal').html('<option value="" hidden>Select Title</option>');
+        //       $.each(result.events, function (key, value) {
+        //         $("#selectTitleModal").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
+        //         $('input[name="event_idModal"]').val(id);
+        //         $('input[name="event_startModal"]').val(start_date);
+        //         $('input[name="event_endModal"]').val(end_date);
+        //         $('select[name="selectTitleModal"]').val(title);
+        //         $('select[name="selectFacultyModal"]').val(faculty);
+        //         $('input[name="curriculum_idModal"]').val(value.curriculum_id); 
+        //         $('input[name="realperiodModal"]').val(value.period);
+        //       });
+        //     },
+        //   });
 
-          $('#deleteModal').click(function(){
-            if(confirm("Are you sure you want to delete this event?"))
-            {
-              $.ajax
-              ({ 
-                  url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
-                  type:"DELETE",
-                  dataType: 'json',
-                  success: function(response) 
-                  {
-                    var id = response
-                    console.log(id)
-                      alert('Deleted!');
+        //   $('#deleteModal').click(function(){
+        //     if(confirm("Are you sure you want to delete this event?"))
+        //     {
+        //       $.ajax
+        //       ({ 
+        //           url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
+        //           type:"DELETE",
+        //           dataType: 'json',
+        //           success: function(response) 
+        //           {
+        //             var id = response
+        //             console.log(id)
+        //               alert('Deleted!');
 
-                      info.event.remove();
+        //               info.event.remove();
 
-                      $('#edit').modal('hide');
-                  },
-                  error: function(error)
-                  {
-                    console.log(error)
-                  }
-              });
-            };
-          });
+        //               $('#edit').modal('hide');
+        //           },
+        //           error: function(error)
+        //           {
+        //             console.log(error)
+        //           }
+        //       });
+        //     };
+        //   });
 
-          $('#updateModal').click(function(e){
-            e.preventDefault();
+        //   $('#updateModal').click(function(e){
+        //     e.preventDefault();
 
-            var id = $('#event_idModal').val();
-            var newTitle = $('#selectTitleModal').val();
-            var newFaculty = $('#selectFacultyModal').val();
-            var start_date = $('#event_startModal').val();
-            var end_date = $('#event_endModal').val();
+        //     var id = $('#event_idModal').val();
+        //     var newTitle = $('#selectTitleModal').val();
+        //     var newFaculty = $('#selectFacultyModal').val();
+        //     var start_date = $('#event_startModal').val();
+        //     var end_date = $('#event_endModal').val();
 
-            $.ajax({ 
-                method: 'PUT',
-                url: $('#update').data('url'),
-                data: { 'id':id, 'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
-                dataType: 'json',
-                success: function(response) 
-                {
-                  console.log(response)
-                  alert('Updated!');
+        //     $.ajax({ 
+        //         method: 'PUT',
+        //         url: $('#update').data('url'),
+        //         data: { 'id':id, 'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
+        //         dataType: 'json',
+        //         success: function(response) 
+        //         {
+        //           console.log(response)
+        //           alert('Updated!');
 
-                  $('#edit').modal('hide');
-                },
-                error: function(error)
-                {
-                  console.log(error)
-                }
-            });
-          });
+        //           $('#edit').modal('hide');
+        //         },
+        //         error: function(error)
+        //         {
+        //           console.log(error)
+        //         }
+        //     });
+        //   });
 
-        },
-        selectable: true,
-        editable: true,
-        eventDrop: function(info) {
-          var id = info.event.id;
-          var start_date = moment(info.event.start).format();
-          var end_date = moment(info.event.end).format();
+        // },
+        selectable: false,
+        editable: false,
+        // eventDrop: function(info) {
+        //   var id = info.event.id;
+        //   var start_date = moment(info.event.start).format();
+        //   var end_date = moment(info.event.end).format();
 
-          $.ajax
-          ({
-            type: 'PATCH',
-            url: "{{ route('courseload.update', '') }}" +'/'+ id,
-            data: { 'start_date':start_date, 'end_date':end_date },
-            dataType: 'json',
+        //   $.ajax
+        //   ({
+        //     type: 'PATCH',
+        //     url: "{{ route('courseload.update', '') }}" +'/'+ id,
+        //     data: { 'start_date':start_date, 'end_date':end_date },
+        //     dataType: 'json',
 
-            success: function(response)
-            {
-              console.log(response);
-            }
-          })
-        },
-        eventResize: function(info) 
-        {
-          var id = info.event.id;
-          var curriculum_id = info.event.extendedProps.curriculum_id;
-          var title = info.event.title;
-          var start_date = moment(info.event.start).format();
-          var end_date = moment(info.event.end).format();
+        //     success: function(response)
+        //     {
+        //       console.log(response);
+        //     }
+        //   })
+        // },
+        // eventResize: function(info) 
+        // {
+        //   var id = info.event.id;
+        //   var curriculum_id = info.event.extendedProps.curriculum_id;
+        //   var title = info.event.title;
+        //   var start_date = moment(info.event.start).format();
+        //   var end_date = moment(info.event.end).format();
 
-          $.ajax
-          ({
-            type: 'PATCH',
-            url: "{{ route('courseload.update', '') }}" +'/'+ id,
-            data: { 'start_date':start_date, 'end_date':end_date },
-            dataType: 'json',
+        //   $.ajax
+        //   ({
+        //     type: 'PATCH',
+        //     url: "{{ route('courseload.update', '') }}" +'/'+ id,
+        //     data: { 'start_date':start_date, 'end_date':end_date },
+        //     dataType: 'json',
 
-            success: function(response)
-            {
-              console.log(response);
-              console.log(curriculum_id);
+        //     success: function(response)
+        //     {
+        //       console.log(response);
+        //       console.log(curriculum_id);
               
-            }
-          })
-        },
-        droppable: true,
+        //     }
+        //   })
+        // },
+        droppable: false,
         eventOverlap: false,
         selectOverlap: false,
         select: function(start, end, allDays) {
@@ -282,7 +282,7 @@
     });
 </script>
 
-<!-- FOR ONCHANGE SUBJECT LIST -->
+<!-- FOR ONCHANGE CALENDAR -->
 <script type="text/javascript">
   $.ajaxSetup({
     headers: {
@@ -307,6 +307,8 @@
               element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
             },
           });
+
+          
         },
       });
     });
@@ -320,8 +322,10 @@
     e.preventDefault(); // do I need this?
 
     var faculty = $('#selectFaculty').val();
+    var buttonClass = $('#approve').attr('class');
 
-    $.ajax({ 
+    if ( buttonClass == 'btn btn-success' ) {
+      $.ajax({ 
         method: 'POST',
         url: '{{ route('approval.store') }}',
         data: { 'faculty':faculty },
@@ -329,14 +333,54 @@
         {
           console.log(response);
           alert('Approval Sent')
+
+          // change button to non-responsive, color: grey
+          $('#approve').attr('class', 'btn btn-secondary');
         },
         error: function(error)
         {
           console.log(error)
           alert(error);
         }
+      });
+    } else {
+      alert('Approval has already been sent.')
+    }
+    
+  });
+</script>
+
+<!-- FOR CHECKING IF APPROVAL SENT -->
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectFaculty').change(function(){
+      var faculty = $('#selectFaculty').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('faculty.facultyLoadApproval') }}',
+        data: { 'faculty':faculty },
+        success: function(data){
+          if (data == 1) {
+            $('#approve').attr('class', 'btn btn-secondary');
+          } else  {
+            $('#approve').attr('class', 'btn btn-success');
+          }
+        },
+        error: function(error)
+        {
+          console.log(error)
+        }
+      });
     });
   });
+
 </script>
 
 @endsection
