@@ -114,3 +114,10 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'courseload'], function(
     Route::patch('/update/{id}',[App\Http\Controllers\CourseLoadController::class, 'update'])->name('courseload.update');
     Route::put('/update2',[App\Http\Controllers\CourseLoadController::class, 'update2'])->name('courseload.update2');
 });
+
+//Reports
+Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'reports'], function() {
+    Route::get('',[App\Http\Controllers\ReportsController::class, 'index'])->name('reports.index');
+    Route::get('/show/{id}',[App\Http\Controllers\ReportsController::class, 'show'])->name('reports.show');
+    Route::get('/schedule/{id}',[App\Http\Controllers\ReportsController::class, 'schedule'])->name('reports.schedule');
+});

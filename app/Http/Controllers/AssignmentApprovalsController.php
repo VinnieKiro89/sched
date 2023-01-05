@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faculty;
+use App\Models\Reports;
 use App\Models\CourseLoad;
+use App\Models\ReportEvents;
 use Illuminate\Http\Request;
 use App\Models\AssignmentApprovals;
 
@@ -126,6 +128,32 @@ class AssignmentApprovalsController extends Controller
                                             'approval' => 'Approved',
                                         ]);
 
+        $reports = new Reports();
+
+        $reports->faculty_id = $faculty->id;
+        $reports->status = 'Approved';
+
+        $reports->save();
+
+        $report_id = Reports::latest()->first();
+
+        $course_load = CourseLoad::where(['faculty_id' => $faculty->id])->get();
+        foreach($course_load as $courseload){
+            $reportEvents = new ReportEvents();
+
+            $reportEvents->curriculum_id = $courseload->curriculum_id;
+            $reportEvents->period = $courseload->period;
+            $reportEvents->title = $courseload->title;
+            $reportEvents->start_date = $courseload->start_date;
+            $reportEvents->end_date = $courseload->end_date;
+            $reportEvents->report_id = $report_id->id;
+            $reportEvents->status = 'Approved';
+
+            $reportEvents->save();
+        }
+
+        
+
         return response('Approved');
     }
 
@@ -138,6 +166,32 @@ class AssignmentApprovalsController extends Controller
                                         ->update([
                                             'approval' => 'Declined',
                                         ]);
+
+        $reports = new Reports();
+
+        $reports->faculty_id = $faculty->id;
+        $reports->status = 'Declined';
+
+        $reports->save();
+
+        $report_id = Reports::latest()->first();
+
+        $course_load = CourseLoad::where(['faculty_id' => $faculty->id])->get();
+        foreach($course_load as $courseload){
+            $reportEvents = new ReportEvents();
+
+            $reportEvents->curriculum_id = $courseload->curriculum_id;
+            $reportEvents->period = $courseload->period;
+            $reportEvents->title = $courseload->title;
+            $reportEvents->start_date = $courseload->start_date;
+            $reportEvents->end_date = $courseload->end_date;
+            $reportEvents->report_id = $report_id->id;
+            $reportEvents->status = 'Declined';
+
+            $reportEvents->save();
+        }
+
+        
 
         return response('Declined');
     }

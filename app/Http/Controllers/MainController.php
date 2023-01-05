@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Models\Admin;
 use App\Models\User;
+use App\Models\Admin;
+use App\Models\Faculty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,6 +51,7 @@ class MainController extends Controller
 
         $userauth = User::where('username','=', $request->username)->first();
         $role = $userauth->role;
+        $faculty = Faculty::where('user_id', $userauth->id)->first();
 
         if(!$userauth){
             return back()->with('fail', 'Incorrect Username or Password');
@@ -58,6 +60,12 @@ class MainController extends Controller
                 
                 $request->session()->put('Role', $role);
                 $request->session()->put('LoggedUser', $userauth->id);
+
+                
+                if(session()->get('Role') == "Faculty") {
+                    $request->session()->put('Faculty', $faculty->id);
+                }
+                
                 return redirect()->route('dashboard.index');
 
             }else{

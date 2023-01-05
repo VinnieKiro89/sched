@@ -403,17 +403,18 @@
         console.log(response);
         alert('Approved')
 
+        // to recall
         $.ajax({
           type: 'get',
           url: '{{ route('approval.recall') }}',
           dataType: 'json',
           success: function(result){
             console.log(result)
-            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
-            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+            // $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
             if (result == null) {
-              
+              $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
             } else {
+              $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
               $.each(result, function (i, element) {
                 $("#selectFaculty").append($('<option>', {
                   value: element.name,
@@ -464,10 +465,11 @@
           dataType: 'json',
           success: function(result){
             console.log(result)
-            $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
+            // $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
             if (result == null) {
-
+              $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
             } else {
+              $('#selectFaculty').html('<option value="" hidden>Select Faculty Load</option>');
               $.each(result, function (i, element) {
                 $("#selectFaculty").append($('<option>', {
                   value: element.name,

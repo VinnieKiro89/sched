@@ -23,4 +23,14 @@ class Faculty extends Model
     {
         return $this->hasMany(AssignmentApprovals::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Reports::class);
+    }
+
+    public function reportEvents()
+    {
+        return $this->hasMany(reportEvents::class);
+    }
 }
