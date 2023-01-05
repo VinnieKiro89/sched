@@ -92,6 +92,23 @@
                         </div>
                     </div>
                 </div>
+                @if (session()->get('Role') == "Admin")
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1 shadow">
+                            <div class="card-icon" style="background-color: #dbe644;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Reports</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $reports }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">

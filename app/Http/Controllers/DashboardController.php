@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Reports;
 use App\Models\Subject;
 use App\Models\Dashboard;
 use App\Models\Curriculum;
@@ -27,12 +28,13 @@ class DashboardController extends Controller
         $subjects = Subject::count();
         $approvals = AssignmentApprovals::where('approval', 'Pending')
                                         ->count();
+        $reports = Reports::count();
 
         // $past_consultations = Consultation::with('patient')->latest()->take(5)->get();
 
         // return view('dashboard.index',compact('patients','for_interventions','medicines','supplies','past_consultations'));
 
-        return view('dashboard', compact('users', 'courses', 'curricula', 'subjects', 'approvals'));
+        return view('dashboard', compact('users', 'courses', 'curricula', 'subjects', 'approvals', 'reports'));
 
 
     }
