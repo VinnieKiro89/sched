@@ -39,11 +39,13 @@
                     <div class="card shadow">
                         <div class="card-body">
 
-                            <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-success mr-5" data-toggle="modal" data-target="#store">
-                                    Add Course
-                                </button>
-                            </div>
+                            @if(session()->get('Role') != "Academic Head")
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-success mr-5" data-toggle="modal" data-target="#store">
+                                        Add Course
+                                    </button>
+                                </div>
+                            @endif
 
                             <div class="d-flex justify-content-center">
                                 <table class="table mt-4"
@@ -66,37 +68,42 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
-                                                            data-toggle="modal" data-target=".add"
-                                                            data-uid="{{ $course->id }}" data-course_code="{{ $course->course_code }}"
-                                                            data-desc="{{ $course->description }}">
-                                                            <i class="fas fa-plus"></i>
-                                                            Add Curriculum
-                                                        </button>
+                                                        @if (session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
+                                                                data-toggle="modal" data-target=".add"
+                                                                data-uid="{{ $course->id }}" data-course_code="{{ $course->course_code }}"
+                                                                data-desc="{{ $course->description }}">
+                                                                <i class="fas fa-plus"></i>
+                                                                Add Curriculum
+                                                            </button>
+                                                        @endif
 
                                                         <a href="{{ route('curriculum.view', [$course->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                             <i class="fas fa-book"></i>
                                                             View Curriculum
                                                         </a>
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
-                                                            data-toggle="modal" data-target=".edit"
-                                                            data-uid="{{ $course->id }}" data-course_code="{{ $course->course_code }}"
-                                                            data-description="{{ $course->description }}">
-                                                            <i class="far fa-edit"></i>
-                                                            Edit
-                                                        </button>
+                                                        @if (session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                                data-toggle="modal" data-target=".edit"
+                                                                data-uid="{{ $course->id }}" data-course_code="{{ $course->course_code }}"
+                                                                data-description="{{ $course->description }}">
+                                                                <i class="far fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                        @endif
 
-
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                            data-toggle="modal" data-target=".delete"
-                                                            data-uid="{{ $course->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                            Delete
-                                                        </button>
+                                                        @if(session()->get('Role') != "Academic Head")
+                                                            <button type="button"
+                                                                class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                                data-toggle="modal" data-target=".delete"
+                                                                data-uid="{{ $course->id }}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete
+                                                            </button>
+                                                        @endif
                                                     </td>
                                             </tr>
                                         @endforeach

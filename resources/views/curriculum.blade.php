@@ -74,21 +74,28 @@
                                                         <i class="fas fa-book"></i>
                                                         View Subjects
                                                     </a>
-                                                    <button type="button"
-                                                        class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
-                                                        data-toggle="modal" data-target=".edit"
-                                                        data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course->course_code }}"
-                                                        data-section="{{ $curriculum->section }}" data-level="{{ $curriculum->level }}">
-                                                        <i class="far fa-edit"></i>
-                                                        Edit
-                                                    </button>
-                                                    <button type="button"
-                                                        class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                        data-toggle="modal" data-target=".delete"
-                                                        data-uid="{{ $curriculum->id }}">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
+
+                                                    @if (session()->get('Role') != "Academic Head")
+                                                        <button type="button"
+                                                            class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
+                                                            data-toggle="modal" data-target=".edit"
+                                                            data-uid="{{ $curriculum->id }}" data-course_code="{{ $curriculum->course->course_code }}"
+                                                            data-section="{{ $curriculum->section }}" data-level="{{ $curriculum->level }}">
+                                                            <i class="far fa-edit"></i>
+                                                            Edit
+                                                        </button>
+                                                    @endif
+
+                                                    @if(session()->get('Role') != "Academic Head")
+                                                        <button type="button"
+                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                            data-toggle="modal" data-target=".delete"
+                                                            data-uid="{{ $curriculum->id }}">
+                                                            <i class="fas fa-trash"></i>
+                                                            Delete
+                                                        </button>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach

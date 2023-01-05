@@ -53,9 +53,10 @@
                 @if(session()->get('Role') != "Faculty")
                     <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.index') }}" style="color: #606060; font-weight:600;"><i
                                 class=" fas fa-chalkboard-teacher" style="color: #606060;"></i>Faculty</a></li>
-                    
-                    <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
-                                class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
+                    @if(session()->get('Role') != "Academic Head")
+                        <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
+                                    class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
+                    @endif
                 @elseif(session()->get('Role') == "Faculty")
                     <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.viewonly', ['user_id' => session()->get('LoggedUser') ]) }}" style="color: #606060; font-weight:600;"><i
                         class=" fas fa-magnifying-glass" style="color: #606060;"></i>View Info</a></li>
