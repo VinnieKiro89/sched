@@ -41,8 +41,8 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
-                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id"  readonly>
+                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod"  readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
@@ -612,6 +612,7 @@
         droppable: true,
         eventOverlap: false,
         selectOverlap: false,
+        overlap: false,
         select: function(start, end, allDays) {
         },
       });
@@ -668,8 +669,6 @@
             data: {'course':course, 'section':section, 'level':level, 'period':period},
             success: function(data){
               console.log(data);
-              console.log(data[0].curriculum_id);
-              var id = data[0].curriculum_id;
 
               calendar.removeAllEvents();
               calendar.addEventSource(data)
@@ -681,6 +680,7 @@
         error: function(error)
         {
           console.log(error)
+          alert(error.responseJSON.error)
         }
       });
     });

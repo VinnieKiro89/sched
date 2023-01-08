@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Faculty;
@@ -11,6 +12,7 @@ use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
 use Acaronlex\LaravelCalendar\Calendar;
+
 
 class CourseLoadController extends Controller
 {
@@ -114,16 +116,17 @@ class CourseLoadController extends Controller
 
     public function store_event(Request $request)
     {
-        $verify = Courseload::where('start_date', '=', Carbon::parse($request->start_date))
-                            ->where('end_date', '=', Carbon::parse($request->end_date))->first();
+
+        $verify = Courseload::where('start_date', Carbon::parse($request->start_date))
+                            ->where('end_date', Carbon::parse($request->end_date))->first();
 
         if($verify != null)
         {
-            return redirect()->route('courseload.index')->with('deleted', 'error.');
+            return response()->json(['error' => 'Incorrect time'], 401);
         }
-        elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
+        elseif(Carbon::parse($request->start_date) >= Carbon::parse($request->end_date)) //this does not work
         {
-            
+            return response()->json(['error' => 'Incorrect time', 401]); 
         }
         else
         {
@@ -133,19 +136,27 @@ class CourseLoadController extends Controller
                 'title' => 'required|string',
                 // 'day' => 'required|string',
                 'faculty' => 'required|string',
-                'start_date' => 'required|string',
-                'end_date' => 'required|string',
+                'end_date' => 'required|string|',
+                'start_date' => 'required|string|',
+                
             ]);
-            
-            // why isnt this one working? its practically the same tho?
-            // $newcourseload = CourseLoad::create([
-            //     'curriculum_id' => $request->curriculum_id,
-            //     'period' => $request->period,
-            //     'title' => $request->title,
-            //     // 'day' => $request->day,
-            //     'start_date' => Carbon::parse($request->start_date),
-            //     'end_date' => Carbon::parse($request->end_date),
-            // ]);
+
+            $checks = Courseload::where('curriculum_id', $request->curriculum_id)
+                                    ->where('period', $request->period)
+                                    ->get();
+
+            foreach ($checks as $check) 
+            {
+                if(Carbon::parse($request->start_date) <= $check->start_date && Carbon::parse($request->end_date) > $check->end_date){
+                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+                }elseif(Carbon::parse($request->start_date) < $check->start_date && Carbon::parse($request->end_date) >= $check->end_date){
+                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+                }elseif(Carbon::parse($request->start_date) >= $check->start_date && Carbon::parse($request->end_date) <= $check->end_date){
+                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+                }elseif(Carbon::parse($request->start_date) <= $check->start_date && Carbon::parse($request->end_date) <= $check->end_date){
+                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+                }
+            }
 
             $newcourseload = new CourseLoad();
 
@@ -220,9 +231,7 @@ class CourseLoadController extends Controller
         $courseload = CourseLoad::find($id);
         if(! $courseload)
         {
-            return response()->json([
-                'error' => 'unable to find event'
-            ], 404);
+            return response()->json(['error' => 'unable to find event' ], 404);
         }
         else
         {
