@@ -612,7 +612,6 @@
         droppable: true,
         eventOverlap: false,
         selectOverlap: false,
-        overlap: false,
         select: function(start, end, allDays) {
         },
       });
@@ -635,7 +634,11 @@
       var start_date = day + start;
       var end_date = day + end;
 
-      $.ajax({
+      if(start_date > end_date){
+        alert('Incorrect Time')
+      }else
+      {
+        $.ajax({
         type: 'POST',
         url: '{{ route('courseload.post') }}',
         data: { 
@@ -650,6 +653,7 @@
 
         success: function(response)
         {
+          console.log(response)
           calendar.addEvent({
             'title': response.title,
             'subtitle': response.faculty,
@@ -682,7 +686,9 @@
           console.log(error)
           alert(error.responseJSON.error)
         }
-      });
+        });
+
+      }
     });
   });
 </script>

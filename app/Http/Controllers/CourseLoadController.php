@@ -116,48 +116,58 @@ class CourseLoadController extends Controller
 
     public function store_event(Request $request)
     {
+        
+        $request->validate([
+            'curriculum_id' => 'required|string',
+            'period' => 'required|string',
+            'title' => 'required|string',
+            // 'day' => 'required|string',
+            'faculty' => 'required|string',
+            'end_date' => 'required|string|',
+            'start_date' => 'required|string|',
+            
+        ]);
 
-        $verify = Courseload::where('start_date', Carbon::parse($request->start_date))
-                            ->where('end_date', Carbon::parse($request->end_date))->first();
+        // $start = Carbon::parse($request->start_date);
+        // $end = Carbon::parse($request->end_date);
 
-        if($verify != null)
+        $date = [new Carbon($request->start_date), new Carbon($request->end_date)];
+
+        // $start = $startnonform->format('Y-m-d');
+        // $end = $endnonform->format('Y-m-d');
+
+        $checks1 = Courseload::where('curriculum_id', $request->curriculum_id)
+                                ->where('period', $request->period)
+                                ->whereBetween('start_date', $date)
+                                ->get();
+        
+        $checks2 = Courseload::where('curriculum_id', $request->curriculum_id)
+                                ->where('period', $request->period)
+                                ->whereBetween('end_date', $date)
+                                ->get();
+
+        $checks3 = Courseload::where('faculty_id', $request->faculty)
+                                ->whereBetween('start_date', $date)
+                                ->get();
+
+        $checks4 = Courseload::where('faculty_id', $request->faculty)
+                                ->whereBetween('end_date', $date)
+                                ->get();
+
+        if(count($checks1) > 0)
         {
-            return response()->json(['error' => 'Incorrect time'], 401);
-        }
-        elseif(Carbon::parse($request->start_date) >= Carbon::parse($request->end_date)) //this does not work
+            return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+        }elseif(count($checks2) > 0)
         {
-            return response()->json(['error' => 'Incorrect time', 401]); 
-        }
-        else
+            return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+        }elseif(count($checks3) > 0)
         {
-            $request->validate([
-                'curriculum_id' => 'required|string',
-                'period' => 'required|string',
-                'title' => 'required|string',
-                // 'day' => 'required|string',
-                'faculty' => 'required|string',
-                'end_date' => 'required|string|',
-                'start_date' => 'required|string|',
-                
-            ]);
-
-            $checks = Courseload::where('curriculum_id', $request->curriculum_id)
-                                    ->where('period', $request->period)
-                                    ->get();
-
-            foreach ($checks as $check) 
-            {
-                if(Carbon::parse($request->start_date) <= $check->start_date && Carbon::parse($request->end_date) > $check->end_date){
-                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
-                }elseif(Carbon::parse($request->start_date) < $check->start_date && Carbon::parse($request->end_date) >= $check->end_date){
-                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
-                }elseif(Carbon::parse($request->start_date) >= $check->start_date && Carbon::parse($request->end_date) <= $check->end_date){
-                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
-                }elseif(Carbon::parse($request->start_date) <= $check->start_date && Carbon::parse($request->end_date) <= $check->end_date){
-                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
-                }
-            }
-
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+        }elseif(count($checks4) > 0)
+        {
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+        }else
+        {
             $newcourseload = new CourseLoad();
 
             $newcourseload->curriculum_id = $request->curriculum_id;
@@ -171,6 +181,27 @@ class CourseLoadController extends Controller
 
             return response()->json($newcourseload);
         }
+
+        // foreach ($checks as $check) 
+        // {   
+        //     if(Carbon::parse($check->start_date)->format('Y-m-d') == $start->format('Y-m-d')){
+        //         if($start <= Carbon::parse($check->start_date) && $end > Carbon::parse($check->end_date)){
+        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 1'], 401);
+        //         }elseif($start < Carbon::parse($check->start_date) && $end >= Carbon::parse($check->end_date)){
+        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 2'], 401);
+        //         }elseif($start >= Carbon::parse($check->start_date) && $end <= Carbon::parse($check->end_date)){
+        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 3'], 401);
+        //         }elseif(($start <= Carbon::parse($check->start_date) && $end <= Carbon::parse($check->end_date)) && $end > Carbon::parse($check->start_date)){
+        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 4'], 401);
+        //         }
+        //     }else{
+
+        //     }
+            
+        //     // }elseif($start <= $check->start_date && $end <= $check->end_date){
+        //     //     return response()->json(['error' => 'Schedule is conflicting with another existing schedule 4'], 401);
+        //     // }
+        // }        
         
     }
 
