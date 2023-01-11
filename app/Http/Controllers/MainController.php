@@ -64,6 +64,7 @@ class MainController extends Controller
                 
                 if(session()->get('Role') == "Faculty") {
                     $request->session()->put('Faculty', $faculty->id);
+                    return redirect()->route('reports.schedule', ['id' => $faculty->id]);
                 }
                 
                 return redirect()->route('dashboard.index');

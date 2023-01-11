@@ -66,13 +66,13 @@
                                                 <i class="far fa-edit"></i>
                                                 Edit</a> --}}
 
-                                                <button type="button"
+                                                {{-- <button type="button"
                                                     class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
                                                     data-toggle="modal" data-target=".reset"
                                                     data-uid="{{ $user->id }}">
                                                     <i class="fas fa-undo"></i>
                                                     Reset Password
-                                                </button>
+                                                </button> --}}
 
                                                 <button type="button"
                                                     class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"

@@ -1,9 +1,11 @@
     <!-- Dashboard -->
-    <li class="side-menus {{ request()->is('dashboard') ? 'active-nav' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.index') }}">
-            <i class=" fas fa-chart-line" style="color: #606060;"></i> <span style="color:#606060">Dashboard</span>
-        </a>
-    </li>
+    @if(session()->get('Role') != "Faculty")
+        <li class="side-menus {{ request()->is('dashboard') ? 'active-nav' : '' }}">
+            <a class="nav-link" href="{{ route('dashboard.index') }}">
+                <i class=" fas fa-chart-line" style="color: #606060;"></i> <span style="color:#606060">Dashboard</span>
+            </a>
+        </li>
+    @endif
 
     <!-- {{ $role = session()->get('Role') }} -->
 
