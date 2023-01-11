@@ -48,7 +48,7 @@ class CourseLoadController extends Controller
 
     public function get_subjects(Request $request)                                  
     {
-        // hope your brand table contain category_id or any name as you wish which act as foreign key
+        
         $curriculum = Curriculum::where('course_id',$request->course)
                                 ->where('section', $request->section)
                                 ->where('level', $request->level)
@@ -56,24 +56,66 @@ class CourseLoadController extends Controller
 
         //$id = $curriculum->id;
 
-        $events['events'] = Subject::where('curriculum_id', $curriculum->id)->where('period', $request->period)->get(["subject_code", "subject_title", "curriculum_id", "period"]);
+        $events['events'] = Subject::where('curriculum_id', $curriculum->id)->where('period', $request->period)->get(["subject_code", "subject_title", "curriculum_id", "period", "selectFaculty"]);
         
         // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
         // return view('new', compact('subjects', 'courses', 'curriculum', 'events'))->render();
         return response() -> json($events);
     }
 
-    public function get_cal(Request $request)                                  
+    public function get_event(Request $request)    // redundant?                              
     {
-        // hope your brand table contain category_id or any name as you wish which act as foreign key
         $curriculum = Curriculum::where('course_id',$request->course)
                                 ->where('section', $request->section)
                                 ->where('level', $request->level)
                                 ->first();
-        //$subjects = Subject::where('curriculum_id',$curriculum->id)->get();
 
-        //$id = $curriculum->id;
-        //dd($request);
+        $events = Subject::where('curriculum_id', $curriculum->id)->where('period', $request->period)->get();
+        
+        $subject = Subject::where('subject_code', $request->title)->first();
+        $selectFac = $subject->selectFaculty;
+
+        if (!$selectFac){
+            $faculty = Faculty::all();
+        }else{
+            if (count($selectFac) > 1)
+            {
+                $faculty = Faculty::wherein('id', $subject->selectFaculty)->get();
+            }elseif(count($selectFac) <= 1)
+            {
+                $faculty = Faculty::where('id', $subject->selectFaculty)->get();
+            }
+        }
+
+        return response() -> json([$events, $faculty]);
+    }
+
+    public function get_prefmodal(Request $request) // redundant?                                 
+    {
+        $subject = Subject::where('subject_code', $request->title)->first();
+        $selectFac = $subject->selectFaculty;
+
+        if (!$selectFac){
+            $faculty = Faculty::all();
+        }else{
+            if (count($selectFac) > 1)
+            {
+                $faculty = Faculty::wherein('id', $subject->selectFaculty)->get();
+            }elseif(count($selectFac) <= 1)
+            {
+                $faculty = Faculty::where('id', $subject->selectFaculty)->get();
+            }
+        }
+
+        return response() -> json($faculty);
+    }
+
+    public function get_cal(Request $request)                                  
+    {
+        $curriculum = Curriculum::where('course_id',$request->course)
+                                ->where('section', $request->section)
+                                ->where('level', $request->level)
+                                ->first();
 
         $events = array();
         $course_load = CourseLoad::where(['curriculum_id' => $curriculum->id, 'period' => $request->period])->get();
@@ -84,13 +126,11 @@ class CourseLoadController extends Controller
                 'period' => $courseload->period,
                 'title' => $courseload->title,
                 'description' => $courseload->faculty->name,
+                'faculty_id' => $courseload->faculty->id,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
             ];
         }
-        
-        // return view('new', ['subjects' => $subjects, 'courses' => $courses])->render();
-        // return view('newcal', compact('subjects', 'courses', 'curriculum', 'events'))->render();
 
         return response()->json($events);
     }
@@ -98,20 +138,21 @@ class CourseLoadController extends Controller
     public function get_pref(Request $request)                                  
     {
         $subject = Subject::where('subject_code', $request->title)->first();
-        $faculty = Faculty::wherein('id', $subject->selectFaculty)->get();
+        $selectFac = $subject->selectFaculty;
 
-        // foreach($faculty as $fac){
-        //     $events[] = [
-        //         'id' => $fac->id,
-        //         'name' => $fac->name,
-        //     ];
-        // }
-        
-        // $allfaculty = $faculty->all();
+        if (!$selectFac){
+            $faculty = Faculty::all();
+        }else{
+            if (count($selectFac) > 1)
+            {
+                $faculty = Faculty::wherein('id', $subject->selectFaculty)->get();
+            }elseif(count($selectFac) <= 1)
+            {
+                $faculty = Faculty::where('id', $subject->selectFaculty)->get();
+            }
+        }
 
-        // $faculty = Subject::with('faculty')->where('subject_code', $request->title)->get();
-
-        return response()->json($faculty);
+        return response() -> json($faculty);
     }
 
     public function store_event(Request $request)
@@ -136,6 +177,7 @@ class CourseLoadController extends Controller
         // $start = $startnonform->format('Y-m-d');
         // $end = $endnonform->format('Y-m-d');
 
+        // checking for conflict in course loading
         $checks1 = Courseload::where('curriculum_id', $request->curriculum_id)
                                 ->where('period', $request->period)
                                 ->whereBetween('start_date', $date)
@@ -146,6 +188,7 @@ class CourseLoadController extends Controller
                                 ->whereBetween('end_date', $date)
                                 ->get();
 
+        // checking for conflict in faculty loading
         $checks3 = Courseload::where('faculty_id', $request->faculty)
                                 ->whereBetween('start_date', $date)
                                 ->get();
@@ -153,6 +196,10 @@ class CourseLoadController extends Controller
         $checks4 = Courseload::where('faculty_id', $request->faculty)
                                 ->whereBetween('end_date', $date)
                                 ->get();
+
+        // TODO: checking for conflict in Faculty availability
+        $checks5 = Faculty::where('id', $request->faculty)
+                            ->first();
 
         if(count($checks1) > 0)
         {
@@ -180,72 +227,7 @@ class CourseLoadController extends Controller
             $newcourseload -> save();
 
             return response()->json($newcourseload);
-        }
-
-        // foreach ($checks as $check) 
-        // {   
-        //     if(Carbon::parse($check->start_date)->format('Y-m-d') == $start->format('Y-m-d')){
-        //         if($start <= Carbon::parse($check->start_date) && $end > Carbon::parse($check->end_date)){
-        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 1'], 401);
-        //         }elseif($start < Carbon::parse($check->start_date) && $end >= Carbon::parse($check->end_date)){
-        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 2'], 401);
-        //         }elseif($start >= Carbon::parse($check->start_date) && $end <= Carbon::parse($check->end_date)){
-        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 3'], 401);
-        //         }elseif(($start <= Carbon::parse($check->start_date) && $end <= Carbon::parse($check->end_date)) && $end > Carbon::parse($check->start_date)){
-        //             return response()->json(['error' => 'Schedule is conflicting with another existing schedule 4'], 401);
-        //         }
-        //     }else{
-
-        //     }
-            
-        //     // }elseif($start <= $check->start_date && $end <= $check->end_date){
-        //     //     return response()->json(['error' => 'Schedule is conflicting with another existing schedule 4'], 401);
-        //     // }
-        // }        
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CourseLoad  $courseLoad
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CourseLoad $courseLoad)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CourseLoad  $courseLoad
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CourseLoad $courseLoad)
-    {
-        //
+        }       
     }
 
     /**
@@ -255,7 +237,7 @@ class CourseLoadController extends Controller
      * @param  \App\Models\CourseLoad  $courseLoad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) // is this even working? where do I use this? [That's for the dragging of events, dumbss]
     {
         
 
@@ -279,9 +261,6 @@ class CourseLoadController extends Controller
             }
             else
             {
-                // $day = $request->day;
-                // $start = $request->
-                // $end
                 if($request->curriculum_id != null)
                 {
                     $courseload->update([
@@ -304,11 +283,11 @@ class CourseLoadController extends Controller
         }
     }
 
-    public function update2(Request $request)
+    public function update2(Request $request, $id) //modal, does not work though 
     {
         
 
-        $courseload = CourseLoad::find($request->id);
+        $courseload = CourseLoad::find($id);
         if(! $courseload)
         {
             return response()->json([
@@ -317,7 +296,6 @@ class CourseLoadController extends Controller
         }
         else
         {
-  
 
                 // $courseload = CourseLoad::find($request->id);
                 $courseload->update([

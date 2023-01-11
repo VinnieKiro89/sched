@@ -201,20 +201,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="update" enctype="multipart/form-data" method="POST" data-url="{{ route('courseload.update2') }}">
+      <form id="update" enctype="multipart/form-data" method="POST"> 
         @csrf
         @method('PATCH')
         <div class="modal-body">
           <div class="row">
-            <input id="event_idModal" value="" type="text" class="form-control" name="event_idModal" hidden readonly>
-            <input id="event_startModal" value="" type="text" class="form-control" name="event_startModal" hidden readonly>
-            <input id="event_endModal" value="" type="text" class="form-control" name="event_endModal" hidden readonly>
-            <input id="curriculum_idModal" value="" type="text" class="form-control{{ $errors->has('curriculum_idModal') ? ' is-invalid' : '' }}" name="curriculum_idModal" hidden readonly>
-            <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal" hidden readonly>
+            <input id="event_idModal" value="" type="text" class="form-control" name="event_idModal"  readonly>
+            <input id="event_startModal" value="" type="text" class="form-control" name="event_startModal"  readonly>
+            <input id="event_endModal" value="" type="text" class="form-control" name="event_endModal"  readonly>
+            <input id="curriculum_idModal" value="" type="text" class="form-control{{ $errors->has('curriculum_idModal') ? ' is-invalid' : '' }}" name="curriculum_idModal"  readonly>
+            <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal"  readonly>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
-                <select id="selectTitleModal" name="selectTitleModal" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                <select id="selectTitleModal" name="selectTitleModal" class="form-control" placeholder="Enter Course" required autofocus>
                   <option value="" selected disabled hidden>Select Title</option>
                 </select>
               </div>
@@ -238,13 +238,13 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="course_code">Select Faculty:</label><span class="text-danger">*</span>
-                <select id="selectFacultyModal" class="form-control" placeholder="Enter Course" name="course" autofocus>
+                <select id="selectFacultyModal" class="form-control" placeholder="Enter Course" name="selectFacultyModal" autofocus>
                   <option value="" selected disabled hidden>Select Faculty</option>
-                  @foreach ($faculties as $faculty)
+                  {{-- @foreach ($faculties as $faculty)
                     <option value="{{ $faculty->id }}">
                       {{ $faculty->name }}
                     </option>
-                  @endforeach
+                  @endforeach --}}
                 </select>
               </div>
             </div>
@@ -459,8 +459,8 @@
           $('#edit').modal('show');
           var id = info.event.id;
           var title = info.event.title;
-          var faculty = info.event.period;
-          var faculty2 = info.event.description;
+          var faculty_id = info.event.extendedProps.faculty_id; 
+          var faculty = info.event.extendedProps.description;
 
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
@@ -476,87 +476,41 @@
 
           $.ajax({
             type: 'get',
-            url: '{{ route('courseload.get') }}',
-            data: {'course':course, 'section':section, 'level':level, 'period':period},
+            url: '{{ route('courseload.getev') }}',
+            data: {'title':title, 'course':course, 'section':section, 'level':level, 'period':period},
             dataType: 'json',
             success: function(result){
+              console.log(result);
+              console.log(info.event);
               console.log(faculty);
-              console.log(faculty2);
-              // $('#update').attr("action", "/courseload/update/" + id + "");
+              console.log(faculty_id);
+
+              var resultSubjects = result[0];
+              var resultFaculty = result[1];
+              
+              $('#selectFacultyModal').html('<option value="" hidden>Select Faculty</option>');
+              $.each(resultFaculty, function (i, element) {
+                $("#selectFacultyModal").append($('<option>', {
+                  value: element.id,
+                  text: element.name,
+                }));
+              });
+
               $('#selectTitleModal').html('<option value="" hidden>Select Title</option>');
-              $.each(result.events, function (key, value) {
-                $("#selectTitleModal").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
+              $.each(resultSubjects, function (i, element) {
+                $("#selectTitleModal").append($('<option>', {
+                  value: element.subject_code,
+                  text: element.subject_code + '-' + element.subject_title,
+                }));
                 $('input[name="event_idModal"]').val(id);
                 $('input[name="event_startModal"]').val(start_date);
                 $('input[name="event_endModal"]').val(end_date);
                 $('select[name="selectTitleModal"]').val(title);
-                $('select[name="selectFacultyModal"]').val(faculty);
-                $('input[name="curriculum_idModal"]').val(value.curriculum_id); 
-                $('input[name="realperiodModal"]').val(value.period);
+                $('select[name="selectFacultyModal"]').val(faculty_id);
+                $('input[name="curriculum_idModal"]').val(element.curriculum_id); 
+                $('input[name="realperiodModal"]').val(element.period);
               });
             },
-          });
-
-          $('#deleteModal').click(function(){
-            if(confirm("Are you sure you want to delete this event?"))
-            {
-              $.ajax
-              ({ 
-                  url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
-                  type:"DELETE",
-                  dataType: 'json',
-                  success: function(response) 
-                  {
-                    var id = response
-                    console.log(id)
-                      alert('Deleted!');
-
-                      //calendar.refetchEvents(); // remove this
-
-                      info.event.remove(); // try this instead
-
-                      $('#edit').modal('hide');
-                  },
-                  error: function(error)
-                  {
-                    console.log(error)
-                  }
-              });
-            };
-          });
-
-          $('#updateModal').click(function(e){
-            e.preventDefault();
-
-            // $.ajaxSetup({
-            //   headers: {
-            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //   }
-            // });
-
-            var id = $('#event_idModal').val();
-            var newTitle = $('#selectTitleModal').val();
-            var newFaculty = $('#selectFacultyModal').val();
-            var start_date = $('#event_startModal').val();
-            var end_date = $('#event_endModal').val();
-
-            $.ajax({ 
-                method: 'PUT',
-                url: $('#update').data('url'),
-                data: { 'id':id, 'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
-                dataType: 'json',
-                success: function(response) 
-                {
-                  console.log(response)
-                  alert('Updated!');
-
-                  $('#edit').modal('hide');
-                },
-                error: function(error)
-                {
-                  console.log(error)
-                }
-            });
           });
 
         },
@@ -745,27 +699,6 @@
 
       calendar.removeAllEvents();
 
-      // calendar.addEventSource({
-      //   events: function(callback) {
-      //     $.ajax({
-      //       type: 'get',
-      //       url: '{{ route('courseload.getcal') }}',
-      //       data: {'course':course, 'section':section, 'level':level, 'period':period},
-
-      //       success: function(events) { 
-      //         console.log(events);
-
-      //         callback(events);
-      //       }
-      //     });
-      //   },
-      //   eventRender: function(event, element) {
-      //     element.qtip({
-      //       content: event.description
-      //     });
-      //   }
-      // });
-
       $.ajax({
         type: 'get',
         url: '{{ route('courseload.getcal') }}',
@@ -801,6 +734,7 @@
   // });
 </script>
 
+<!-- FOR FACULTY PREFERENCE -->
 <script type="text/javascript">
   $.ajaxSetup({
     headers: {
@@ -831,6 +765,175 @@
     });
   });
 
+</script>
+
+<!-- FOR FACULTY PREFERENCE MODAL -->
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectTitleModal').change(function(){
+      var title = $('#selectTitleModal').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('courseload.getpref') }}',
+        data: {'title':title},
+        success: function(result){
+          $('#selectFacultyModal').html('<option value="" hidden>Select Faculty</option>');
+          $.each(result, function (i, element) {
+            $("#selectFacultyModal").append($('<option>', {
+              value: element.id,
+              text: element.name,
+            }));
+          });
+
+        },
+
+      });
+    });
+  });
+
+</script>
+
+<!-- FOR DELETE MODAL -->
+<script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#deleteModal').click(function(){
+      var id = $('#event_idModal').val();
+      var course = $('#course').val();
+      var section = $('#section').val();
+      var level = $('#level').val();
+      var period = $('#period').val();
+
+      if(confirm("Are you sure you want to delete this event?"))
+      {
+        $.ajax
+        ({ 
+            url: "{{ route('courseload.destroy', '') }}" +'/'+ id,
+            type:"DELETE",
+            dataType: 'json',
+            success: function(response) 
+            {
+              var id = response
+              console.log(id)
+                alert('Deleted!');
+
+                //calendar.refetchEvents(); // remove this
+
+                // try this instead
+                // until we can find a simple calendar.removeEvent(id), we have to use this s#%t method
+                $.ajax({
+                  type: 'get',
+                  url: '{{ route('courseload.getcal') }}',
+                  data: {'course':course, 'section':section, 'level':level, 'period':period},
+                  success: function(data){
+                    console.log(data);
+                    
+                    calendar.removeAllEvents();
+                    calendar.addEventSource({
+                      events: data,
+                      eventRender: function(event, element) { 
+                        element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                      },
+                    });
+                    
+
+                  },
+
+                });
+
+                $('#edit').modal('hide');
+            },
+            error: function(error)
+            {
+              console.log(error)
+            }
+        });
+      };
+    });
+  });
+</script>
+
+<!-- FOR DELETE MODAL -->
+<script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#updateModal').click(function(e){
+      e.preventDefault();
+
+      // $.ajaxSetup({
+      //   headers: {
+      //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //   }
+      // });
+
+      var id = $('#event_idModal').val();
+      var newTitle = $('#selectTitleModal').val();
+      var newFaculty = $('#selectFacultyModal').val();
+      var start_date = $('#event_startModal').val();
+      var end_date = $('#event_endModal').val();
+
+      var course = $('#course').val();
+      var section = $('#section').val();
+      var level = $('#level').val();
+      var period = $('#period').val();
+
+      $.ajax({ 
+          method: 'PUT',
+          url: "{{ route('courseload.update2', '') }}" +'/'+ id,
+          data: {'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
+          dataType: 'json',
+          success: function(response) 
+          {
+            console.log(response)
+            alert('Updated!');
+
+            // until we can find a working calendar.refetchEvents(), we have to use this s#%t method
+            $.ajax({
+              type: 'get',
+              url: '{{ route('courseload.getcal') }}',
+              data: {'course':course, 'section':section, 'level':level, 'period':period},
+              success: function(data){
+                console.log(data);
+                
+                calendar.removeAllEvents();
+                calendar.addEventSource({
+                  events: data,
+                  eventRender: function(event, element) { 
+                    element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                  },
+                });
+                
+
+              },
+
+            });
+
+            $('#edit').modal('hide');
+          },
+          error: function(error)
+          {
+            console.log(error)
+          }
+      });
+    });
+  });
 </script>
 
 @endsection
