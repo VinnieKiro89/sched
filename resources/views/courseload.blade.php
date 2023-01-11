@@ -41,17 +41,17 @@
             <div class="card-body">
               <h5>Subject List</h5>
               <div class="form-group">
-                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id"  readonly>
-                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod"  readonly>
+                <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
+                <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectTitle" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectTitle" class="form-control" name="selectTitle" required autofocus>
                       <option value="" selected disabled hidden>Select Title</option>
                   </select>
                 </div>
                 <label for="email">Day:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectDay" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectDay" class="form-control" name="selectDay" required autofocus>
                       <option value="" selected disabled hidden>Select Day</option>
                       <!-- this looks ugly -->
                       <option value="2022-09-04T">Sunday</option>
@@ -63,9 +63,9 @@
                       <option value="2022-09-10T">Saturday</option>
                   </select>
                 </div>
-                <label for="email">Select Faculty:</label><span class="text-danger">*</span>
+                <label for="selectFaculty">Select Faculty:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectFaculty" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectFaculty" class="form-control" name="selectFaculty" required autofocus>
                       <option value="" selected disabled hidden>Select Faculty</option>
                       @foreach ($faculties as $faculty)
                         <option value="{{ $faculty->id }}">
@@ -74,9 +74,9 @@
                       @endforeach
                   </select>
                 </div>
-                <label for="email">Start Time:</label><span class="text-danger">*</span>
+                <label for="selectStart">Start Time:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectStart" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectStart" class="form-control" name="selectStart" required autofocus>
                       <option value="" selected disabled hidden>Select Time</option>
                       <!-- this looks ugly -->
                       <option value="06:00:00+08:00">6:00 AM</option>
@@ -97,9 +97,9 @@
                       <option value="21:00:00+08:00">9:00 PM</option>
                   </select>
                 </div>
-                <label for="email">End Time:</label><span class="text-danger">*</span>
+                <label for="selectEnd">End Time:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
-                  <select id="selectEnd" class="form-control" placeholder="Enter Course" name="course" required autofocus>
+                  <select id="selectEnd" class="form-control" name="selectEnd" required autofocus>
                       <option value="" selected disabled hidden>Select Time</option>
                       <!-- there's probably a cleaner option to do this -->
                       <option value="06:00:00+08:00">6:00 AM</option>
@@ -206,11 +206,11 @@
         @method('PATCH')
         <div class="modal-body">
           <div class="row">
-            <input id="event_idModal" value="" type="text" class="form-control" name="event_idModal"  readonly>
-            <input id="event_startModal" value="" type="text" class="form-control" name="event_startModal"  readonly>
-            <input id="event_endModal" value="" type="text" class="form-control" name="event_endModal"  readonly>
-            <input id="curriculum_idModal" value="" type="text" class="form-control{{ $errors->has('curriculum_idModal') ? ' is-invalid' : '' }}" name="curriculum_idModal"  readonly>
-            <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal"  readonly>
+            <input id="event_idModal" value="" type="text" class="form-control" name="event_idModal" hidden readonly>
+            <input id="event_startModal" value="" type="text" class="form-control" name="event_startModal" hidden readonly>
+            <input id="event_endModal" value="" type="text" class="form-control" name="event_endModal" hidden readonly>
+            <input id="curriculum_idModal" value="" type="text" class="form-control{{ $errors->has('curriculum_idModal') ? ' is-invalid' : '' }}" name="curriculum_idModal" hidden readonly>
+            <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal" hidden readonly>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="email">Subject Title:</label><span class="text-danger">*</span>
@@ -390,7 +390,7 @@
 
       var subjects = @json($events);
 
-      console.log(subjects);
+      // console.log(subjects);
 
       calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -480,10 +480,10 @@
             data: {'title':title, 'course':course, 'section':section, 'level':level, 'period':period},
             dataType: 'json',
             success: function(result){
-              console.log(result);
-              console.log(info.event);
-              console.log(faculty);
-              console.log(faculty_id);
+              // console.log(result);
+              // console.log(info.event);
+              // console.log(faculty);
+              // console.log(faculty_id);
 
               var resultSubjects = result[0];
               var resultFaculty = result[1];
@@ -518,19 +518,47 @@
         editable: true,
         eventDrop: function(info) {
           var id = info.event.id;
+          var faculty = info.event.extendedProps.faculty_id
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
+
+          var course = $('#course').val();
+          var section = $('#section').val();
+          var level = $('#level').val();
+          var period = $('#period').val();
 
           $.ajax
           ({
             type: 'PATCH',
             url: "{{ route('courseload.update', '') }}" +'/'+ id,
-            data: { 'start_date':start_date, 'end_date':end_date },
+            data: { 'faculty':faculty, 'start_date':start_date, 'end_date':end_date },
             dataType: 'json',
 
             success: function(response)
             {
-              console.log(response);
+              // console.log(response);
+            },
+            error: function(error){
+              alert(error.responseJSON.error)
+              $.ajax({
+                type: 'get',
+                url: '{{ route('courseload.getcal') }}',
+                data: {'course':course, 'section':section, 'level':level, 'period':period},
+                success: function(data){
+                  // console.log(data);
+                  
+                  calendar.removeAllEvents();
+                  calendar.addEventSource({
+                    events: data,
+                    eventRender: function(event, element) { 
+                      element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                    },
+                  });
+                  
+
+                },
+
+              });
             }
           })
         },
@@ -539,21 +567,49 @@
           var id = info.event.id;
           var curriculum_id = info.event.extendedProps.curriculum_id;
           var title = info.event.title;
+          var faculty = info.event.extendedProps.faculty_id
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
+
+          var course = $('#course').val();
+          var section = $('#section').val();
+          var level = $('#level').val();
+          var period = $('#period').val();
 
           $.ajax
           ({
             type: 'PATCH',
             url: "{{ route('courseload.update', '') }}" +'/'+ id,
-            data: { 'start_date':start_date, 'end_date':end_date },
+            data: { 'faculty':faculty, 'start_date':start_date, 'end_date':end_date },
             dataType: 'json',
 
             success: function(response)
             {
-              console.log(response);
-              console.log(curriculum_id);
-              
+              // console.log(response);
+              // console.log(curriculum_id);
+            },
+            error: function(error)
+            {
+              alert(error.responseJSON.error)
+              $.ajax({
+                type: 'get',
+                url: '{{ route('courseload.getcal') }}',
+                data: {'course':course, 'section':section, 'level':level, 'period':period},
+                success: function(data){
+                  // console.log(data);
+                  
+                  calendar.removeAllEvents();
+                  calendar.addEventSource({
+                    events: data,
+                    eventRender: function(event, element) { 
+                      element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                    },
+                  });
+                  
+
+                },
+
+              });
             }
           })
         },
@@ -607,7 +663,7 @@
 
         success: function(response)
         {
-          console.log(response)
+          // console.log(response)
           calendar.addEvent({
             'title': response.title,
             'subtitle': response.faculty,
@@ -626,7 +682,7 @@
             url: '{{ route('courseload.getcal') }}',
             data: {'course':course, 'section':section, 'level':level, 'period':period},
             success: function(data){
-              console.log(data);
+              // console.log(data);
 
               calendar.removeAllEvents();
               calendar.addEventSource(data)
@@ -671,6 +727,10 @@
           $('#selectTitle').html('<option value="" hidden>Select Title</option>');
           $.each(result.events, function (key, value) {
             $("#selectTitle").append('<option value="' + value.subject_code + '">' + value.subject_code + " - " + value.subject_title + '</option>');
+            $('select[name="selectDay"]').val('');
+            $('select[name="selectFaculty"]').val('');
+            $('select[name="selectStart"]').val('');
+            $('select[name="selectEnd"]').val('');
             $('input[name="curriculum_id"]').val(value.curriculum_id); 
             $('input[name="realperiod"]').val(value.period);
           });
@@ -704,7 +764,7 @@
         url: '{{ route('courseload.getcal') }}',
         data: {'course':course, 'section':section, 'level':level, 'period':period},
         success: function(data){
-          console.log(data);
+          // console.log(data);
           
 
           // calendar.removeAllEvents();
@@ -826,7 +886,7 @@
             success: function(response) 
             {
               var id = response
-              console.log(id)
+              // console.log(id)
                 alert('Deleted!');
 
                 //calendar.refetchEvents(); // remove this
@@ -838,7 +898,7 @@
                   url: '{{ route('courseload.getcal') }}',
                   data: {'course':course, 'section':section, 'level':level, 'period':period},
                   success: function(data){
-                    console.log(data);
+                    // console.log(data);
                     
                     calendar.removeAllEvents();
                     calendar.addEventSource({
@@ -901,7 +961,7 @@
           dataType: 'json',
           success: function(response) 
           {
-            console.log(response)
+            // console.log(response)
             alert('Updated!');
 
             // until we can find a working calendar.refetchEvents(), we have to use this s#%t method
@@ -910,7 +970,7 @@
               url: '{{ route('courseload.getcal') }}',
               data: {'course':course, 'section':section, 'level':level, 'period':period},
               success: function(data){
-                console.log(data);
+                // console.log(data);
                 
                 calendar.removeAllEvents();
                 calendar.addEventSource({

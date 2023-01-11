@@ -173,6 +173,9 @@ class CourseLoadController extends Controller
         // $end = Carbon::parse($request->end_date);
 
         $date = [new Carbon($request->start_date), new Carbon($request->end_date)];
+        $timefrom = Carbon::parse($request->start_date)->isoFormat('HH:mm');
+        $timeto = Carbon::parse($request->end_date)->isoFormat('HH:mm');
+
 
         // $start = $startnonform->format('Y-m-d');
         // $end = $endnonform->format('Y-m-d');
@@ -188,6 +191,10 @@ class CourseLoadController extends Controller
                                 ->whereBetween('end_date', $date)
                                 ->get();
 
+        $allevent1 = Courseload::where('curriculum_id', $request->curriculum_id)
+                                ->where('period', $request->period)
+                                ->get();
+
         // checking for conflict in faculty loading
         $checks3 = Courseload::where('faculty_id', $request->faculty)
                                 ->whereBetween('start_date', $date)
@@ -197,9 +204,12 @@ class CourseLoadController extends Controller
                                 ->whereBetween('end_date', $date)
                                 ->get();
 
-        // TODO: checking for conflict in Faculty availability
-        $checks5 = Faculty::where('id', $request->faculty)
-                            ->first();
+        $allevent2 = Courseload::where('faculty_id', $request->faculty)
+                                ->get();
+
+        // checking for conflict in Faculty availability & number of subjects
+        $facultycheck = Faculty::where('id', $request->faculty)->first();
+        $numberOfSubj = Courseload::where('faculty_id', $request->faculty)->count();
 
         if(count($checks1) > 0)
         {
@@ -207,14 +217,43 @@ class CourseLoadController extends Controller
         }elseif(count($checks2) > 0)
         {
             return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
-        }elseif(count($checks3) > 0)
+        }
+        elseif(count($checks3) > 0)
         {
             return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
         }elseif(count($checks4) > 0)
         {
             return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+        }elseif(!$facultycheck->hour_avail_from)
+        {
+            return response()->json(['error' => "The selected Faculty member has no designated hour availability yet"], 401);
+        }elseif(Carbon::parse($facultycheck->hour_avail_from)->isoFormat('HH:mm') > $timefrom)
+        {
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
+        }elseif(!$facultycheck->hour_avail_to)
+        {
+            return response()->json(['error' => "The selected Faculty member has no designated hour availability yet"], 401);
+        }elseif(Carbon::parse($facultycheck->hour_avail_to)->isoFormat('HH:mm') < $timeto)
+        {
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
+        }elseif(!$facultycheck->num_of_subj)
+        {
+            return response()->json(['error' => "The selected Faculty member has no designated number of subject availability yet"], 401);
+        }elseif($facultycheck->num_of_subj <= $numberOfSubj)
+        {
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's number of subject availability"], 401);
         }else
         {
+            foreach($allevent1 as $allevent) {
+                if($allevent->start_date <= $date[0] && $allevent->end_date >= $date[1]){
+                    return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
+                }
+            }
+            foreach($allevent2 as $allevent){
+                if($allevent->start_date <= $date[0] && $allevent->end_date >= $date[1]){
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+                }
+            }
             $newcourseload = new CourseLoad();
 
             $newcourseload->curriculum_id = $request->curriculum_id;
@@ -237,9 +276,33 @@ class CourseLoadController extends Controller
      * @param  \App\Models\CourseLoad  $courseLoad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) // is this even working? where do I use this? [That's for the dragging of events, dumbss]
+    public function update(Request $request, $id) // is this even working? where do I use this? [That's for the dragging of events, dumbass]
     {
-        
+        $date = [new Carbon($request->start_date), new Carbon($request->end_date)];
+        $timefrom = Carbon::parse($request->start_date)->isoFormat('HH:mm');
+        $timeto = Carbon::parse($request->end_date)->isoFormat('HH:mm');
+
+
+        // checking for conflict in course loading
+        // lmao
+
+        // checking for conflict in faculty loading
+        $checks3 = Courseload::where('faculty_id', $request->faculty)
+                                ->where('id', '!=' ,$id)
+                                ->whereBetween('start_date', $date)
+                                ->get();
+
+        $checks4 = Courseload::where('faculty_id', $request->faculty)
+                                ->where('id', '!=' ,$id)
+                                ->whereBetween('end_date', $date)
+                                ->get();
+
+        $allevent2 = Courseload::where('faculty_id', $request->faculty)
+                                ->where('id', '!=' ,$id)
+                                ->get();
+
+        // checking for conflict in Faculty availability & number of subjects
+        $facultycheck = Faculty::where('id', $request->faculty)->first();
 
         $courseload = CourseLoad::find($id);
         if(! $courseload)
@@ -248,19 +311,27 @@ class CourseLoadController extends Controller
         }
         else
         {
-            $verify = Courseload::where('start_date', '=', Carbon::parse($request->start_date))
-                            ->where('end_date', '=', Carbon::parse($request->end_date))->first();
-
-            if($verify != null)
+            if(count($checks3) > 0)
             {
-                return redirect()->route('courseload.index')->with('deleted', 'error.');
-            }
-            elseif(Carbon::parse($request->start_date) > Carbon::parse($request->end_date))
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+            }elseif(count($checks4) > 0)
             {
-                // i do not know what this is for...
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+            }elseif(Carbon::parse($facultycheck->hour_avail_from)->isoFormat('HH:mm') > $timefrom)
+            {
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
+            }elseif(Carbon::parse($facultycheck->hour_avail_to)->isoFormat('HH:mm') < $timeto)
+            {
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
             }
             else
             {
+                foreach($allevent2 as $allevent){
+                    if($allevent->start_date <= $date[0] && $allevent->end_date >= $date[1]){
+                        return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+                    }
+                }
+
                 if($request->curriculum_id != null)
                 {
                     $courseload->update([
@@ -283,7 +354,7 @@ class CourseLoadController extends Controller
         }
     }
 
-    public function update2(Request $request, $id) //modal, does not work though 
+    public function update2(Request $request, $id) //modal
     {
         
 
