@@ -163,8 +163,8 @@ class FacultyController extends Controller
 
         Faculty::where('user_id', $user_id)->update([
             'num_of_subj' => $request->num_of_subj,
-            'hour_avail_from' => Carbon::parse($request->hour_avail_from)->isoFormat('hh:mm A'),
-            'hour_avail_to' => Carbon::parse($request->hour_avail_to)->isoFormat('hh:mm A'),
+            'hour_avail_from' => Carbon::parse($request->hour_avail_from)->isoFormat('h:mm A'),
+            'hour_avail_to' => Carbon::parse($request->hour_avail_to)->isoFormat('h:mm A'),
         ]);
 
         $faculty = Faculty::where('user_id', $user_id)->first();

@@ -33,7 +33,7 @@
                                         data-num_of_subj="{{ $faculty->num_of_subj }}" data-hour_avail_from="{{ $faculty->hour_avail_from }}" 
                                         data-hour_avail_to="{{ $faculty->hour_avail_to }}">
                                         <i class="far fa-edit"></i>
-                                        Set available Subject / Hours
+                                        Set Number of Subjects willing to teach / Number of Hours willing to teach
                                     </button>
                                 </div>
                             @endif
@@ -61,12 +61,12 @@
                                         <div class="card-header px-0">
                                             <span class="p-2 pl-4"
                                                 style="background-color: #800000; width: 100%;">
-                                                <h4 style="color:white; font-weight:400;">Subject and Time Availability</h4>
+                                                <h4 style="color:white; font-weight:400;">Subjects and Time Availability</h4>
                                             </span>
                                         </div>
                                         <div class="card-body pb-0">
                                             <div class="text" style="font-weight:600; font-size:15px; color:grey;">
-                                                <h6 class="mb-0">Subject willing to teach:</h6>
+                                                <h6 class="mb-0">Subjects willing to teach:</h6>
                                                 <p class="mb-0">{{ $faculty->num_of_subj }}</p>
                                                 <p></p>
                                                 <h6 class="mb-0">Time availability:</h6>
@@ -163,7 +163,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="num_of_subj">Number of Subjects:</label><span class="text-danger">*</span>
+                                    <label for="num_of_subj">Number of Subjects willing to teach:</label><span class="text-danger">*</span>
                                     <input id="num_of_subj" type="text"
                                         class="form-control{{ $errors->has('num_of_subj') ? ' is-invalid' : '' }}" name="num_of_subj"
                                         tabindex="1" placeholder="Set number of Subjects willing to teach" required autofocus>
@@ -181,37 +181,37 @@
 
                                         <option value= "" selected disabled hidden>From:</option>
                                         <!-- this looks ugly -->
-                                        <option value="06:00:00+08:00">6:00 AM</option>
-                                        <option value="06:30:00+08:00">6:30 AM</option>
-                                        <option value="07:00:00+08:00">7:00 AM</option>
-                                        <option value="07:30:00+08:00">7:30 AM</option>
-                                        <option value="08:00:00+08:00">8:00 AM</option>
-                                        <option value="08:30:00+08:00">8:30 AM</option>
-                                        <option value="09:00:00+08:00">9:00 AM</option>
-                                        <option value="09:30:00+08:00">9:30 AM</option>
-                                        <option value="10:00:00+08:00">10:00 AM</option>
-                                        <option value="10:30:00+08:00">10:30 AM</option>
-                                        <option value="11:00:00+08:00">11:00 AM</option>
-                                        <option value="11:30:00+08:00">11:30 AM</option>
-                                        <option value="12:00:00+08:00">12:00 PM</option>
-                                        <option value="12:30:00+08:00">12:30 PM</option>
-                                        <option value="13:00:00+08:00">1:00 PM</option>
-                                        <option value="13:30:00+08:00">1:30 PM</option>
-                                        <option value="14:00:00+08:00">2:00 PM</option>
-                                        <option value="14:30:00+08:00">2:30 PM</option>
-                                        <option value="15:00:00+08:00">3:00 PM</option>
-                                        <option value="15:30:00+08:00">3:30 PM</option>
-                                        <option value="16:00:00+08:00">4:00 PM</option>
-                                        <option value="16:30:00+08:00">4:30 PM</option>
-                                        <option value="17:00:00+08:00">5:00 PM</option>
-                                        <option value="17:30:00+08:00">5:30 PM</option>
-                                        <option value="18:00:00+08:00">6:00 PM</option>
-                                        <option value="18:30:00+08:00">6:30 PM</option>
-                                        <option value="19:00:00+08:00">7:00 PM</option>
-                                        <option value="19:30:00+08:00">7:30 PM</option>
-                                        <option value="20:00:00+08:00">8:00 PM</option>
-                                        <option value="20:30:00+08:00">8:30 PM</option>
-                                        <option value="21:00:00+08:00">9:00 PM</option>
+                                        <option value="6:00 AM">6:00 AM</option>
+                                        <option value="6:30 AM">6:30 AM</option>
+                                        <option value="7:00 AM">7:00 AM</option>
+                                        <option value="7:30 AM">7:30 AM</option>
+                                        <option value="8:00 AM">8:00 AM</option>
+                                        <option value="8:30 AM">8:30 AM</option>
+                                        <option value="9:00 AM">9:00 AM</option>
+                                        <option value="9:30 AM">9:30 AM</option>
+                                        <option value="10:00 AM">10:00 AM</option>
+                                        <option value="10:30 AM">10:30 AM</option>
+                                        <option value="11:00 AM">11:00 AM</option>
+                                        <option value="11:30 AM">11:30 AM</option>
+                                        <option value="12:00 PM">12:00 PM</option>
+                                        <option value="12:30 PM">12:30 PM</option>
+                                        <option value="1:00 PM">1:00 PM</option>
+                                        <option value="1:30 PM">1:30 PM</option>
+                                        <option value="2:00 PM">2:00 PM</option>
+                                        <option value="2:30 PM">2:30 PM</option>
+                                        <option value="3:00 PM">3:00 PM</option>
+                                        <option value="3:30 PM">3:30 PM</option>
+                                        <option value="4:00 PM">4:00 PM</option>
+                                        <option value="4:30 PM">4:30 PM</option>
+                                        <option value="5:00 PM">5:00 PM</option>
+                                        <option value="5:30 PM">5:30 PM</option>
+                                        <option value="6:00 PM">6:00 PM</option>
+                                        <option value="6:30 PM">6:30 PM</option>
+                                        <option value="7:00 PM">7:00 PM</option>
+                                        <option value="7:30 PM">7:30 PM</option>
+                                        <option value="8:00 PM">8:00 PM</option>
+                                        <option value="8:30 PM">8:30 PM</option>
+                                        <option value="9:00 PM">9:00 PM</option>
                                     </select>
 
                                     <select id="select1"
@@ -219,37 +219,37 @@
 
                                         <option value= "" selected disabled hidden>To:</option>
                                         <!-- this looks ugly -->
-                                        <option value="06:00:00+08:00">6:00 AM</option>
-                                        <option value="06:30:00+08:00">6:30 AM</option>
-                                        <option value="07:00:00+08:00">7:00 AM</option>
-                                        <option value="07:30:00+08:00">7:30 AM</option>
-                                        <option value="08:00:00+08:00">8:00 AM</option>
-                                        <option value="08:30:00+08:00">8:30 AM</option>
-                                        <option value="09:00:00+08:00">9:00 AM</option>
-                                        <option value="09:30:00+08:00">9:30 AM</option>
-                                        <option value="10:00:00+08:00">10:00 AM</option>
-                                        <option value="10:30:00+08:00">10:30 AM</option>
-                                        <option value="11:00:00+08:00">11:00 AM</option>
-                                        <option value="11:30:00+08:00">11:30 AM</option>
-                                        <option value="12:00:00+08:00">12:00 PM</option>
-                                        <option value="12:30:00+08:00">12:30 PM</option>
-                                        <option value="13:00:00+08:00">1:00 PM</option>
-                                        <option value="13:30:00+08:00">1:30 PM</option>
-                                        <option value="14:00:00+08:00">2:00 PM</option>
-                                        <option value="14:30:00+08:00">2:30 PM</option>
-                                        <option value="15:00:00+08:00">3:00 PM</option>
-                                        <option value="15:30:00+08:00">3:30 PM</option>
-                                        <option value="16:00:00+08:00">4:00 PM</option>
-                                        <option value="16:30:00+08:00">4:30 PM</option>
-                                        <option value="17:00:00+08:00">5:00 PM</option>
-                                        <option value="17:30:00+08:00">5:30 PM</option>
-                                        <option value="18:00:00+08:00">6:00 PM</option>
-                                        <option value="18:30:00+08:00">6:30 PM</option>
-                                        <option value="19:00:00+08:00">7:00 PM</option>
-                                        <option value="19:30:00+08:00">7:30 PM</option>
-                                        <option value="20:00:00+08:00">8:00 PM</option>
-                                        <option value="20:30:00+08:00">8:30 PM</option>
-                                        <option value="21:00:00+08:00">9:00 PM</option>
+                                        <option value="6:00 AM">6:00 AM</option>
+                                        <option value="6:30 AM">6:30 AM</option>
+                                        <option value="7:00 AM">7:00 AM</option>
+                                        <option value="7:30 AM">7:30 AM</option>
+                                        <option value="8:00 AM">8:00 AM</option>
+                                        <option value="8:30 AM">8:30 AM</option>
+                                        <option value="9:00 AM">9:00 AM</option>
+                                        <option value="9:30 AM">9:30 AM</option>
+                                        <option value="10:00 AM">10:00 AM</option>
+                                        <option value="10:30 AM">10:30 AM</option>
+                                        <option value="11:00 AM">11:00 AM</option>
+                                        <option value="11:30 AM">11:30 AM</option>
+                                        <option value="12:00 PM">12:00 PM</option>
+                                        <option value="12:30 PM">12:30 PM</option>
+                                        <option value="1:00 PM">1:00 PM</option>
+                                        <option value="1:30 PM">1:30 PM</option>
+                                        <option value="2:00 PM">2:00 PM</option>
+                                        <option value="2:30 PM">2:30 PM</option>
+                                        <option value="3:00 PM">3:00 PM</option>
+                                        <option value="3:30 PM">3:30 PM</option>
+                                        <option value="4:00 PM">4:00 PM</option>
+                                        <option value="4:30 PM">4:30 PM</option>
+                                        <option value="5:00 PM">5:00 PM</option>
+                                        <option value="5:30 PM">5:30 PM</option>
+                                        <option value="6:00 PM">6:00 PM</option>
+                                        <option value="6:30 PM">6:30 PM</option>
+                                        <option value="7:00 PM">7:00 PM</option>
+                                        <option value="7:30 PM">7:30 PM</option>
+                                        <option value="8:00 PM">8:00 PM</option>
+                                        <option value="8:30 PM">8:30 PM</option>
+                                        <option value="9:00 PM">9:00 PM</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         {{ $errors->first('hour_avail_to') }}
