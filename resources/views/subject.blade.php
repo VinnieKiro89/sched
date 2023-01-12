@@ -72,7 +72,7 @@
                                             <th style="color:white;">Subject Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
-                                            <th style="color:white;">Faculty Members</th>
+                                            {{-- <th style="color:white;">Faculty Members</th> --}}
                                             <th style="color:white;">Action</th>
                                         </tr>
                                     </thead>
@@ -86,7 +86,11 @@
                                                     <td>{{ $subject->subj_hours }}</td>
                                                     <td>{{ $subject->pre_requisite }}</td>
                                                     <td>{{ $subject->co_requisite }}</td>
-                                                    <td>{{ implode(', ', $selectFaculties) }}</td>
+                                                    {{-- <td>
+                                                    @foreach($subject->selectFaculty as $selectFaculty)
+                                                        {{ $selectFaculty }}
+                                                    @endforeach
+                                                    </td> --}}
                                                     <td style="white-space:nowrap; width: 20px;">
                                                         <!-- I add 20px and it fix the extra space, don't know why | don't fix, don't change :) -->
                                                         {{-- <a href="#" class="btn btn-icon icon-left mr-3 btn-outline-primary">
