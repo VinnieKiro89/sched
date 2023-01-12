@@ -50,13 +50,16 @@ class MainController extends Controller
         ]);
 
         $userauth = User::where('username','=', $request->username)->first();
-        $role = $userauth->role;
-        $faculty = Faculty::where('user_id', $userauth->id)->first();
+        
+        
 
         if(!$userauth){
             return back()->with('fail', 'Incorrect Username or Password');
         }else{
             if(Hash::check($request->password, $userauth->password)){
+                
+                $role = $userauth->role;
+                $faculty = Faculty::where('user_id', $userauth->id)->first();
                 
                 $request->session()->put('Role', $role);
                 $request->session()->put('LoggedUser', $userauth->id);
