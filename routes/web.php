@@ -39,8 +39,8 @@ Route::group([ 'prefix' => 'auth'], function() {
 //Settings
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'settings'], function() {
     Route::get('', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
-    Route::get('/updatepass/{id}', [App\Http\Controllers\SettingController::class, 'updatePass'])->name('settings.pass');
-    Route::get('/updateuser/{id}', [App\Http\Controllers\SettingController::class, 'updateUser'])->name('settings.user');
+    Route::put('/updatepass/{id}', [App\Http\Controllers\SettingController::class, 'updatePass'])->name('settings.pass');
+    Route::put('/updateuser/{id}', [App\Http\Controllers\SettingController::class, 'updateUser'])->name('settings.user');
 });
 
 //dashboard

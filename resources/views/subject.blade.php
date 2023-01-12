@@ -72,6 +72,7 @@
                                             <th style="color:white;">Subject Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
+                                            <th style="color:white;">Faculty Members</th>
                                             <th style="color:white;">Action</th>
                                         </tr>
                                     </thead>
@@ -85,6 +86,7 @@
                                                     <td>{{ $subject->subj_hours }}</td>
                                                     <td>{{ $subject->pre_requisite }}</td>
                                                     <td>{{ $subject->co_requisite }}</td>
+                                                    <td>{{ implode(', ', $selectFaculties) }}</td>
                                                     <td style="white-space:nowrap; width: 20px;">
                                                         <!-- I add 20px and it fix the extra space, don't know why | don't fix, don't change :) -->
                                                         {{-- <a href="#" class="btn btn-icon icon-left mr-3 btn-outline-primary">
@@ -108,7 +110,7 @@
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
                                                                 data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
                                                                 <i class="far fa-edit"></i>
-                                                                Edit
+                                                                Edit Preferred Faculty Members
                                                             </button>
                                                         @endif
 
@@ -510,7 +512,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Edit Subject</h5>
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Edit Preferred Faculty Members</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

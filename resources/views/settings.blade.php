@@ -34,9 +34,27 @@
             @endif
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="card shadow">
                         <div class="card-body">
+                            <h5>Change Username</h5>
+                            <form method="POST" action="{{ route('settings.user', $id ) }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <label for="username">Username:</label><span class="text-danger">*</span>
+                                        <input id="username" type="text" name="username" class="form-control" tabindex="1" placeholder="Enter username here" required autofocus>
+                                </div>
+                                <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary mx-1">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5>Change Password</h5>
                             <form method="POST" action="{{ route('settings.pass', $id ) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -64,5 +82,16 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        var username = "{{ $username }}"
+        $('input[name="username"]').val(username);
+    });
+</script>
+
 @endsection
 

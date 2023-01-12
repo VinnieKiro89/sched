@@ -89,24 +89,28 @@ class ReportsController extends Controller
     public function schedule($id)
     {
         $report = Reports::where('faculty_id', $id)
-                                        ->where('status', 'Approved')
-                                        ->first();
-
-
-        $events = array();
-        $reportEvents = ReportEvents::where(['report_id' => $report->id])->get();
-        foreach($reportEvents as $reportEvent){
-            $events[] = [
-                'id' => $reportEvent->id,
-                'report_id' => $reportEvent->report_id,
-                'curriculum_id' => $reportEvent->curriculum_id,
-                'period' => $reportEvent->period,
-                'title' => $reportEvent->title,
-                'start' => $reportEvent->start_date,
-                'end' => $reportEvent->end_date,
-                'status' => $reportEvent->status
-            ];
-        } 
+                            ->where('status', 'Approved')
+                            ->first();
+        
+        if(!$report){
+            $events[] = null;
+            return view ('viewschedule', ['report' => $report, 'events' => $events]);
+        }else{
+            $events = array();
+            $reportEvents = ReportEvents::where(['report_id' => $report->id])->get();
+            foreach($reportEvents as $reportEvent){
+                $events[] = [
+                    'id' => $reportEvent->id,
+                    'report_id' => $reportEvent->report_id,
+                    'curriculum_id' => $reportEvent->curriculum_id,
+                    'period' => $reportEvent->period,
+                    'title' => $reportEvent->title,
+                    'start' => $reportEvent->start_date,
+                    'end' => $reportEvent->end_date,
+                    'status' => $reportEvent->status
+                ];
+            } 
+        }
 
         // return response()->json($events);
         return view ('viewschedule', ['events' => $events, 'report' => $report]);

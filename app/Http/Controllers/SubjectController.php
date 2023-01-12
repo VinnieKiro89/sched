@@ -31,8 +31,21 @@ class SubjectController extends Controller
         $section = $curriculum->section;
         $period = $curriculum->period;
         $level = $curriculum->level;
+
+        if(!$subjects->selectFaculty){
+            $selectFaculties[] = [];
+        }else{
+            $arrays[] = $subjects->selectFaculty;
+            foreach ($arrays as $array){
+                $name = Faculty::where('id', $subjects->selectFaculty);
+                $selectFaculties[] = [
+                    'name' => $name
+                ];
+            }
+            
+        }
         
-        return view('subject', compact('subjects', 'id', 'code', 'section', 'period', 'level', 'faculties'));
+        return view('subject', compact('subjects', 'id', 'code', 'section', 'period', 'level', 'faculties', 'selectFaculties'));
     }
 
     /**

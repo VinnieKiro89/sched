@@ -32,21 +32,24 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1 shadow">
-                        <div class="card-icon" style="background-color: #033571;">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Users</h4>
+                @if (session()->get('Role') == "Admin")
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1 shadow">
+                            <div class="card-icon" style="background-color: #033571;">
+                                <i class="fas fa-user"></i>
                             </div>
-                            <div class="card-body">
-                                {{ $users }}
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Users</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $users }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
+                @if (session()->get('Role') == "Admin")
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1 shadow">
                         <div class="card-icon" style="background-color: green;">
@@ -62,6 +65,8 @@
                         </div>
                     </div>
                 </div>
+                @endif
+                @if (session()->get('Role') == "Admin")
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1 shadow">
                         <div class="card-icon" style="background-color: green;">
@@ -77,6 +82,8 @@
                         </div>
                     </div>
                 </div>
+                @endif
+                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Academic Head")
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1 shadow">
                         <div class="card-icon" style="background-color: green;">
@@ -92,6 +99,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 @if (session()->get('Role') == "Admin")
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                         <div class="card card-statistic-1 shadow">

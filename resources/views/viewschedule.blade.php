@@ -39,11 +39,13 @@
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body">
-
-                            <div id='forcal'>
-                                <div id='calendar'></div>
-                            </div>
-
+                            @if ($report == null)
+                                <h1>No Assigned Schedule yet</h1>
+                            @else
+                                <div id='forcal'>
+                                    <div id='calendar'></div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
