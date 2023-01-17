@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Faculty;
+use App\Models\Subject;
 use App\Models\CourseLoad;
 use Illuminate\Http\Request;
 use App\Models\AssignmentApprovals;
@@ -214,11 +215,14 @@ class FacultyController extends Controller
         $events = array();
         $course_load = CourseLoad::where(['faculty_id' => $faculty->id])->get();
         foreach($course_load as $courseload){
+            //band aid fix
+            $subject = Subject::where(['subject_code' => $courseload->title])->first();
             $events[] = [
                 'id' => $courseload->id,
                 'curriculum_id' => $courseload->curriculum_id,
                 'period' => $courseload->period,
                 'title' => $courseload->title,
+                'subjectTitle' => $subject->subject_title,
                 'description' => $courseload->faculty->name,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,

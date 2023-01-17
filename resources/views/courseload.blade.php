@@ -49,6 +49,17 @@
                       <option value="" selected disabled hidden>Select Title</option>
                   </select>
                 </div>
+                <label for="selectFaculty">Select Faculty:</label><span class="text-danger">*</span>
+                <div class="select mb-3">
+                  <select id="selectFaculty" class="form-control" name="selectFaculty" required autofocus>
+                      <option value="" selected disabled hidden>Select Faculty</option>
+                      @foreach ($faculties as $faculty)
+                        <option value="{{ $faculty->id }}">
+                          {{ $faculty->name }}
+                        </option>
+                      @endforeach
+                  </select>
+                </div>
                 <label for="email">Day:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectDay" class="form-control" name="selectDay" required autofocus>
@@ -61,17 +72,6 @@
                       <option value="2022-09-08T">Thursday</option>
                       <option value="2022-09-09T">Friday</option>
                       <option value="2022-09-10T">Saturday</option>
-                  </select>
-                </div>
-                <label for="selectFaculty">Select Faculty:</label><span class="text-danger">*</span>
-                <div class="select mb-3">
-                  <select id="selectFaculty" class="form-control" name="selectFaculty" required autofocus>
-                      <option value="" selected disabled hidden>Select Faculty</option>
-                      @foreach ($faculties as $faculty)
-                        <option value="{{ $faculty->id }}">
-                          {{ $faculty->name }}
-                        </option>
-                      @endforeach
                   </select>
                 </div>
                 <label for="selectStart">Start Time:</label><span class="text-danger">*</span>
@@ -176,6 +176,23 @@
                           <option value="1st Semester">1st Semester</option>
                           <option value="2nd Semester">2nd Semester</option>
                       </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <div class="row row-cols-3">
+                      <span id="timeAvail" class="form-group col">
+                        Time availability: - to -
+                      </span>
+                      <span id="subjAvail" class="form-group col">
+                        No. of Subjects willing to take: -
+                      </span>
+                      <span id="subjTaught" class="form-group col">
+                        Subjects taught: -
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -860,6 +877,45 @@
 
 </script>
 
+<!-- FOR FACULTY PREFFER -->
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#selectFaculty').change(function(){
+      var faculty = $('#selectFaculty').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('courseload.getfac') }}',
+        data: {'faculty':faculty},
+        success: function(result){
+          console.log(result);
+          if(result.hour_avail_from == null){
+            // do nothing lmao
+          }else{
+            $('#timeAvail').html("Time availability: " + result.hour_avail_from + " to " + result.hour_avail_to );
+          }
+          if(result.hour_avail_from == null){
+            // do nothing lmao
+          }else{
+            $('#subjAvail').html("No. of Subjects willing to take: " + result.num_of_subj);
+          }
+          
+          $('#subjTaught').html("Subjects taught: " + result.subj_taught);
+
+        },
+
+      });
+    });
+  });
+
+</script>
+
 <!-- FOR DELETE MODAL -->
 <script>
   $.ajaxSetup({
@@ -925,7 +981,7 @@
   });
 </script>
 
-<!-- FOR DELETE MODAL -->
+<!-- FOR UPDATE MODAL -->
 <script>
   $.ajaxSetup({
     headers: {

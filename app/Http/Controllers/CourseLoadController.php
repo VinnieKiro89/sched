@@ -110,6 +110,13 @@ class CourseLoadController extends Controller
         return response() -> json($faculty);
     }
 
+    public function get_fac(Request $request) // redundant?                                 
+    {
+        $faculty = Faculty::where('id', $request->faculty)->first();
+
+        return response() -> json($faculty);
+    }
+
     public function get_cal(Request $request)                                  
     {
         $curriculum = Curriculum::where('course_id',$request->course)

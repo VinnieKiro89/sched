@@ -21,6 +21,7 @@ class CreateCourseLoadsTable extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('faculty_id');
+            // $table->string('subject_id');
             $table->timestamps();
         });
     }

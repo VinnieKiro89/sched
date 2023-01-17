@@ -118,6 +118,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'courseload'], function(
     Route::get('/getcal',[App\Http\Controllers\CourseLoadController::class, 'get_cal'])->name('courseload.getcal');
     Route::get('/getpref',[App\Http\Controllers\CourseLoadController::class, 'get_pref'])->name('courseload.getpref');
     Route::get('/getprefmodal',[App\Http\Controllers\CourseLoadController::class, 'get_prefmodal'])->name('courseload.getprefmodal');
+    Route::get('/getfac',[App\Http\Controllers\CourseLoadController::class, 'get_fac'])->name('courseload.getfac');
     Route::post('/post',[App\Http\Controllers\CourseLoadController::class, 'store_event'])->name('courseload.post');
     Route::delete('/destroy/{id}',[App\Http\Controllers\CourseLoadController::class, 'destroy'])->name('courseload.destroy');
     Route::patch('/update/{id}',[App\Http\Controllers\CourseLoadController::class, 'update'])->name('courseload.update');

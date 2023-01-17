@@ -9,7 +9,7 @@ class CourseLoad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['curriculum_id', 'title', 'faculty_id', 'day', 'start_date', 'end_date'];
+    protected $fillable = ['curriculum_id', 'title', 'subject_id', 'faculty_id', 'day', 'start_date', 'end_date'];
 
     public function curriculum()
     {
@@ -25,4 +25,9 @@ class CourseLoad extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+
+    // public function subject()
+    // {
+    //     return $this->belongsTo(Subject::class);
+    // }
 }

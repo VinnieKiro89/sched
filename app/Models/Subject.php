@@ -23,6 +23,11 @@ class Subject extends Model
         'selectFaculty' => 'array',
     ];
 
+    // public function courseLoad()
+    // {
+    //     return $this->hasMany(CourseLoad::class);
+    // }
+
     public function curriculum()
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
