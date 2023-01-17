@@ -54,6 +54,7 @@
                   </select>
                 </div>
                 <div class="footer">
+                  <a type="button" class="btn btn-success mr-5" href="{{ route('faculty.file-export') }}">Export all Faculty Loading data</a>
                 </div>
               </div>
             </div>

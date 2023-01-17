@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReportEvents;
 use App\Models\Reports;
+use App\Models\ReportEvents;
 use Illuminate\Http\Request;
+
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class ReportsController extends Controller
 {
@@ -148,5 +153,15 @@ class ReportsController extends Controller
     public function destroy(Reports $reports)
     {
         //
+    }
+
+    public function fileImport()
+    {
+
+    }
+
+    public function fileExport()
+    {
+        return Excel::download(new ReportsExport, 'reports-collection.xlsx');
     }
 }

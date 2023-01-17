@@ -130,4 +130,25 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'reports'], function() {
     Route::get('',[App\Http\Controllers\ReportsController::class, 'index'])->name('reports.index');
     Route::get('/show/{id}',[App\Http\Controllers\ReportsController::class, 'show'])->name('reports.show');
     Route::get('/schedule/{id}',[App\Http\Controllers\ReportsController::class, 'schedule'])->name('reports.schedule');
+    // Route::post('/file-import', [App\Http\Controllers\ReportsController::class, 'fileImport'])->name('reports.file-import');
+    // Route::get('/file-export', [App\Http\Controllers\ReportsController::class, 'fileExport'])->name('reports.file-export');
+});
+
+//Reports Excel
+Route::group(['prefix' => 'reports'], function() {
+    Route::post('/file-import', [App\Http\Controllers\ReportsController::class, 'fileImport'])->name('reports.file-import');
+    Route::get('/file-export', [App\Http\Controllers\ReportsController::class, 'fileExport'])->name('reports.file-export');
+});
+
+//FacultyLoading Excel
+Route::group(['prefix' => 'faculty'], function() {
+    Route::post('/file-import', [App\Http\Controllers\FacultyController::class, 'fileImport'])->name('faculty.file-import');
+    Route::get('/file-export', [App\Http\Controllers\FacultyController::class, 'fileExport'])->name('faculty.file-export');
+    Route::get('/file-export2', [App\Http\Controllers\FacultyController::class, 'fileExport2'])->name('faculty.file-export2'); // for faculty schedule
+});
+
+//CourseLoading Excel
+Route::group(['prefix' => 'courseload'], function() {
+    Route::post('/file-import', [App\Http\Controllers\CourseLoadController::class, 'fileImport'])->name('courseload.file-import');
+    Route::get('/file-export', [App\Http\Controllers\CourseLoadController::class, 'fileExport'])->name('courseload.file-export');
 });

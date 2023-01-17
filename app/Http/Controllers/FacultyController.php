@@ -8,6 +8,8 @@ use App\Models\Subject;
 use App\Models\CourseLoad;
 use Illuminate\Http\Request;
 use App\Models\AssignmentApprovals;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FacultyLoadingExport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 
 class FacultyController extends Controller
@@ -248,5 +250,15 @@ class FacultyController extends Controller
         }
 
         return response($approvalWaitResult);
+    }
+
+    public function fileImport()
+    {
+
+    }
+
+    public function fileExport()
+    {
+        return Excel::download(new FacultyLoadingExport, 'FacultyLoading-collection.xlsx');
     }
 }

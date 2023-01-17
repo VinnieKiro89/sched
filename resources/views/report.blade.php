@@ -39,7 +39,9 @@
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-body">
-
+                            <div class="d-flex justify-content-end">
+                                <a type="button" class="btn btn-success mr-5" href="{{ route('reports.file-export') }}">Export data</a>
+                            </div>
                             <div class="d-flex justify-content-center">
                                 <table class="table mt-4"
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">

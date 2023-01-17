@@ -200,6 +200,8 @@
               <div id='forcal'>
                 <div id='calendar'></div>
               </div>
+              {{-- <button id="export" class="btn btn-success">Export data</button> --}}
+              <a type="button" class="btn btn-success mr-5" href="{{ route('courseload.file-export') }}">Export data</a>
             </div>
           </div>
         </div>
@@ -1051,5 +1053,20 @@
     });
   });
 </script>
+
+<!-- FOR EXPORT BUTTON -->
+{{-- <script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#export').click(function(e){
+      e.preventDefault();
+    })
+  });
+</script> --}}
 
 @endsection

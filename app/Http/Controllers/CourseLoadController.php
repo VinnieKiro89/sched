@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Faculty;
@@ -11,7 +10,10 @@ use App\Models\CourseLoad;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
+use App\Exports\CourseLoadingExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Acaronlex\LaravelCalendar\Calendar;
+use Illuminate\Support\Facades\Validator;
 
 
 class CourseLoadController extends Controller
@@ -409,5 +411,15 @@ class CourseLoadController extends Controller
         return $id;
         
         // return redirect()->route('courseload.index')->with('deleted', 'Subject Deleted.');
+    }
+
+    public function fileImport()
+    {
+
+    }
+
+    public function fileExport()
+    {
+        return Excel::download(new CourseLoadingExport, 'CourseLoading-collection.xlsx');
     }
 }
