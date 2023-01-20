@@ -268,24 +268,27 @@ class FacultyController extends Controller
         foreach ($courseload as $cl) {
             $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->start_date);
             $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->end_date);
-            // $subjects = Subject::where('id', $cl->subject_id)->first();
+            $subjects = Subject::where('id', $cl->subject_id)->first();
             
-            // $subject[] = [
-            //     'subject_code' => $subjects->subject_code,
-            //     'subject_title' => $subjects->subject_title,
-            //     'cred_units' => $subjects->cred_units,
-            //     'subj_hours' => $subjects->subj_hours,
-            //     'start' => $start_date->format("D H:i"),
-            //     'end' => $end_date->format("H:i")
-            // ];
+            $subject[] = [
+                'subject_code' => $subjects->subject_code,
+                'subject_title' => $subjects->subject_title,
+                'cred_units' => $subjects->cred_units,
+                'subj_hours' => $subjects->subj_hours,
+                'start' => $start_date->format("D H:i"),
+                'end' => $end_date->format("H:i")
+            ];
             // dd($subject);
             
         }
 
-        $pdf = App::make('dompdf.wrapper');
-        $pdf -> setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        // return view('pdf.loadFacPDF', ['subject' => $subject, 'faculty' => $faculty]);
+
+        // $pdf = App::make('dompdf.wrapper');
+        $pdf = App::make('snappy.pdf.wrapper');
+        // $pdf -> setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $pdf -> loadView('pdf.loadFacPDF', [
-            'courseload' => $courseload,
+            'subject' => $subject,
             'faculty' => $faculty
         ]);
         return $pdf->download('invoice.pdf');

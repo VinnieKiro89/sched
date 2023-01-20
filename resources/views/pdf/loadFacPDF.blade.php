@@ -30,6 +30,8 @@
       }
 
       .header {
+            display: -webkit-box; /* what the hell is a webkit box */
+            display: -webkit-flex;
             display: flex;
             align-items: center;
         }
@@ -41,12 +43,12 @@
 </head>
 <body class="body">
   <div class="header">
-    <img src="{{ asset('img/logo.jpg') }}" width="150px" alt=""/>
+    <img src="{{ public_path("/img/logo.jpg") }}" width="130px" alt=""/>
     <div style="margin: 10px">
       <p style="margin-bottom: 3px; ">Republic of the Philippines</p>
-      <p style="margin-bottom: 3px; margin-top: 3px; font-size: 30px; font-weight: bold">Polytechnic University of the Philippines</p>
-      <p style="margin-bottom: 3px; margin-top: 3px; font-size: 20px">OFFICE OF THE VICE PRESIDENT FOR BRANCHES AND SATTELITE CAMPUSES</p>
-      <p style="margin-top: 3px; font-size: 25px; font-weight: bold">Calauan, Laguna Campus</p>
+      <p style="margin-bottom: 3px; margin-top: 3px; font-size: 26px; font-weight: bold">Polytechnic University of the Philippines</p>
+      <p style="margin-bottom: 3px; margin-top: 3px; font-size: 16px">OFFICE OF THE VICE PRESIDENT FOR BRANCHES AND SATTELITE CAMPUSES</p>
+      <p style="margin-top: 3px; font-size: 21px; font-weight: bold">Calauan, Laguna Campus</p>
     </div>
   </div>
 
@@ -65,24 +67,24 @@
           <td>Test</td>
           <td>3</td>
           <td>3/0</td>
-          <td>Mon - 3:00 PM to 8:00 PM</td>
+          <td>Mon 3:00 PM to 8:00 PM</td>
         </tr>
-        <tr>
-          {{-- @foreach ($subject as $subj)
-            <td>{{ $subj['subject_code'] }}</td>
-            <td>{{ $subj['subject_title'] }}</td>
-            <td>{{ $subj['cred_units'] }}</td>
-            <td>{{ $subj['subj_hours'] }}</td>
-            <td>{{ $subj['start'] }} to {{ $subj['end'] }}</td>
-          @endforeach --}}
-          @foreach ($courseload as $cl)
-            <td>{{ $cl->subject->subject_code }}</td>
-            <td>{{ $cl->subject->subject_title }}</td>
-            <td>{{ $cl->subject->cred_units }}</td>
-            <td>{{ $cl->subject->subj_hours }}</td>
-            <td>{{ $cl->start_date }} to {{ $cl->end_date }}</td>
-          @endforeach
-        </tr>
+        @foreach ($subject as $subj)
+          <tr>
+              <td>{{ $subj['subject_code'] }}</td>
+              <td>{{ $subj['subject_title'] }}</td>
+              <td>{{ $subj['cred_units'] }}</td>
+              <td>{{ $subj['subj_hours'] }}</td>
+              <td>{{ $subj['start'] }} to {{ $subj['end'] }}</td>
+            {{-- @foreach ($courseload as $cl)
+              <td>{{ $cl->subject->subject_code }}</td>
+              <td>{{ $cl->subject->subject_title }}</td>
+              <td>{{ $cl->subject->cred_units }}</td>
+              <td>{{ $cl->subject->subj_hours }}</td>
+              <td>{{ $cl->start_date }} to {{ $cl->end_date }}</td>
+            @endforeach --}}
+          </tr>
+        @endforeach
     </table>
   <h6 style="font-size: 20px; text-align: center">For Approval only</h6>
 
