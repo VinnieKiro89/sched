@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use App\Models\Faculty;
 use App\Models\Subject;
 use App\Models\CourseLoad;
+// use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use App\Models\AssignmentApprovals;
+use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FacultyLoadingExport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
@@ -257,8 +259,41 @@ class FacultyController extends Controller
 
     }
 
-    public function fileExport()
+    public function fileExport(Request $request)
     {
-        return Excel::download(new FacultyLoadingExport, 'FacultyLoading-collection.xlsx');
+        $faculty = Faculty::where('name', $request->facultyName)->first();
+        
+        $courseload = Courseload::where('faculty_id', $faculty->id)->get();
+
+        foreach ($courseload as $cl) {
+            $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->start_date);
+            $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->end_date);
+            // $subjects = Subject::where('id', $cl->subject_id)->first();
+            
+            // $subject[] = [
+            //     'subject_code' => $subjects->subject_code,
+            //     'subject_title' => $subjects->subject_title,
+            //     'cred_units' => $subjects->cred_units,
+            //     'subj_hours' => $subjects->subj_hours,
+            //     'start' => $start_date->format("D H:i"),
+            //     'end' => $end_date->format("H:i")
+            // ];
+            // dd($subject);
+            
+        }
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf -> setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf -> loadView('pdf.loadFacPDF', [
+            'courseload' => $courseload,
+            'faculty' => $faculty
+        ]);
+        return $pdf->download('invoice.pdf');
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        // return $pdf->download('invoice.pdf');
+        
+
+        // return Excel::download(new FacultyLoadingExport, 'FacultyLoading-collection.xlsx');
     }
 }

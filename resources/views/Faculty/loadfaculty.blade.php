@@ -54,7 +54,7 @@
                   </select>
                 </div>
                 <div class="footer">
-                  <a type="button" class="btn btn-success mr-5" href="{{ route('faculty.file-export') }}">Export all Faculty Loading data</a>
+                  {{-- <a type="button" class="btn btn-success mr-5" href="{{ route('faculty.file-export') }}">Export all Faculty Loading data</a> --}}
                 </div>
               </div>
             </div>
@@ -67,6 +67,14 @@
               </div>
               <div id='forcal'>
                 <div id='calendar'></div>
+                <div class="footer text-left">
+                  <form method="get" action="{{ route('faculty.file-export') }}">
+                    @csrf
+                    <input type="hidden" name="facultyName" id="facultyName">
+                    <button id="downloadPDF" class="btn btn-success" type="submit">Download as PDF</button>
+                  </form>
+                  {{-- <button id="downloadPDF" type="button" class="btn btn-success">Download as PDF</button> --}}
+                </div>
                 <div class="footer text-right">
                   <button id="approve" name="approve" type="button" class="btn btn-success">Send for Approval</button>
                 </div>
@@ -277,6 +285,7 @@
         droppable: false,
         eventOverlap: false,
         selectOverlap: false,
+        height: "auto",
         select: function(start, end, allDays) {
         },
       });
@@ -296,6 +305,8 @@
     $('#selectFaculty').change(function(){
       var faculty = $('#selectFaculty').val();
 
+      $('input[name="facultyName"]').val(faculty);
+      
       $.ajax({
         type: 'get',
         url: '{{ route('faculty.facultyLoad') }}',
@@ -384,5 +395,97 @@
   });
 
 </script>
+
+{{-- <script>
+  function downloadToPDF() {
+
+    html2canvas(document.querySelector("#calendar")).then(canvas => {
+      // do something with the canvas object, such as sending it to DOMPDF
+      $.ajax({
+        type: 'post',
+        url: '{{ route('faculty.file-export') }}',
+        data: { 'canvas':canvas.toDataURL() },
+        success: function(data)
+        {
+          console.log(data)
+        },
+        error: function(error)
+        {
+          console.log(error)
+        }
+      });
+    });
+  }
+</script> --}}
+
+{{-- // This Works --}}
+{{-- <script> 
+  $(document).ready(function(){
+    $('#downloadPDF').click(function(e){
+      html2canvas(document.querySelector('#calendar')).then(function(canvas) {
+        // backgroundColor: '#FFFFFF'
+        saveAs(canvas.toDataURL(), 'file-name.png');
+
+        function saveAs(uri, filename) {
+
+          var link = document.createElement('a');
+
+          if (typeof link.download === 'string') {
+
+            link.href = uri;
+            link.download = filename;
+
+            //Firefox requires the link to be in the body
+            document.body.appendChild(link);
+
+            //simulate click
+            link.click();
+
+            //remove the link when done
+            document.body.removeChild(link);
+
+          } else {
+
+            window.open(uri);
+
+          }
+        }
+      });
+    });
+  });
+</script> --}}
+
+{{-- <script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $(document).ready(function(){
+    $('#downloadPDF').click(function(e){
+      e.preventDefault();
+      var faculty = $('#selectFaculty').val();
+
+      
+      // $.ajax({
+      //   type: 'get',
+      //   url: '{{ route('faculty.file-export') }}',
+      //   data: { 'faculty':faculty },
+      //   success: function(data)
+      //   {
+      //     console.log(data)
+      //   },
+      //   error: function(error)
+      //   {
+      //     console.log(error)
+      //   }
+      // });
+      
+    });
+  });
+</script> --}}
+
+
 
 @endsection

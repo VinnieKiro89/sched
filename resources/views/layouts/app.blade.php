@@ -2,6 +2,7 @@
 <html lang='en'>
 <head>
     
+    
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     
@@ -25,6 +26,15 @@
     {{-- Full Calendar :) --}}
     <link href='{{ asset('css/fullcalendar.css') }}' rel='stylesheet' />
     <script src='{{ asset('js/fullcalendar.js') }}'></script>
+
+    <!-- HTML2CANVAS :) -->
+    {{-- <script src="{{ asset('path/to/html2canvas.min.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- JSPDF :) --> <!-- NOTE: I am using DOMPDF, but this seems easier -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    {{-- <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script> --}}
+    
 
     <!-- Select2 :) -->
     <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">

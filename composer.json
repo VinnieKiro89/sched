@@ -7,7 +7,9 @@
     "require": {
         "php": "^7.3|^8.0",
         "acaronlex/laravel-calendar": "^1.6",
+        "barryvdh/laravel-dompdf": "^2.0",
         "davejamesmiller/laravel-breadcrumbs": "^5.3",
+        "dompdf/dompdf": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",

@@ -16,7 +16,9 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
+        "html2canvas": "^1.4.1",
         "jquery-ui-dist": "^1.13.2",
+        "jspdf": "^2.5.1",
         "select2": "^4.1.0-rc.0"
     }
 }

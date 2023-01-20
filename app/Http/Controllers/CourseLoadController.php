@@ -263,12 +263,14 @@ class CourseLoadController extends Controller
                     return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
                 }
             }
+            $subject = Subject::where('subject_code', $request->title)->first();
             $newcourseload = new CourseLoad();
 
             $newcourseload->curriculum_id = $request->curriculum_id;
             $newcourseload->period = $request->period;
             $newcourseload->title = $request->title;
             $newcourseload->faculty_id = $request->faculty;
+            $newcourseload->subject_id = $subject->id;
             $newcourseload->start_date = Carbon::parse($request->start_date);
             $newcourseload->end_date = Carbon::parse($request->end_date);
 
@@ -343,9 +345,11 @@ class CourseLoadController extends Controller
 
                 if($request->curriculum_id != null)
                 {
+                    $subject = Subject::where('subject_code', $request->newTitle)->first();
                     $courseload->update([
                         'title' => $request->newTitle,
                         'faculty_id' => $request->faculty,
+                        'subject_id' => $subject->id,
                         'start_date' => Carbon::parse($request->start_date),
                         'end_date' => Carbon::parse($request->end_date),
                     ]);
@@ -378,9 +382,11 @@ class CourseLoadController extends Controller
         {
 
                 // $courseload = CourseLoad::find($request->id);
+                $subject = Subject::where('subject_code', $request->newTitle)->first();
                 $courseload->update([
                     'title' => $request->newTitle,
                     'faculty_id' => $request->newFaculty,
+                    'subject_id' => $subject->id,
                     'start_date' => Carbon::parse($request->start_date),
                     'end_date' => Carbon::parse($request->end_date),
                 ]);

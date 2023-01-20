@@ -26,8 +26,8 @@ class CourseLoad extends Model
         return $this->belongsTo(Faculty::class);
     }
 
-    // public function subject()
-    // {
-    //     return $this->belongsTo(Subject::class);
-    // }
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }
