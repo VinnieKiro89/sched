@@ -291,7 +291,7 @@ class FacultyController extends Controller
             'subject' => $subject,
             'faculty' => $faculty
         ]);
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('Approval - ' . $faculty->name . '.pdf');
         // $pdf = App::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
         // return $pdf->download('invoice.pdf');
