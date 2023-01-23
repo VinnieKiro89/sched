@@ -71,7 +71,7 @@
                                                         View
                                                     </a>
 
-                                                    @if(session()->get('Role') != "Faculty")
+                                                    @if(session()->get('Role') != "Academic Head")
                                                         <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                             <i class="fas fa-book"></i>
                                                             Edit

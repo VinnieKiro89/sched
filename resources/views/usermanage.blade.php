@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="role">Period:</label><span class="text-danger">*</span>
+                                    <label for="role">Role:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
                                         class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" required autofocus>

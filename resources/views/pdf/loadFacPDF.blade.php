@@ -62,13 +62,6 @@
           <th>Hours</th>
           <th>Schedule</th>
         </tr>
-        <tr>
-          <td>CODE</td>
-          <td>Test</td>
-          <td>3</td>
-          <td>3/0</td>
-          <td>Mon 3:00 PM to 8:00 PM</td>
-        </tr>
         @foreach ($subject as $subj)
           <tr>
               <td>{{ $subj['subject_code'] }}</td>

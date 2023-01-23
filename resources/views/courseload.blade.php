@@ -754,6 +754,10 @@
             $('input[name="realperiod"]').val(value.period);
           });
         },
+        error: function(error){
+          // console.log(error);
+          $('#selectTitle').html('<option value="" hidden>Select Title</option>');
+        },
       });
     });
   });
@@ -1048,6 +1052,7 @@
           error: function(error)
           {
             console.log(error)
+            alert(error.responseJSON.error)
           }
       });
     });

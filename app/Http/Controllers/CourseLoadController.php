@@ -380,7 +380,63 @@ class CourseLoadController extends Controller
         }
         else
         {
-
+            $date = [new Carbon($request->start_date), new Carbon($request->end_date)];
+            $timefrom = Carbon::parse($request->start_date)->isoFormat('HH:mm');
+            $timeto = Carbon::parse($request->end_date)->isoFormat('HH:mm');
+            $numberOfSubj = Courseload::where('faculty_id', $request->newFaculty)->count();
+    
+    
+            // checking for conflict in course loading
+            // lmao
+    
+            // checking for conflict in faculty loading
+            $checks3 = Courseload::where('faculty_id', $request->newFaculty)
+                                    ->where('id', '!=' ,$id)
+                                    ->whereBetween('start_date', $date)
+                                    ->get();
+    
+            $checks4 = Courseload::where('faculty_id', $request->newFaculty)
+                                    ->where('id', '!=' ,$id)
+                                    ->whereBetween('end_date', $date)
+                                    ->get();
+    
+            $allevent2 = Courseload::where('faculty_id', $request->newFaculty)
+                                    ->where('id', '!=' ,$id)
+                                    ->get();
+    
+            // checking for conflict in Faculty availability & number of subjects
+            $facultycheck = Faculty::where('id', $request->newFaculty)->first();
+    
+            $courseload = CourseLoad::find($id);
+            if(! $courseload)
+            {
+                return response()->json(['error' => 'unable to find event' ], 404);
+            }
+            else
+            {
+                if(count($checks3) > 0)
+                {
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+                }elseif(count($checks4) > 0)
+                {
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+                }elseif(Carbon::parse($facultycheck->hour_avail_from)->isoFormat('HH:mm') > $timefrom)
+                {
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
+                }elseif(Carbon::parse($facultycheck->hour_avail_to)->isoFormat('HH:mm') < $timeto)
+                {
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
+                }
+                elseif($facultycheck->num_of_subj <= $numberOfSubj)
+                {
+                    return response()->json(['error' => "Schedule is conflicting with the Faculty's number of subject availability"], 401);
+                }else
+                {
+                    foreach($allevent2 as $allevent){
+                        if($allevent->start_date <= $date[0] && $allevent->end_date >= $date[1]){
+                            return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
+                        }
+                    }
                 // $courseload = CourseLoad::find($request->id);
                 $subject = Subject::where('subject_code', $request->newTitle)->first();
                 $courseload->update([
@@ -392,7 +448,8 @@ class CourseLoadController extends Controller
                 ]);
                 return response()->json('Event Updated');
                 
-            
+                }
+            }
         }
     }
 

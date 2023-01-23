@@ -71,12 +71,11 @@
                   <form method="get" action="{{ route('faculty.file-export') }}">
                     @csrf
                     <input type="hidden" name="facultyName" id="facultyName">
-                    <button id="downloadPDF" class="btn btn-success" type="submit">Download as PDF</button>
+                    <button id="downloadPDF" class="btn btn-secondary" type="submit">Download as PDF</button>
+                    <button id="approve" name="approve" type="button" class="float-right btn btn-success">Send for Approval</button>
                   </form>
                   {{-- <button id="downloadPDF" type="button" class="btn btn-success">Download as PDF</button> --}}
-                </div>
-                <div class="footer text-right">
-                  <button id="approve" name="approve" type="button" class="btn btn-success">Send for Approval</button>
+                  
                 </div>
               </div>
             </div>
@@ -306,6 +305,7 @@
       var faculty = $('#selectFaculty').val();
 
       $('input[name="facultyName"]').val(faculty);
+      $('#facultyName').attr('class', 'btn btn-success');
       
       $.ajax({
         type: 'get',
@@ -337,7 +337,7 @@
     var faculty = $('#selectFaculty').val();
     var buttonClass = $('#approve').attr('class');
 
-    if ( buttonClass == 'btn btn-success' ) {
+    if ( buttonClass == 'float-right btn btn-success' ) {
       $.ajax({ 
         method: 'POST',
         url: '{{ route('approval.store') }}',
@@ -348,7 +348,7 @@
           alert('Approval Sent')
 
           // change button to non-responsive, color: grey
-          $('#approve').attr('class', 'btn btn-secondary');
+          $('#approve').attr('class', 'float-right btn btn-secondary');
         },
         error: function(error)
         {
@@ -381,9 +381,9 @@
         data: { 'faculty':faculty },
         success: function(data){
           if (data == 1) {
-            $('#approve').attr('class', 'btn btn-secondary');
+            $('#approve').attr('class', 'float-right btn btn-secondary');
           } else  {
-            $('#approve').attr('class', 'btn btn-success');
+            $('#approve').attr('class', 'float-right btn btn-success');
           }
         },
         error: function(error)
@@ -394,6 +394,18 @@
     });
   });
 
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#facultyName').click(function(){
+      var buttonClass = $('#facultyName').attr('class');
+
+      if ( buttonClass == 'btn btn-secondary' ) {
+        e.preventDefault();
+      }
+    });
+  });
 </script>
 
 {{-- <script>

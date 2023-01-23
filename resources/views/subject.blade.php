@@ -148,6 +148,7 @@
                                     <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} 2nd Semester </h5>
                                 </div>
                                 <div class="p-2">
+                                    @if(session()->get('Role') != "Academic Head")
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                         data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
@@ -156,6 +157,7 @@
                                         <i class="fas fa-plus"></i>
                                         Add Subject
                                     </button>
+                                    @endif
                                 </div>
                             </div>
 
@@ -208,7 +210,7 @@
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
                                                                 data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
                                                                 <i class="far fa-edit"></i>
-                                                                Edit
+                                                                Edit Preferred Faculty Members
                                                             </button>
                                                         @endif
 
@@ -243,6 +245,7 @@
                                     <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
                                 </div>
                                 <div class="p-2">
+                                    @if(session()->get('Role') != "Academic Head")
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                         data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
@@ -251,6 +254,7 @@
                                         <i class="fas fa-plus"></i>
                                         Add Subject
                                     </button>
+                                    @endif
                                 </div>
                             </div>
 
@@ -303,7 +307,7 @@
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-faculty"
                                                                 data-toggle="modal" data-target=".faculty" data-uid="{{ $subject->id }}">
                                                                 <i class="far fa-edit"></i>
-                                                                Edit
+                                                                Edit Preferred Faculty Members
                                                             </button>
                                                         @endif
 
@@ -532,7 +536,6 @@
                                     <!-- why do I need to use style for this ass select2 -->
                                     <select style="width:367px" class=" select2-multiple form-control"
                                         name="selectFaculty[]" multiple="multiple" id="select2-multiple">
-                        
                                         @foreach ($faculties as $faculty)
                                             <option value={{ $faculty->id }}> {{ $faculty->name }} </option>
                                         @endforeach
