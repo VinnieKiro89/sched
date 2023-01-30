@@ -69,6 +69,22 @@
                                                 <h6 class="mb-0">Subjects willing to teach:</h6>
                                                 <p class="mb-0">{{ $faculty->num_of_subj }}</p>
                                                 <p></p>
+                                                <h6 class="mb-0">Day Availability:</h6>
+                                                <p class="mb-0">
+                                                    @php
+                                                    // $datas = $faculty->day_avail;
+                                                    $datas = json_decode($faculty->day_avail, true)
+                                                    @endphp
+                                                    
+                                                    @if (isset($datas) && !empty($datas))
+                                                    <p>
+                                                        @foreach ($datas as $index => $data)
+                                                        {{ e($data['text']) }}@if ($index < count($datas) - 1), @endif
+                                                        @endforeach
+                                                    </p>
+                                                    @endif
+                                                </p>
+                                                <p></p>
                                                 <h6 class="mb-0">Time availability:</h6>
                                                 <p class="mb-0">{{ $faculty->hour_avail_from }} to {{ $faculty->hour_avail_to }}</p>
                                                 <p></p>
@@ -170,6 +186,23 @@
                                     <div class="invalid-feedback">
                                         {{ $errors->first('num_of_subj') }}
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="hidden" name="dayArray">
+                                <div class="form-group">
+                                    <label for="co-requisite">Day Availability:</label>
+                                    <!-- why do I need to use style for this ass select2 -->
+                                    <select style="width:450px" class=" select2-multiple form-control"
+                                        name="day_avail[]" multiple="multiple" id="select2-multiple">
+                                        <option value="Mon">Monday</option>
+                                        <option value="Tue">Tuesday</option>
+                                        <option value="Wed">Wednesday</option>
+                                        <option value="Thu">Thursday</option>
+                                        <option value="Fri">Friday</option>
+                                        <option value="Sat">Saturday</option>
+                                        <option value="Sun">Sunday</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -295,6 +328,26 @@
                 $('select[name="hour_avail_to"]').val($(this).data('hour_avail_to'));
             });
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#select2-multiple').select2(
+        {
+            placeholder: 'Select Day',
+            multiple: true,
+            allowClear: true,
+        });
+    });
+    
+</script>
+
+<script>
+    $('#update').submit(function() {
+        var dayArray = $('#select2-multiple').select2('data');
+        var dayArrayString = JSON.stringify(dayArray);
+        $('input[name="dayArray"]').val(dayArrayString);
     });
 </script>
 

@@ -184,6 +184,10 @@ class CourseLoadController extends Controller
         $date = [new Carbon($request->start_date), new Carbon($request->end_date)];
         $timefrom = Carbon::parse($request->start_date)->isoFormat('HH:mm');
         $timeto = Carbon::parse($request->end_date)->isoFormat('HH:mm');
+        $day = Carbon::createFromFormat('Y-m-d\TH:i:sP', $request->start_date);
+        // dd($request->day);
+        // $day = Carbon::parse($request->day)->isoFormat('D');
+        $day = $day->format("D");
 
 
         // $start = $startnonform->format('Y-m-d');
@@ -219,6 +223,17 @@ class CourseLoadController extends Controller
         // checking for conflict in Faculty availability & number of subjects
         $facultycheck = Faculty::where('id', $request->faculty)->first();
         $numberOfSubj = Courseload::where('faculty_id', $request->faculty)->count();
+
+        $dayAvail = json_decode($facultycheck->day_avail, true);
+
+        foreach($dayAvail as $dayAv){
+            if($day == $dayAv['id']){
+                break;
+            }else{
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's day availability"], 401);
+            }
+        }
+        
 
         if(count($checks1) > 0)
         {

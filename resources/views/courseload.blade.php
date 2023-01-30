@@ -184,6 +184,9 @@
                 <div class="card shadow">
                   <div class="card-body">
                     <div class="row row-cols-3">
+                      <span id="dayAvail" class="form-group col">
+                        Day availability: -
+                      </span>
                       <span id="timeAvail" class="form-group col">
                         Time availability: - to -
                       </span>
@@ -901,12 +904,23 @@
         data: {'faculty':faculty},
         success: function(result){
           console.log(result);
+          if(result.day_avail == null){
+            // do nothing lmao
+          }else{
+            var days = JSON.parse(result.day_avail);
+            var dayTexts = [];
+            for (var i = 0; i < days.length; i++) {
+              dayTexts.push(days[i]['id']);
+            }
+
+            $('#dayAvail').html("Day availability: " + dayTexts.join(', '));
+          }
           if(result.hour_avail_from == null){
             // do nothing lmao
           }else{
             $('#timeAvail').html("Time availability: " + result.hour_avail_from + " to " + result.hour_avail_to );
           }
-          if(result.hour_avail_from == null){
+          if(result.num_of_subj == null){
             // do nothing lmao
           }else{
             $('#subjAvail').html("No. of Subjects willing to take: " + result.num_of_subj);

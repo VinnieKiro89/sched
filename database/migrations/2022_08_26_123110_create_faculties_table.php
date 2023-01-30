@@ -30,6 +30,7 @@ class CreateFacultiesTable extends Migration
             $table->string('email')->nullable();
             $table->string('contact')->nullable();
             $table->string('num_of_subj')->nullable();
+            $table->json('day_avail')->nullable();
             $table->string('hour_avail_from')->nullable();
             $table->string('hour_avail_to')->nullable();
             $table->timestamps();

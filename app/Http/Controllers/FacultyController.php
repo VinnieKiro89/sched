@@ -162,12 +162,26 @@ class FacultyController extends Controller
     {
         $this->validate($request,[
             'num_of_subj' => 'required',
+            'day_avail' => 'required',
             'hour_avail_from' => 'required',
             'hour_avail_to' => 'required',
         ]);
 
+        foreach ($request->day_avail as $dayavail){
+                $array[] = [
+                    'day_avail' => Carbon::parse($dayavail)->isoFormat('D'),
+                ];
+        }
+
+        $dayavail = implode(', ', $request->day_avail);
+
+        // this method is WILD lmao
+        $selectValuesString = $request->dayArray;
+        $selectValues = json_decode($selectValuesString, true);
+
         Faculty::where('user_id', $user_id)->update([
             'num_of_subj' => $request->num_of_subj,
+            'day_avail' => $selectValues,
             'hour_avail_from' => Carbon::parse($request->hour_avail_from)->isoFormat('h:mm A'),
             'hour_avail_to' => Carbon::parse($request->hour_avail_to)->isoFormat('h:mm A'),
         ]);
