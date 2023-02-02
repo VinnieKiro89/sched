@@ -41,7 +41,7 @@
         </li> --}}
         <li class="side-menus {{ request()->is('course/index') ? 'active-nav' : '' }}">
             <a class="nav-link" href="{{ route('course.index') }}">
-                <i class=" fas fa-graduation-cap" style="color: #606060;"></i> <span style="color:#606060">Course List</span>
+                <i class=" fas fa-graduation-cap" style="color: #606060;"></i> <span style="color:#606060">Program List</span>
             </a>
         </li>
     @endif
@@ -80,7 +80,7 @@
     @if(session()->get('Role') == "Admin")
         <li class="side-menus {{ request()->is('courseload') ? 'active-nav' : '' }}">
             <a class="nav-link" href="{{ route('courseload.index') }}">
-                <i class=" fas fa-calendar-alt" style="color: #606060;"></i> <span style="color:#606060">Course Loading</span>
+                <i class=" fas fa-calendar-alt" style="color: #606060;"></i> <span style="color:#606060">Program Loading</span>
             </a>
         </li>
     @endif

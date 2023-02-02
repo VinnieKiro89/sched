@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header" style="color:#606060">
-            <h5>Subject List</h5>
+            <h5>Course List</h5>
         </div>
         <div class="section-body">
 
@@ -43,7 +43,7 @@
 
                             <div class="d-flex">
                                 <div class="mr-auto p-2">
-                                    <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} 1st Semester </h5>
+                                    <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} 1st Semester </h5>
                                 </div>
                                 @if(session()->get('Role') != "Academic Head")
                                     <div class="p-2">
@@ -53,7 +53,7 @@
                                             data-course_code="{{ $code }}" data-section="{{ $section }}" 
                                             data-period="1st Semester" data-level="{{ $level }}">
                                             <i class="fas fa-plus"></i>
-                                            Add Subject
+                                            Add Course
                                         </button>
                                     </div>
                                 @endif
@@ -66,10 +66,10 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">Subject Code</th>
-                                            <th style="color:white;">Subject Title</th>
+                                            <th style="color:white;">Course Code</th>
+                                            <th style="color:white;">Course Title</th>
                                             <th style="color:white;">Credited Units</th>
-                                            <th style="color:white;">Subject Hours</th>
+                                            <th style="color:white;">Course Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
                                             {{-- <th style="color:white;">Faculty Members</th> --}}
@@ -145,7 +145,7 @@
 
                             <div class="d-flex">
                                 <div class="mr-auto p-2">
-                                    <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} 2nd Semester </h5>
+                                    <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} 2nd Semester </h5>
                                 </div>
                                 <div class="p-2">
                                     @if(session()->get('Role') != "Academic Head")
@@ -155,7 +155,7 @@
                                         data-course_code="{{ $code }}" data-section="{{ $section }}" 
                                         data-period="2nd Semester" data-level="{{ $level }}">
                                         <i class="fas fa-plus"></i>
-                                        Add Subject
+                                        Add Course
                                     </button>
                                     @endif
                                 </div>
@@ -168,10 +168,10 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">Subject Code</th>
-                                            <th style="color:white;">Subject Title</th>
+                                            <th style="color:white;">Course Code</th>
+                                            <th style="color:white;">Course Title</th>
                                             <th style="color:white;">Credited Units</th>
-                                            <th style="color:white;">Subject Hours</th>
+                                            <th style="color:white;">Course Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
                                             <th style="color:white;">Action</th>
@@ -242,7 +242,7 @@
 
                             <div class="d-flex">
                                 <div class="mr-auto p-2">
-                                    <h5> Subject list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
+                                    <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
                                 </div>
                                 <div class="p-2">
                                     @if(session()->get('Role') != "Academic Head")
@@ -252,7 +252,7 @@
                                         data-course_code="{{ $code }}" data-section="{{ $section }}" 
                                         data-period="Summer Semester" data-level="{{ $level }}">
                                         <i class="fas fa-plus"></i>
-                                        Add Subject
+                                        Add Course
                                     </button>
                                     @endif
                                 </div>
@@ -265,10 +265,10 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">Subject Code</th>
-                                            <th style="color:white;">Subject Title</th>
+                                            <th style="color:white;">Course Code</th>
+                                            <th style="color:white;">Course Title</th>
                                             <th style="color:white;">Credited Units</th>
-                                            <th style="color:white;">Subject Hours</th>
+                                            <th style="color:white;">Course Hours</th>
                                             <th style="color:white;">Pre-requisite</th>
                                             <th style="color:white;">Co-requisite</th>
                                             <th style="color:white;">Action</th>
@@ -355,7 +355,7 @@
                             <input id="level" type="text" class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}" name="level" hidden readonly> 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="subject_code">Subject code:</label><span class="text-danger">*</span>
+                                    <label for="subject_code">Course code:</label><span class="text-danger">*</span>
                                     <input id="subject_code" type="text"
                                         class="form-control{{ $errors->has('subject_code') ? ' is-invalid' : '' }}" name="subject_code"
                                         tabindex="1" placeholder="Enter Subject Code" autofocus required>
@@ -366,7 +366,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="subject_title">Subject Title:</label><span class="text-danger">*</span>
+                                    <label for="subject_title">Course Title:</label><span class="text-danger">*</span>
                                     <input id="subject_title" type="text"
                                         class="form-control{{ $errors->has('subject_title') ? ' is-invalid' : '' }}" name="subject_title"
                                         tabindex="1" placeholder="Enter Subject Title" autofocus required>
@@ -389,7 +389,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="subj_hours">Subject Hours:</label><span class="text-danger">*</span>
+                                        <label for="subj_hours">Course Hours:</label><span class="text-danger">*</span>
                                         <input id="subj_hours" type="text"
                                             class="form-control{{ $errors->has('subj_hours') ? ' is-invalid' : '' }}" name="subj_hours"
                                             tabindex="1" placeholder="Enter Units" autofocus required>
@@ -431,7 +431,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Edit Subject</h5>
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Edit Course</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -443,13 +443,13 @@
                         <div class="row justify-content-center">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="subject_code">Subject Code:</label><span class="text-danger">*</span>
+                                    <label for="subject_code">Course Code:</label><span class="text-danger">*</span>
                                     <input id="subject_code" type="text" class="form-control" name="subject_code" tabindex="1" placeholder="Enter Subject Code" autofocus required>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="subject_title">Subject Title:</label><span class="text-danger">*</span>
+                                    <label for="subject_title">Course Title:</label><span class="text-danger">*</span>
                                     <input id="subject_title" type="text" class="form-control" name="subject_title" tabindex="1" placeholder="Enter Subject Title" autofocus required>
                                 </div>
                             </div>
@@ -462,7 +462,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="subj_hours">Subject Hours:</label><span class="text-danger">*</span>
+                                        <label for="subj_hours">Course Hours:</label><span class="text-danger">*</span>
                                         <input id="subj_hours" type="text" class="form-control" name="subj_hours" tabindex="1" placeholder="Enter Subject Hours" autofocus required>
                                     </div>
                                 </div>
@@ -495,13 +495,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Delete Subject</h5>
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Delete Course</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="color: black;">
-                    Are you sure want to delete this Subject?
+                    Are you sure want to delete this Course?
                 </div>
                 <form method="POST" id="delete">
                     @csrf
@@ -565,7 +565,7 @@
                 $(this).click(function(event) {
                     $('#add').attr("action", "/subject/store/" + "");
 
-                    var head = 'Add subject for ' + $(this).data('course_code') + ' ' + $(this).data('section') + ' ' + $(this).data('period') + ' ' + $(this).data('level');
+                    var head = 'Add Course for ' + $(this).data('course_code') + ' ' + $(this).data('section') + ' ' + $(this).data('period') + ' ' + $(this).data('level');
                     $('#modal-title').html(head);
 
                     $('input[name="curriculum_id"]').val($(this).data('uid'));

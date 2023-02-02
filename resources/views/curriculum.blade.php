@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header" style="color:#606060">
-            <h5>Curriculum List</h5>
+            <h5>Section List</h5>
         </div>
         <div class="section-body">
 
@@ -47,7 +47,7 @@
                                     style="width: 95%; color:black; border: 1px solid #800000; font-weight:700;">
                                     <thead style="background-color: #800000;">
                                         <tr>
-                                            <th style="color:white;">Course Code</th>
+                                            <th style="color:white;">Program Code</th>
                                             <th style="color:white;">Section</th>
                                             <th style="color:white;">Level</th>
                                             <th style="color:white;">Action</th>
@@ -72,7 +72,7 @@
                                                     </button> --}} 
                                                     <a href="{{ route('subject.selectsubject', [$curriculum->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                         <i class="fas fa-book"></i>
-                                                        View Subjects
+                                                        View Courses
                                                     </a>
 
                                                     @if (session()->get('Role') != "Academic Head")
@@ -253,7 +253,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Curriculum</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Section</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -265,13 +265,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
+                                    <label for="course_code">Program Code:</label><span class="text-danger">*</span>
                                     <input id="course_code" type="text" class="form-control" name="course_code" tabindex="1" placeholder="e.g BSIT" readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="section">section:</label><span class="text-danger">*</span>
+                                    <label for="section">Section:</label><span class="text-danger">*</span>
 
                                     <select id="select1"
                                         class="form-control{{ $errors->has('section') ? ' is-invalid' : '' }}" name="section" required autofocus>
@@ -321,13 +321,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Curriculum</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Section</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="color: black;">
-                    Are you sure want to delete this Curriculum?
+                    Are you sure want to delete this Section?
                 </div>
                 <form method="POST" id="delete">
                     @csrf

@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header" style="color:#606060">
-            <h5>Course List</h5>
+            <h5>Program List</h5>
         </div>
         <div class="section-body">
 
@@ -42,7 +42,7 @@
                             @if(session()->get('Role') != "Academic Head")
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-success mr-5" data-toggle="modal" data-target="#store">
-                                        Add Course
+                                        Add Program
                                     </button>
                                 </div>
                             @endif
@@ -53,7 +53,7 @@
                                     <thead style="background-color: #800000;">
                                         <tr>
                                             <th style="color:white;">Program</th>
-                                            <th style="color:white;">Course Title</th>
+                                            <th style="color:white;">Program Title</th>
                                             <th style="color:white;">Action</th>
                                         </tr>
                                     </thead>
@@ -75,13 +75,13 @@
                                                                 data-uid="{{ $course->id }}" data-course_code="{{ $course->course_code }}"
                                                                 data-desc="{{ $course->description }}">
                                                                 <i class="fas fa-plus"></i>
-                                                                Add Curriculum
+                                                                Add Section
                                                             </button>
                                                         @endif
 
                                                         <a href="{{ route('curriculum.view', [$course->id]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
                                                             <i class="fas fa-book"></i>
-                                                            View Curriculum
+                                                            View Section
                                                         </a>
 
                                                         @if (session()->get('Role') != "Academic Head")
@@ -124,7 +124,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Course</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Add Program</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -135,7 +135,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
+                                    <label for="course_code">Program Code:</label><span class="text-danger">*</span>
                                     <input id="course_code" type="text"
                                         class="form-control{{ $errors->has('course_code') ? ' is-invalid' : '' }}" name="course_code"
                                         tabindex="1" placeholder="e.g BSIT" required autofocus>
@@ -171,7 +171,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Course</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Program</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -183,7 +183,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="course_code">Course Code:</label><span class="text-danger">*</span>
+                                    <label for="course_code">Program Code:</label><span class="text-danger">*</span>
                                     <input id="course_code" type="text" class="form-control" name="course_code" tabindex="1" placeholder="e.g BSIT" autofocus required>
                                 </div>
                             </div>
@@ -209,13 +209,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Course</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Delete Program</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="color: black;">
-                    Are you sure want to delete this Course?
+                    Are you sure want to delete this Program?
                 </div>
                 <form method="POST" id="delete">
                     @csrf
@@ -234,7 +234,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Add Curriculum</h5>
+                    <h5 class="modal-title" id="modal-title" style="color: #033571;">Add Section</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -303,7 +303,7 @@
                 $(this).click(function(event) {
                     $('#add').attr("action", "/curriculum/store/" + "");
 
-                    var head = 'Add Curriculum for ' + $(this).data('course_code');
+                    var head = 'Add Section for ' + $(this).data('course_code');
                     $('#modal-title').html(head);
 
                     $('input[name="course_id"]').val($(this).data('uid'));

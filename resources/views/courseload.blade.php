@@ -3,7 +3,7 @@
 @section('content')
 <section class='section'>
     <div class='section-header' style="color:#606060">
-        <h5 class="page__heading">Course Loading</h5>
+        <h5 class="page__heading">Program Loading</h5>
     </div>
     
     <section class='section-body'>
@@ -39,11 +39,11 @@
         <div class="col-lg-4" id="title">
           <div class="card shadow">
             <div class="card-body">
-              <h5>Subject List</h5>
+              {{-- <h5>Course List</h5> --}}
               <div class="form-group">
                 <input id="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
                 <input id="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
-                <label for="email">Subject Title:</label><span class="text-danger">*</span>
+                <label for="email">Course Title:</label><span class="text-danger">*</span>
                 <div class="select mb-3">
                   <select id="selectTitle" class="form-control" name="selectTitle" required autofocus>
                       <option value="" selected disabled hidden>Select Title</option>
@@ -134,10 +134,10 @@
               <div class="">
                 <div class="row row-cols-4">
                   <div class="form-group col">
-                    <label for="email">Course:</label><span class="text-danger">*</span>
+                    <label for="email">Program:</label><span class="text-danger">*</span>
                     <div class="select w-100 mb-4">
                       <select id="course" class="form-control w-100" name="course" required autofocus>
-                          <option value="" selected disabled hidden>Select Course</option>
+                          <option value="" selected disabled hidden>Select Program</option>
                           @foreach ($courses as $course)
                               <option value="{{ $course->id }}">
                                   {{ $course->id }}-{{ $course->course_code }}
@@ -218,7 +218,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Subject</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #033571;">Edit Course</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -235,7 +235,7 @@
             <input id="realperiodModal" value="" type="text" class="form-control{{ $errors->has('realperiodModal') ? ' is-invalid' : '' }}" name="realperiodModal" hidden readonly>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="email">Subject Title:</label><span class="text-danger">*</span>
+                <label for="email">Course Title:</label><span class="text-danger">*</span>
                 <select id="selectTitleModal" name="selectTitleModal" class="form-control" placeholder="Enter Course" required autofocus>
                   <option value="" selected disabled hidden>Select Title</option>
                 </select>

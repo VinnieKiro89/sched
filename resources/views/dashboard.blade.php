@@ -57,7 +57,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Courses</h4>
+                                <h4>Total Programs</h4>
                             </div>
                             <div class="card-body">
                                 {{ $courses }}
@@ -74,7 +74,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Curricula</h4>
+                                <h4>Total Sections</h4>
                             </div>
                             <div class="card-body">
                                 {{ $curricula }}
@@ -91,7 +91,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Subjects</h4>
+                                <h4>Total Courses</h4>
                             </div>
                             <div class="card-body">
                                 {{ $subjects }}
