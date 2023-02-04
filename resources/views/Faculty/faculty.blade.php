@@ -39,13 +39,13 @@
                     <div class="card shadow">
                         <div class="card-body">
 
-                            @if(session()->get('Role') != "Academic Head")
+                            {{-- @if(session()->get('Role') != "Academic Head")
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ route('faculty.add') }}" class="btn btn-success mr-5">
                                         Add Faculty
                                     </a>
                                 </div>
-                            @endif
+                            @endif --}}
 
                             <div class="d-flex justify-content-center">
                                 <table class="table mt-4"

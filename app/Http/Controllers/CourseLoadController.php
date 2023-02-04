@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Faculty;
+use App\Models\Reports;
 use App\Models\Subject;
 use App\Models\CourseLoad;
 use App\Models\Curriculum;
@@ -188,6 +189,7 @@ class CourseLoadController extends Controller
         // dd($request->day);
         // $day = Carbon::parse($request->day)->isoFormat('D');
         $day = $day->format("D");
+        $truecheck = null;
 
 
         // $start = $startnonform->format('Y-m-d');
@@ -213,6 +215,11 @@ class CourseLoadController extends Controller
                                 ->whereBetween('start_date', $date)
                                 ->get();
 
+        // checking if faculty already has approved load
+        $checksReport = Reports::where('faculty_id', $request->faculty)
+                                ->where('status', 'Approved')
+                                ->get();
+
         $checks4 = Courseload::where('faculty_id', $request->faculty)
                                 ->whereBetween('end_date', $date)
                                 ->get();
@@ -228,12 +235,16 @@ class CourseLoadController extends Controller
 
         foreach($dayAvail as $dayAv){
             if($day == $dayAv['id']){
-                break;
+                $truecheck = 1;
             }else{
-                return response()->json(['error' => "Schedule is conflicting with the Faculty's day availability"], 401);
+                // do nothing lmao (then why is there an else clause here)
             }
         }
-        
+        if(!$truecheck){
+            return response()->json(['error' => "Schedule is conflicting with the Faculty's day availability"], 401);
+        }
+
+
 
         if(count($checks1) > 0)
         {
@@ -277,6 +288,9 @@ class CourseLoadController extends Controller
                 if($allevent->start_date <= $date[0] && $allevent->end_date >= $date[1]){
                     return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
                 }
+            }
+            if(count($checksReport) > 0){
+                return response()->json(['error' => "The chosen Faculty already has an Approved Schedule"], 401);
             }
             $subject = Subject::where('subject_code', $request->title)->first();
             $newcourseload = new CourseLoad();
@@ -327,6 +341,11 @@ class CourseLoadController extends Controller
                                 ->where('id', '!=' ,$id)
                                 ->get();
 
+        // what it said
+        $checksReport = Reports::where('faculty_id', $request->faculty)
+                                ->where('status', 'Approved')
+                                ->get();
+
         // checking for conflict in Faculty availability & number of subjects
         $facultycheck = Faculty::where('id', $request->faculty)->first();
 
@@ -337,7 +356,10 @@ class CourseLoadController extends Controller
         }
         else
         {
-            if(count($checks3) > 0)
+            if(count($checksReport) > 0){
+                return response()->json(['error' => "The chosen Faculty already has an Approved Schedule"], 401);
+            }
+            elseif(count($checks3) > 0)
             {
                 return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
             }elseif(count($checks4) > 0)
@@ -418,7 +440,12 @@ class CourseLoadController extends Controller
             $allevent2 = Courseload::where('faculty_id', $request->newFaculty)
                                     ->where('id', '!=' ,$id)
                                     ->get();
-    
+ 
+            // what it said
+            $checksReport = Reports::where('faculty_id', $request->faculty)
+                                    ->where('status', "Approved")
+                                    ->get(); 
+
             // checking for conflict in Faculty availability & number of subjects
             $facultycheck = Faculty::where('id', $request->newFaculty)->first();
     
@@ -429,7 +456,10 @@ class CourseLoadController extends Controller
             }
             else
             {
-                if(count($checks3) > 0)
+                if(count($checksReport) > 0){
+                    return response()->json(['error' => "The chosen Faculty already has an Approved Schedule"], 401);
+                }
+                elseif(count($checks3) > 0)
                 {
                     return response()->json(['error' => "Schedule is conflicting with the Faculty's existing schedule"], 401);
                 }elseif(count($checks4) > 0)

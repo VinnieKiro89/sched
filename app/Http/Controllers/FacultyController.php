@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Faculty;
+use App\Models\Reports;
 use App\Models\Subject;
-use App\Models\CourseLoad;
 // use Barryvdh\DomPDF\PDF;
+use App\Models\CourseLoad;
+use App\Models\ReportEvents;
 use Illuminate\Http\Request;
 use App\Models\AssignmentApprovals;
 use Illuminate\Support\Facades\App;
@@ -306,6 +308,68 @@ class FacultyController extends Controller
             'faculty' => $faculty
         ]);
         return $pdf->download('Approval - ' . $faculty->name . '.pdf');
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        // return $pdf->download('invoice.pdf');
+        
+
+        // return Excel::download(new FacultyLoadingExport, 'FacultyLoading-collection.xlsx');
+    }
+
+    public function fileExport2(Request $request, $id)
+    {
+        $faculty = Faculty::where('id', $id)->first();
+        
+        $courseload = Courseload::where('faculty_id', $faculty->id)->get();
+
+        // foreach ($courseload as $cl) {
+        //     $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->start_date);
+        //     $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->end_date);
+        //     $subjects = Subject::where('id', $cl->subject_id)->first();
+            
+        //     $subject[] = [
+        //         'subject_code' => $subjects->subject_code,
+        //         'subject_title' => $subjects->subject_title,
+        //         'cred_units' => $subjects->cred_units,
+        //         'subj_hours' => $subjects->subj_hours,
+        //         'start' => $start_date->format("D H:i"),
+        //         'end' => $end_date->format("H:i")
+        //     ];
+        //     // dd($subject);
+            
+        // }
+
+        $report = Reports::where('faculty_id', $id)
+                            ->where('status', 'Approved')
+                            ->first();
+        
+        $reportEvents = ReportEvents::where(['report_id' => $report->id])->get();
+        foreach($reportEvents as $reportEvent){
+            $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $reportEvent->start_date);
+            $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $reportEvent->end_date);
+            $subjects = Subject::where('subject_code', $reportEvent->title)->first();
+
+            $subject[] = [
+                        'subject_code' => $subjects->subject_code,
+                        'subject_title' => $subjects->subject_title,
+                        'cred_units' => $subjects->cred_units,
+                        'subj_hours' => $subjects->subj_hours,
+                        'start' => $start_date->format("D H:i"),
+                        'end' => $end_date->format("H:i")
+                    ];
+        } 
+        
+
+        // return view('pdf.loadFacPDF', ['subject' => $subject, 'faculty' => $faculty]);
+
+        // $pdf = App::make('dompdf.wrapper');
+        $pdf = App::make('snappy.pdf.wrapper');
+        // $pdf -> setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf -> loadView('pdf.facApprovePDF', [
+            'subject' => $subject,
+            'faculty' => $faculty
+        ]);
+        return $pdf->download('Approved Schedule - ' . $faculty->name . '.pdf');
         // $pdf = App::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
         // return $pdf->download('invoice.pdf');

@@ -51,7 +51,6 @@ class MainController extends Controller
 
         $userauth = User::where('username','=', $request->username)->first();
         
-        
 
         if(!$userauth){
             return back()->with('fail', 'Incorrect Username or Password');

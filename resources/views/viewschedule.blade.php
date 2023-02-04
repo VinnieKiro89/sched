@@ -44,6 +44,15 @@
                             @else
                                 <div id='forcal'>
                                     <div id='calendar'></div>
+                                    <div class="footer text-left">
+                                        <form method="get" action="{{ route('faculty.file-export2', ['id' => session()->get('Faculty') ]) }}">
+                                          @csrf
+                                          <input type="hidden" name="facultyName" id="facultyName">
+                                          <button id="downloadPDF" class="btn btn-success" type="submit">Download as PDF</button>
+                                        </form>
+                                        {{-- <button id="downloadPDF" type="button" class="btn btn-success">Download as PDF</button> --}}
+                                        
+                                    </div>
                                 </div>
                             @endif
                         </div>

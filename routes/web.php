@@ -144,7 +144,7 @@ Route::group(['prefix' => 'reports'], function() {
 Route::group(['prefix' => 'faculty'], function() {
     Route::post('/file-import', [App\Http\Controllers\FacultyController::class, 'fileImport'])->name('faculty.file-import');
     Route::get('/file-export', [App\Http\Controllers\FacultyController::class, 'fileExport'])->name('faculty.file-export');
-    Route::get('/file-export2', [App\Http\Controllers\FacultyController::class, 'fileExport2'])->name('faculty.file-export2'); // for faculty schedule
+    Route::get('/file-export2/{id}', [App\Http\Controllers\FacultyController::class, 'fileExport2'])->name('faculty.file-export2'); // for faculty schedule
 });
 
 //CourseLoading Excel
