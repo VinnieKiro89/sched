@@ -37,6 +37,7 @@ class CourseLoadController extends Controller
                 'title' => $courseload->title,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
+                'room' => $courseload->room
             ];
         }
 
@@ -137,6 +138,7 @@ class CourseLoadController extends Controller
                 'title' => $courseload->title,
                 'description' => $courseload->faculty->name,
                 'faculty_id' => $courseload->faculty->id,
+                'room' => $courseload->room,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
             ];
@@ -176,6 +178,7 @@ class CourseLoadController extends Controller
             'faculty' => 'required|string',
             'end_date' => 'required|string|',
             'start_date' => 'required|string|',
+            'room' => 'required|string|',
             
         ]);
 
@@ -302,6 +305,7 @@ class CourseLoadController extends Controller
             $newcourseload->subject_id = $subject->id;
             $newcourseload->start_date = Carbon::parse($request->start_date);
             $newcourseload->end_date = Carbon::parse($request->end_date);
+            $newcourseload->room = $request->room;
 
             $newcourseload -> save();
 
@@ -488,6 +492,7 @@ class CourseLoadController extends Controller
                     'title' => $request->newTitle,
                     'faculty_id' => $request->newFaculty,
                     'subject_id' => $subject->id,
+                    'room' => $request->newRoom,
                     'start_date' => Carbon::parse($request->start_date),
                     'end_date' => Carbon::parse($request->end_date),
                 ]);

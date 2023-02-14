@@ -43,6 +43,12 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'settings'], function() 
     Route::put('/updateuser/{id}', [App\Http\Controllers\SettingController::class, 'updateUser'])->name('settings.user');
 });
 
+//Settings without the AuthCheck because im a big dumdum
+Route::group(['prefix' => 'settings'], function(){
+    Route::get('/backup', [App\Http\Controllers\SettingController::class, 'backup'])->name('settings.backup');
+    Route::post('/restore', [App\Http\Controllers\SettingController::class, 'restore'])->name('settings.restore');
+});
+
 //dashboard
 Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'dashboard'], function() {
     Route::get('',[App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');

@@ -37,6 +37,9 @@ class ReportsController extends Controller
             ];
         }
 
+        // hehee
+        // abort(403); 
+
         return view('report', ['reports'=>$reports, 'events'=>$events]);
     }
 

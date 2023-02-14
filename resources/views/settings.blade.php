@@ -45,7 +45,6 @@
                                     <label for="username">Username:</label><span class="text-danger">*</span>
                                         <input id="username" type="text" name="username" class="form-control" tabindex="1" placeholder="Enter username here" required autofocus>
                                 </div>
-                                <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary mx-1">Submit</button>
                             </form>
                         </div>
@@ -73,12 +72,26 @@
                                         <input id="newPW2" type="password" name="newPW2" class="form-control"
                                             tabindex="1" placeholder="Re-enter new password here" required autofocus>
                                 </div>
-                                <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary mx-1">Submit</button>
                             </form>
                         </div>
                     </div>
                 </div>
+                <hr>
+                @if(session()->get('Role') == "Admin") 
+                    <div>
+                        <div>
+                            <form action="{{ route('settings.restore')}}" enctype="multipart/form-data" method="POST">
+                                @csrf
+                                <input type="file" name="import-file" />
+                                <button type="submit" class="btn btn-primary mx-1">Restore Data</button>
+                            </form>
+                        </div>
+                        <div>
+                            <a type="button" class="btn btn-secondary mx-1" href="{{ route('settings.backup') }}">Backup Data</a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>

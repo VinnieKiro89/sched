@@ -9,6 +9,19 @@ class ReportEvents extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'report_id',
+        'curriculum_id',
+        'period',
+        'title',
+        'start_date',
+        'end_date',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+
     public function curriculum()
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');

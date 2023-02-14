@@ -9,7 +9,7 @@ class CourseLoad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['curriculum_id', 'title', 'subject_id', 'faculty_id', 'day', 'start_date', 'end_date'];
+    protected $fillable = ['curriculum_id', 'title', 'subject_id', 'faculty_id', 'day', 'start_date', 'end_date', 'period', 'room'];
 
     public function curriculum()
     {

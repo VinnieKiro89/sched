@@ -14,9 +14,20 @@ class Subject extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'id',
+        'curriculum_id',
+        'period',
+        'section',
+        'level',
+        'subject_code',
+        'subject_title',
+        'cred_units',
+        'subj_hours',
+        'pre_requisite',
+        'co_requisite',
+        // 'selectFaculty',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [

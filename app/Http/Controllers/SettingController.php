@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Course;
 use App\Models\Faculty;
+use App\Models\Reports;
+use App\Models\Subject;
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
+use App\Imports\BackupImport;
+use App\Models\AssignmentApprovals;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BackupExportMultiSheet;
+use Illuminate\Support\Facades\Artisan;
 
 class SettingController extends Controller
 {
@@ -62,6 +71,28 @@ public function index()
         }
 
         
+    }
+
+    public function backup()
+    {
+        return Excel::download(new BackupExportMultiSheet, 'backup.xlsx');
+    }
+
+    public function restore(Request $request)
+    {
+        Artisan::call('migrate:refresh');
+
+        Excel::import(new BackupImport(), $request->file('import-file'));
+
+        $users = User::count();
+        $courses = Course::count();
+        $curricula = Curriculum::count();
+        $subjects = Subject::count();
+        $approvals = AssignmentApprovals::where('approval', 'Pending')
+                                        ->count();
+        $reports = Reports::count();
+
+        return view('dashboard', compact('users', 'courses', 'curricula', 'subjects', 'approvals', 'reports'));
     }
 }
 

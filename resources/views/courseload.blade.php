@@ -120,6 +120,29 @@
                       <option value="21:00:00+08:00">9:00 PM</option>
                   </select>
                 </div>
+                <label for="selectRoom">Room:</label><span class="text-danger">*</span>
+                <div class="select mb-3">
+                  <select id="selectRoom" class="form-control" name="selectRoom" required autofocus>
+                      <option value="" selected disabled hidden>Select Room</option>
+                      <!-- there's probably a cleaner option to do this -->
+                      <option value="Room 101">Room 101</option>
+                      <option value="Room 102">Room 102</option>
+                      <option value="Room 103">Room 103</option>
+                      <option value="Room 104">Room 104</option>
+                      <option value="Room 105">Room 105</option>
+                      <option value="Room 201">Room 201</option>
+                      <option value="Room 202">Room 202</option>
+                      <option value="Room 203">Room 203</option>
+                      <option value="Room 204">Room 204</option>
+                      <option value="Room 205">Room 205</option>
+                      <option value="Room 301">Room 301</option>
+                      <option value="Room 302">Room 302</option>
+                      <option value="Room 303">Room 303</option>
+                      <option value="Room 304">Room 304</option>
+                      <option value="Room 305">Room 305</option>
+                      <option value="Comlab">Comlab</option>
+                  </select>
+                </div>
                 <div class="footer">
                   <button type="button" class="btn btn-secondary">Clear</button>
                   <button id="save" name="save" type="submit" class="btn btn-primary">Save</button>
@@ -267,6 +290,30 @@
                       {{ $faculty->name }}
                     </option>
                   @endforeach --}}
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="selectRoomModal">Select Room:</label><span class="text-danger">*</span>
+                <select id="selectFacultyModal" class="form-control" placeholder="Enter Room" name="selectFacultyModal" autofocus>
+                  <option value="" selected disabled hidden>Select Room</option>
+                  <option value="Room 101">Room 101</option>
+                  <option value="Room 102">Room 102</option>
+                  <option value="Room 103">Room 103</option>
+                  <option value="Room 104">Room 104</option>
+                  <option value="Room 105">Room 105</option>
+                  <option value="Room 201">Room 201</option>
+                  <option value="Room 202">Room 202</option>
+                  <option value="Room 203">Room 203</option>
+                  <option value="Room 204">Room 204</option>
+                  <option value="Room 205">Room 205</option>
+                  <option value="Room 301">Room 301</option>
+                  <option value="Room 302">Room 302</option>
+                  <option value="Room 303">Room 303</option>
+                  <option value="Room 304">Room 304</option>
+                  <option value="Room 305">Room 305</option>
+                  <option value="Comlab">Comlab</option>
                 </select>
               </div>
             </div>
@@ -624,7 +671,7 @@
                   calendar.addEventSource({
                     events: data,
                     eventRender: function(event, element) { 
-                      element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                      element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description + event.extendedProps.room); 
                     },
                   });
                   
@@ -662,6 +709,7 @@
       var faculty = $('#selectFaculty').val();
       var start = $('#selectStart').val();
       var end = $('#selectEnd').val();
+      var room = $('#selectRoom').val();
       
       var start_date = day + start;
       var end_date = day + end;
@@ -679,7 +727,8 @@
               'title':title, 
               'day':day, 
               'start_date':start_date, 
-              'end_date':end_date, 
+              'end_date':end_date,
+              'room':room, 
               'faculty':faculty 
               },
 
@@ -797,7 +846,7 @@
           calendar.addEventSource({
             events: data,
             eventRender: function(event, element) { 
-              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+              element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description + event.extendedProps.room); 
             },
           });
           
@@ -980,7 +1029,7 @@
                     calendar.addEventSource({
                       events: data,
                       eventRender: function(event, element) { 
-                        element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                        element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description + event.extendedProps.room); 
                       },
                     });
                     
@@ -1022,6 +1071,7 @@
       var id = $('#event_idModal').val();
       var newTitle = $('#selectTitleModal').val();
       var newFaculty = $('#selectFacultyModal').val();
+      var newRoom = $('#selectRoomModal').val();
       var start_date = $('#event_startModal').val();
       var end_date = $('#event_endModal').val();
 
@@ -1033,7 +1083,13 @@
       $.ajax({ 
           method: 'PUT',
           url: "{{ route('courseload.update2', '') }}" +'/'+ id,
-          data: {'newTitle':newTitle, 'newFaculty':newFaculty, 'start_date':start_date, 'end_date':end_date },
+          data: {
+                  'newTitle':newTitle, 
+                  'newFaculty':newFaculty, 
+                  'newRoom':newRoom,
+                  'start_date':start_date, 
+                  'end_date':end_date 
+                },
           dataType: 'json',
           success: function(response) 
           {
@@ -1052,7 +1108,7 @@
                 calendar.addEventSource({
                   events: data,
                   eventRender: function(event, element) { 
-                    element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description); 
+                    element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description + event.extendedProps.room); 
                   },
                 });
                 

@@ -18,9 +18,12 @@ class Curriculum extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'id',
+        'course_id',
+        'level',
+        'section',
+        'created_at',
+        'updated_at',
     ];
 
     public function course()
