@@ -296,7 +296,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="selectRoomModal">Select Room:</label><span class="text-danger">*</span>
-                <select id="selectFacultyModal" class="form-control" placeholder="Enter Room" name="selectFacultyModal" autofocus>
+                <select id="selectRoomModal" class="form-control" placeholder="Enter Room" name="selectRoomModal" autofocus>
                   <option value="" selected disabled hidden>Select Room</option>
                   <option value="Room 101">Room 101</option>
                   <option value="Room 102">Room 102</option>
@@ -499,7 +499,7 @@
             dayHeaderFormat: { weekday: 'long' },
             eventContent: function (eventInfo) {
               return {
-                html: eventInfo.timeText + '<br/>' + eventInfo.event.title + '<br/>' + eventInfo.event.extendedProps.description
+                html: eventInfo.timeText + '<br/>' + eventInfo.event.title + '<br/>' + eventInfo.event.extendedProps.description + '<br/>' + eventInfo.event.extendedProps.room
               };
             },
           }
@@ -530,6 +530,7 @@
           var title = info.event.title;
           var faculty_id = info.event.extendedProps.faculty_id; 
           var faculty = info.event.extendedProps.description;
+          var room = info.event.extendedProps.room;
 
           var start_date = moment(info.event.start).format();
           var end_date = moment(info.event.end).format();
@@ -576,6 +577,7 @@
                 $('input[name="event_endModal"]').val(end_date);
                 $('select[name="selectTitleModal"]').val(title);
                 $('select[name="selectFacultyModal"]').val(faculty_id);
+                $('select[name="selectRoomModal"]').val(room);
                 $('input[name="curriculum_idModal"]').val(element.curriculum_id); 
                 $('input[name="realperiodModal"]').val(element.period);
               });
@@ -738,6 +740,7 @@
           calendar.addEvent({
             'title': response.title,
             'subtitle': response.faculty,
+            'subtitle': response.room,
             'start': response.start_date,
             'end': response.end_date,
           });
@@ -756,7 +759,13 @@
               // console.log(data);
 
               calendar.removeAllEvents();
-              calendar.addEventSource(data)
+              // calendar.addEventSource(data)
+              calendar.addEventSource({
+                events: data,
+                eventRender: function(event, element) { 
+                  element.find('.fc-title').append('<br/><span class="fc-description">' + event.extendedProps.description + event.extendedProps.room); 
+                },
+              });
 
             },
 
