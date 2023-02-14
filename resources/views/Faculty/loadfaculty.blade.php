@@ -135,7 +135,7 @@
             dayHeaderFormat: { weekday: 'long' },
             eventContent: function (eventInfo) {
               return {
-                html: eventInfo.timeText + '<br/>' + eventInfo.event.extendedProps.subjectTitle + '<br/>' + eventInfo.event.extendedProps.period
+                html: eventInfo.timeText + '<br/>' + eventInfo.event.extendedProps.subjectTitle + '<br/>' + eventInfo.event.extendedProps.period + '<br/>' + eventInfo.event.extendedProps.room
                 //+ '<br/>' + eventInfo.event.extendedProps.description
               };
             },

@@ -244,6 +244,7 @@ class FacultyController extends Controller
                 'title' => $courseload->title,
                 'subjectTitle' => $subject->subject_title,
                 'description' => $courseload->faculty->name,
+                'room' => $courseload->room,
                 'start' => $courseload->start_date,
                 'end' => $courseload->end_date,
             ];
