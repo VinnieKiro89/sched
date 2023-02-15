@@ -21,7 +21,7 @@ class NinthSheetBackupImport implements ToCollection, WithHeadingRow
                'fname' => $col['fname'],
                'username' => $col['username'],
                'role' => $col['role'],
-               'password' => Hash::make($col['password']),
+               'password' => $col['password'],
                'created_at' => $col['created_at'],
                'updated_at' => $col['updated_at'],
             ]);

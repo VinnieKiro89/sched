@@ -27,6 +27,12 @@ public function index()
         $user = User::where('id', $id)->first();
         $username = $user->username;
 
+        if(!$id || !$user){
+            $id = null;
+            $user = null;
+            $username = null;
+        }
+
         return view('settings', ['id' => $id, 'username' => $username]);
     }
 
@@ -80,6 +86,20 @@ public function index()
 
     public function restore(Request $request)
     {
+        if(!$request->file('import-file')){
+            $id = session()->get('LoggedUser');
+            $user = User::where('id', $id)->first();
+            $username = $user->username;
+
+            if(!$id || !$user){
+                $id = null;
+                $user = null;
+                $username = null;
+            }
+
+            return view('settings', ['id' => $id, 'username' => $username]);
+        }
+
         Artisan::call('migrate:refresh');
 
         Excel::import(new BackupImport(), $request->file('import-file'));
@@ -93,6 +113,25 @@ public function index()
         $reports = Reports::count();
 
         return view('dashboard', compact('users', 'courses', 'curricula', 'subjects', 'approvals', 'reports'));
+    }
+
+    public function nuke()
+    {
+        Artisan::call('migrate:refresh');
+
+        User::create([
+            'fname' => "Admin",
+            'username' => "admin1",
+            'role' => "Admin",
+            'password' => Hash::make('admin1'),           
+        ]);
+
+        if(session()->has('LoggedUser')){
+            session()->pull('LoggedUser');
+            return redirect()->route('auth.login');
+        }else{
+            return redirect()->route('auth.login');
+        }
     }
 }
 

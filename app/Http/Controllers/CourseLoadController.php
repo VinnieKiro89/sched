@@ -230,6 +230,17 @@ class CourseLoadController extends Controller
         $allevent2 = Courseload::where('faculty_id', $request->faculty)
                                 ->get();
 
+        // checking if conflict of room
+        $checkRoom1 = Courseload::where('room', $request->room)
+                                ->where('period', $request->period)
+                                ->whereBetween('start_date', $date)
+                                ->get();
+
+        $checkRoom2 = Courseload::where('room', $request->room)
+                                ->where('period', $request->period)
+                                ->whereBetween('end_date', $date)
+                                ->get();
+
         // checking for conflict in Faculty availability & number of subjects
         $facultycheck = Faculty::where('id', $request->faculty)->first();
         $numberOfSubj = Courseload::where('faculty_id', $request->faculty)->count();
@@ -248,8 +259,13 @@ class CourseLoadController extends Controller
         }
 
 
-
-        if(count($checks1) > 0)
+        if(count($checkRoom1) > 0)
+        {
+            return response()->json(['error' => 'Schedule is conflicting with an existing Room Schedule'], 401);
+        }elseif(count($checkRoom2) > 0)
+        {
+            return response()->json(['error' => 'Schedule is conflicting with an existing Room Schedule'], 401);
+        }elseif(count($checks1) > 0)
         {
             return response()->json(['error' => 'Schedule is conflicting with another existing schedule'], 401);
         }elseif(count($checks2) > 0)
@@ -450,6 +466,17 @@ class CourseLoadController extends Controller
                                     ->where('status', "Approved")
                                     ->get(); 
 
+            // checking if conflict of room
+            $checkRoom1 = Courseload::where('room', $request->room)
+                                    ->where('period', $request->period)
+                                    ->whereBetween('start_date', $date)
+                                    ->get();
+
+            $checkRoom2 = Courseload::where('room', $request->room)
+                                    ->where('period', $request->period)
+                                    ->whereBetween('end_date', $date)
+                                    ->get();
+
             // checking for conflict in Faculty availability & number of subjects
             $facultycheck = Faculty::where('id', $request->newFaculty)->first();
     
@@ -479,6 +506,12 @@ class CourseLoadController extends Controller
                 elseif($facultycheck->num_of_subj <= $numberOfSubj)
                 {
                     return response()->json(['error' => "Schedule is conflicting with the Faculty's number of subject availability"], 401);
+                }elseif(count($checkRoom1 > 0))
+                {
+                    return response()->json(['error' => 'Schedule is conflicting with an existing Room Schedule'], 401);
+                }elseif(count($checkRoom2) > 0)
+                {
+                    return response()->json(['error' => 'Schedule is conflicting with an existing Room Schedule'], 401);
                 }else
                 {
                     foreach($allevent2 as $allevent){

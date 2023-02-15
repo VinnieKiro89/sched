@@ -47,6 +47,27 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary mx-1">Submit</button>
                             </form>
+                            
+                            @if(session()->get('Role') == "Admin") 
+                                <hr>
+                                <div>
+                                    <div>
+                                        <form action="{{ route('settings.restore')}}" enctype="multipart/form-data" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary mx-1">Restore Data</button>
+                                            <input type="file" name="import-file" />
+                                        </form>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <a type="button" class="btn btn-primary mx-1" href="{{ route('settings.backup') }}">Backup Data</a>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <a type="button" class="btn btn-danger mx-1" href="{{ route('settings.nuke') }}">Reset Data</a>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -76,22 +97,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
-                <hr>
-                @if(session()->get('Role') == "Admin") 
-                    <div>
-                        <div>
-                            <form action="{{ route('settings.restore')}}" enctype="multipart/form-data" method="POST">
-                                @csrf
-                                <input type="file" name="import-file" />
-                                <button type="submit" class="btn btn-primary mx-1">Restore Data</button>
-                            </form>
-                        </div>
-                        <div>
-                            <a type="button" class="btn btn-secondary mx-1" href="{{ route('settings.backup') }}">Backup Data</a>
-                        </div>
-                    </div>
-                @endif
+                </div>    
             </div>
         </div>
     </section>
