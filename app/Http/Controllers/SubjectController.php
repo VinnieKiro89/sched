@@ -7,6 +7,8 @@ use App\Models\Faculty;
 use App\Models\Subject;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
+use App\Imports\SubjectImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubjectController extends Controller
 {
@@ -192,5 +194,28 @@ class SubjectController extends Controller
         $subject->delete();
         
         return redirect()->back()->with('deleted', 'Curriculum Deleted!');
+    }
+
+    public function importSubject(Request $request)
+    {
+        Excel::import(new SubjectImport($request->code, $request->level, $request->section), $request->file('import-file'));
+
+        // $faculties = Faculty::all();
+        // $subjects = Subject::where('curriculum_id', $curriculum->id)->get();
+        // $id = $curriculum->id;
+        // $code = $curriculum->course->course_code;
+        // $section = $curriculum->section;
+        // $period = $curriculum->period;
+        // $level = $curriculum->level;
+        
+        // foreach($subjects as $subject){
+        //     $selectFaculties = [
+        //         'name' => $subject->selectFaculty
+        //     ];
+        // }
+
+        // dd($selectFaculties);
+       
+        return redirect()->back();
     }
 }

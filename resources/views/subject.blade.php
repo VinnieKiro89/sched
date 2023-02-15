@@ -56,6 +56,21 @@
                                             Add Course
                                         </button>
                                     </div>
+                                    <div class="p-2">
+                                        <form action="{{ route('subject.importSubject')}}" enctype="multipart/form-data" method="POST">
+                                            @csrf
+                                            @method('post')
+                                            <button type="submit"
+                                                class="btn btn-icon icon-left mr-3 btn-outline-success">
+                                                <i class="fas fa-plus"></i>
+                                                Import Course
+                                            </button>
+                                            <input type="file" name="import-file" />
+                                            <input type="text" name="code" value="{{ $id }}" hidden>
+                                            <input type="text" name="level" value="{{ $level }}"hidden>
+                                            <input type="text" name="section" value="{{ $section }}" hidden>
+                                        </form>
+                                    </div>
                                 @endif
                             </div>
 

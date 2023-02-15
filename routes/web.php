@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
-// end
+// end lol
 
 //Login?
 Route::group([ 'prefix' => 'auth'], function() {
@@ -47,6 +47,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'settings'], function() 
 Route::group(['prefix' => 'settings'], function(){
     Route::get('/backup', [App\Http\Controllers\SettingController::class, 'backup'])->name('settings.backup');
     Route::post('/restore', [App\Http\Controllers\SettingController::class, 'restore'])->name('settings.restore');
+    Route::get('/reset', [App\Http\Controllers\SettingController::class, 'nuke'])->name('settings.nuke');
 });
 
 //dashboard
@@ -97,6 +98,11 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'subject'], function() {
     Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
     Route::put('/updateFaculty/{id}',[App\Http\Controllers\SubjectController::class, 'updateFaculty'])->name('subject.updateFaculty');
+});
+
+//Subject without the auth because im a dumdum
+Route::group(['prefix' => 'subject'], function() {
+    Route::post('/importSubject', [App\Http\Controllers\SubjectController::class, 'importSubject'])->name('subject.importSubject');
 });
 
 //Faculty (not done)
