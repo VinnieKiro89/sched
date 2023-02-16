@@ -227,7 +227,14 @@
                 <div id='calendar'></div>
               </div>
               {{-- <button id="export" class="btn btn-success">Export data</button> --}}
-              <a type="button" class="btn btn-success mr-5" href="{{ route('courseload.file-export') }}">Export data</a>
+              {{-- <a type="button" class="btn btn-success mr-5" href="{{ route('courseload.file-export') }}">Export data</a> --}}
+              <div>
+                <form action="{{ route('courseload.file-export') }}" enctype="multipart/form-data" method="GET">
+                  <input name="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
+                  <input name="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
+                  <button type="submit" class="btn btn-success">Export data</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1149,6 +1156,19 @@
   $(document).ready(function(){
     $('#export').click(function(e){
       e.preventDefault();
+
+      var curriculum_id = $('#curriculum_id').val();
+      var section = $('#realperiod').val();
+
+      $.ajax({
+        type: 'get',
+        url: '{{ route('courseload.file-export') }}',
+        data: {'curriculum_id':curriculum_id, 'section':section},
+        success: function(data){
+
+        },
+
+      });
     })
   });
 </script> --}}

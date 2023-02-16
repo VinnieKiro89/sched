@@ -292,8 +292,9 @@ class FacultyController extends Controller
                 'subject_title' => $subjects->subject_title,
                 'cred_units' => $subjects->cred_units,
                 'subj_hours' => $subjects->subj_hours,
-                'start' => $start_date->format("D H:i"),
-                'end' => $end_date->format("H:i")
+                'start' => $start_date->format("D h:i A"),
+                'end' => $end_date->format("h:i A"),
+                'room' => $cl->room
             ];
             // dd($subject);
             

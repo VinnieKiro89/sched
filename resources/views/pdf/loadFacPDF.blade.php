@@ -61,6 +61,7 @@
           <th>Units</th>
           <th>Hours</th>
           <th>Schedule</th>
+          <th>Room</th>
         </tr>
         @foreach ($subject as $subj)
           <tr>
@@ -69,6 +70,7 @@
               <td>{{ $subj['cred_units'] }}</td>
               <td>{{ $subj['subj_hours'] }}</td>
               <td>{{ $subj['start'] }} to {{ $subj['end'] }}</td>
+              <td>{{ $subj['room'] }}</td>
             {{-- @foreach ($courseload as $cl)
               <td>{{ $cl->subject->subject_code }}</td>
               <td>{{ $cl->subject->subject_title }}</td>
