@@ -34,7 +34,8 @@ class CourseLoadingViewExport implements FromView, ShouldAutoSize
         // $faculty = Faculty::where('name', $request->facultyName)->first();
         
         $courseload = Courseload::where('curriculum_id', $this->id)
-                                ->where('period', $this->period)            
+                                ->where('period', $this->period)   
+                                ->orderBy('start_date', 'asc')         
                                 ->get();
 
         foreach ($courseload as $cl) {

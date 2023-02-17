@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
@@ -13,6 +14,9 @@ class Subject extends Model
      *
      * @var array<int, string>
      */
+
+    use SoftDeletes;
+
     protected $fillable = [
         'id',
         'curriculum_id',

@@ -98,6 +98,7 @@ Route::group(['middleware' =>['AuthCheck'], 'prefix' => 'subject'], function() {
     Route::delete('/destroy/{id}',[App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.destroy');
     Route::put('/update/{id}',[App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
     Route::put('/updateFaculty/{id}',[App\Http\Controllers\SubjectController::class, 'updateFaculty'])->name('subject.updateFaculty');
+    Route::get('/oldCurriculum/{curriculum}',[App\Http\Controllers\SubjectController::class, 'oldCurriculum'])->name('subject.oldCurriculum');
 });
 
 //Subject without the auth because im a dumdum

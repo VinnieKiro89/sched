@@ -25,9 +25,9 @@ class SubjectController extends Controller
 
     public function selectsubject(Curriculum $curriculum) // 1
     {
-
         $faculties = Faculty::all();
         $subjects = Subject::where('curriculum_id', $curriculum->id)->get();
+        $oldSubjects = Subject::where('curriculum_id', $curriculum->id)->onlyTrashed()->count();
         $id = $curriculum->id;
         $code = $curriculum->course->course_code;
         $section = $curriculum->section;
@@ -61,7 +61,7 @@ class SubjectController extends Controller
 
         // dd($selectFaculties);
        
-        return view('subject', compact('subjects', 'id', 'code', 'section', 'period', 'level', 'faculties', 'selectFaculties'));
+        return view('subject', compact('subjects', 'id', 'code', 'section', 'period', 'level', 'faculties', 'selectFaculties', 'oldSubjects'));
     }
 
     /**
@@ -191,15 +191,40 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         $subject = Subject::findorfail($id);
-        $subject->delete();
+        $subject->forceDelete();
         
         return redirect()->back()->with('deleted', 'Curriculum Deleted!');
     }
 
     public function importSubject(Request $request)
     {
+        Subject::where('curriculum_id', $request->code)
+                ->where('level', $request->level)
+                ->where('section', $request->section)
+                ->delete(); 
+
         Excel::import(new SubjectImport($request->code, $request->level, $request->section), $request->file('import-file'));
        
         return redirect()->back();
+    }
+    
+    public function oldCurriculum(Curriculum $curriculum) // im a F###### idiot
+    {
+        $faculties = Faculty::all();
+        $subjects = Subject::onlyTrashed()->where('curriculum_id', $curriculum->id)->get();
+        $id = $curriculum->id;
+        $code = $curriculum->course->course_code;
+        $section = $curriculum->section;
+        $period = $curriculum->period;
+        $level = $curriculum->level;
+        
+        // probably wont need this
+        foreach($subjects as $subject){
+            $selectFaculties = [
+                'name' => $subject->selectFaculty
+            ];
+        }
+       
+        return view('oldSubject', compact('subjects', 'id', 'code', 'section', 'period', 'level', 'faculties'));
     }
 }

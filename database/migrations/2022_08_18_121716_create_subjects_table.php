@@ -27,6 +27,7 @@ class CreateSubjectsTable extends Migration
             $table->string('co_requisite')->nullable();
             $table->string('selectFaculty')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

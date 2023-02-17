@@ -149,7 +149,9 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            @if ($oldSubjects > 0)
+                                <a a type="button" class="btn btn-primary mx-1" href="{{ route('subject.oldCurriculum', [$id]) }}">View Old Curriculum</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -162,8 +164,8 @@
                                 <div class="mr-auto p-2">
                                     <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} 2nd Semester </h5>
                                 </div>
+                                @if(session()->get('Role') != "Academic Head")
                                 <div class="p-2">
-                                    @if(session()->get('Role') != "Academic Head")
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                         data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
@@ -172,8 +174,23 @@
                                         <i class="fas fa-plus"></i>
                                         Add Course
                                     </button>
-                                    @endif
                                 </div>
+                                <div class="p-2">
+                                    <form action="{{ route('subject.importSubject')}}" enctype="multipart/form-data" method="POST">
+                                        @csrf
+                                        @method('post')
+                                        <button type="submit"
+                                            class="btn btn-icon icon-left mr-3 btn-outline-success">
+                                            <i class="fas fa-plus"></i>
+                                            Import Course
+                                        </button>
+                                        <input type="file" name="import-file" />
+                                        <input type="text" name="code" value="{{ $id }}" hidden>
+                                        <input type="text" name="level" value="{{ $level }}"hidden>
+                                        <input type="text" name="section" value="{{ $section }}" hidden>
+                                    </form>
+                                </div>
+                                @endif
                             </div>
 
                             <div class="d-flex justify-content-center">
@@ -245,8 +262,9 @@
                                     </tbody>
                                 </table>
                             </div>
-
-                            
+                            @if ($oldSubjects > 0)
+                                <a a type="button" class="btn btn-primary mx-1" href="{{ route('subject.oldCurriculum', [$id]) }}">View Old Curriculum</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -259,8 +277,8 @@
                                 <div class="mr-auto p-2">
                                     <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
                                 </div>
+                                @if(session()->get('Role') != "Academic Head")
                                 <div class="p-2">
-                                    @if(session()->get('Role') != "Academic Head")
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
                                         data-toggle="modal" data-target=".add"  data-uid="{{ $id }}"
@@ -269,8 +287,23 @@
                                         <i class="fas fa-plus"></i>
                                         Add Course
                                     </button>
-                                    @endif
                                 </div>
+                                <div class="p-2">
+                                    <form action="{{ route('subject.importSubject')}}" enctype="multipart/form-data" method="POST">
+                                        @csrf
+                                        @method('post')
+                                        <button type="submit"
+                                            class="btn btn-icon icon-left mr-3 btn-outline-success">
+                                            <i class="fas fa-plus"></i>
+                                            Import Course
+                                        </button>
+                                        <input type="file" name="import-file" />
+                                        <input type="text" name="code" value="{{ $id }}" hidden>
+                                        <input type="text" name="level" value="{{ $level }}"hidden>
+                                        <input type="text" name="section" value="{{ $section }}" hidden>
+                                    </form>
+                                </div>
+                                @endif
                             </div>
 
                             <div class="d-flex justify-content-center">
@@ -342,6 +375,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @if ($oldSubjects > 0)
+                                <a a type="button" class="btn btn-primary mx-1" href="{{ route('subject.oldCurriculum', [$id]) }}">View Old Curriculum</a>
+                            @endif
                         </div>
                     </div>
                 </div>
