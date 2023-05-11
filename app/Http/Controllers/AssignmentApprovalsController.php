@@ -164,13 +164,13 @@ class AssignmentApprovalsController extends Controller
         AssignmentApprovals::where('faculty_id', $faculty->id)
                                         ->where('approval', 'Pending')
                                         ->update([
-                                            'approval' => 'Declined',
+                                            'approval' => 'Reverse',
                                         ]);
 
         $reports = new Reports();
 
         $reports->faculty_id = $faculty->id;
-        $reports->status = 'Declined';
+        $reports->status = 'Reverse';
 
         $reports->save();
 
@@ -186,14 +186,14 @@ class AssignmentApprovalsController extends Controller
             $reportEvents->start_date = $courseload->start_date;
             $reportEvents->end_date = $courseload->end_date;
             $reportEvents->report_id = $report_id->id;
-            $reportEvents->status = 'Declined';
+            $reportEvents->status = 'Reverse';
 
             $reportEvents->save();
         }
 
         
 
-        return response('Declined');
+        return response('Reversed');
     }
     // Honestly, I think I can combine approve and decline functions
 

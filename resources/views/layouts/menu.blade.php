@@ -19,7 +19,7 @@
     @endif
 
     <!-- User Management -->
-    @if(session()->get('Role') == "Admin")
+    @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Admin")
         <li class="side-menus {{ request()->is('usermanage') ? 'active-nav' : '' }}">
             <a class="nav-link" href="{{ route('usermanage.index') }}">
                 <i class=" fas fa-users" style="color: #606060;"></i> <span style="color:#606060">User Management</span>
@@ -28,7 +28,7 @@
     @endif
 
     <!-- Curriculum -->
-    @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Admin")
+    @if(session()->get('Role') == "Academic Head")
         {{-- <li class="nav-item dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                     style="color: #606060;"></i> <span style="color:#606060">Curriculum Management</span></a>
@@ -47,7 +47,7 @@
     @endif
 
     <!-- Faculty -->
-    @if(session()->get('Role') != "Director")  
+    @if(session()->get('Role') != "Director" || session()->get('Role') != "Admin" || )  
         <li class="nav-item dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                     style="color: #606060;"></i> <span style="color:#606060">Faculty Management</span></a>
@@ -55,7 +55,7 @@
                 @if(session()->get('Role') != "Faculty")
                     <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.index') }}" style="color: #606060; font-weight:600;"><i
                                 class=" fas fa-chalkboard-teacher" style="color: #606060;"></i>Faculty</a></li>
-                    @if(session()->get('Role') != "Academic Head")
+                    @if(session()->get('Role') != "Admin") <!-- redundant, fix soon -->
                         <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
                                     class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
                     @endif
@@ -77,7 +77,7 @@
     @endif
 
     <!-- Course loading -->
-    @if(session()->get('Role') == "Admin")
+    @if(session()->get('Role') == "Academic Head")
         <li class="side-menus {{ request()->is('courseload') ? 'active-nav' : '' }}">
             <a class="nav-link" href="{{ route('courseload.index') }}">
                 <i class=" fas fa-calendar-alt" style="color: #606060;"></i> <span style="color:#606060">Program Loading</span>
@@ -86,7 +86,7 @@
     @endif
 
     <!-- Reports -->
-    @if(session()->get('Role') == "Admin")
+    @if(session()->get('Role') == "Academic Head" || session()->get('Role') == "Director")
     <li class="side-menus {{ request()->is('reports') ? 'active-nav' : '' }}">
         <a class="nav-link" href="{{ route('reports.index') }}">
             <i class="fas fa-table" style="color: #606060;"></i> <span style="color:#606060">Reports</span>

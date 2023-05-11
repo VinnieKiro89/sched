@@ -25,7 +25,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            @if(session()->get('Role') == "Faculty")
+                            @if(session()->get('Role') == "Faculty" && empty($faculty->num_of_subj))
                                 <div class="d-flex justify-content-end">
                                     <button type="button"
                                         class="btn btn-success mr-5 user-edit"
@@ -345,10 +345,25 @@
 
 <script>
     $('#update').submit(function() {
-        var dayArray = $('#select2-multiple').select2('data');
-        var dayArrayString = JSON.stringify(dayArray);
-        $('input[name="dayArray"]').val(dayArrayString);
+        if (confirm("Are you sure you want to submit this form? Any changes made afterwards will not be editable.")) {
+            var dayArray = $('#select2-multiple').select2('data');
+            var dayArrayString = JSON.stringify(dayArray);
+            $('input[name="dayArray"]').val(dayArrayString);
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
+        }
     });
+</script>
+
+<script>
+    function showWarning() {
+        if (confirm("Are you sure you want to submit this form? Any changes made afterwards will not be editable.")) {
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
+        }
+    }
 </script>
 
 @endsection

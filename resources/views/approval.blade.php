@@ -68,7 +68,7 @@
                 <div id='calendar'></div>
               </div>
               <div class="footer text-right">
-                <button id="decline" name="decline" type="button" class="btn btn-danger">Decline</button>
+                <button id="decline" name="decline" type="button" class="btn btn-danger">Reverse</button>
                 <button id="approve" name="approve" type="button" class="btn btn-success">Approve</button>
               </div>
             </div>
@@ -457,7 +457,7 @@
       success: function(response) 
       {
         console.log(response);
-        alert('Declined')
+        alert('Reversed')
 
         $.ajax({
           type: 'get',
