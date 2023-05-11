@@ -47,23 +47,25 @@
     @endif
 
     <!-- Faculty -->
-    @if(session()->get('Role') != "Director" || session()->get('Role') != "Admin" || )  
+    @if(session()->get('Role') == "Academic Head")  
         <li class="nav-item dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"
                     style="color: #606060;"></i> <span style="color:#606060">Faculty Management</span></a>
             <ul class="dropdown-menu" style="{{ request()->is('faculty/index') || request()->is('faculty/load') ? 'active-nav' : '' }}">
-                @if(session()->get('Role') != "Faculty")
                     <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.index') }}" style="color: #606060; font-weight:600;"><i
                                 class=" fas fa-chalkboard-teacher" style="color: #606060;"></i>Faculty</a></li>
-                    @if(session()->get('Role') != "Admin") <!-- redundant, fix soon -->
-                        <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
-                                    class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
-                    @endif
-                @elseif(session()->get('Role') == "Faculty")
-                    <li><a class="nav-link pl-5 {{ request()->is('faculty/index') ? 'active-nav' : '' }}" href="{{ route('faculty.viewonly', ['user_id' => session()->get('LoggedUser') ]) }}" style="color: #606060; font-weight:600;"><i
-                        class=" fas fa-magnifying-glass" style="color: #606060;"></i>View Info</a></li>
-                @endif
+                    
+                    <li><a class="nav-link pl-5 {{ request()->is('faculty/load') ? 'active-nav' : '' }}" href="{{ route('faculty.load') }}" style="color: #606060; font-weight:600;"><i
+                                class=" fas fa-clipboard-list" style="color: #606060;"></i>Faculty Loading</a></li>
             </ul>
+        </li>
+    @endif
+
+    <!-- View Info -->
+    @if(session()->get('Role') == "Faculty")
+        <li class="side-menus {{ request()->is('faculty/index') ? 'active-nav' : '' }}">
+            <a class="nav-link" href="{{ route('faculty.viewonly', ['user_id' => session()->get('LoggedUser') ]) }}" style="color: #606060; font-weight:600;">
+                <i class=" fas fa-search" style="color: #606060;"></i>View Info</a>
         </li>
     @endif
 
