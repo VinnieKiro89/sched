@@ -157,7 +157,14 @@ class FacultyController extends Controller
         $course = Faculty::findorfail($request->id);
         // $course->assignRole($request->role);
 
-        return redirect()->route('faculty.index')->with('updated', 'Update Success!');
+        // if statement to check if user is faculty
+        if (session()->get('Role') == "Faculty") {
+            return redirect()->route('faculty.viewonly', ['user_id' => session()->get('LoggedUser') ]);
+        } else {
+            // else return normal/index
+            return redirect()->route('faculty.index')->with('updated', 'Update Success!');
+        }
+        
     }
 
     public function updateSubjTime(Request $request, $user_id)

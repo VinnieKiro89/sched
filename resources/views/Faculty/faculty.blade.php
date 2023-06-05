@@ -71,20 +71,19 @@
                                                         View
                                                     </a>
 
-                                                    @if(session()->get('Role') != "Academic Head")
-                                                        <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
-                                                            <i class="fas fa-book"></i>
-                                                            Edit
-                                                        </a>
+                                                    <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-icon icon-left mr-3 btn-outline-success user-add">
+                                                        <i class="fas fa-book"></i>
+                                                        Edit
+                                                    </a>
 
-                                                        <button type="button"
-                                                            class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
-                                                            data-toggle="modal" data-target=".delete"
-                                                            data-uid="{{ $faculty->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                            Delete
-                                                        </button>
-                                                    @endif
+                                                    <button type="button"
+                                                        class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
+                                                        data-toggle="modal" data-target=".delete"
+                                                        data-uid="{{ $faculty->id }}">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+
 
                                                 </td>
                                             </tr>

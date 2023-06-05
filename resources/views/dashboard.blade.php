@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 @endif
-                @if (session()->get('Role') == "Admin")
+                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Academic Head")
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                         <div class="card card-statistic-1 shadow">
                             <div class="card-icon" style="background-color: #033571;">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 @endif
-                @if (session()->get('Role') == "Admin")
+                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Academic Head")
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1 shadow">
                         <div class="card-icon" style="background-color: green;">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 @endif
-                @if (session()->get('Role') == "Admin")
+                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Academic Head")
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1 shadow">
                         <div class="card-icon" style="background-color: green;">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 @endif
-                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Director")
+                @if (session()->get('Role') == "Admin" || session()->get('Role') == "Director" || session()->get('Role') == "Academic Head")
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                         <div class="card card-statistic-1 shadow">
                             <div class="card-icon" style="background-color: #dbe644;">

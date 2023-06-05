@@ -25,16 +25,20 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            @if(session()->get('Role') == "Faculty" && empty($faculty->num_of_subj))
+                            @if(session()->get('Role') == "Faculty" || session()->get('Role') == "Academic Head")
                                 <div class="d-flex justify-content-end">
                                     <button type="button"
                                         class="btn btn-success mr-5 user-edit"
-                                        data-toggle="modal" data-target=".edit" data-uid="{{ $faculty->user_id }}" 
+                                        data-toggle="modal" data-target=".edit" data-uid="{{ $faculty->user_id }}" data-day_avail="{{ $faculty->day_avail }}" 
                                         data-num_of_subj="{{ $faculty->num_of_subj }}" data-hour_avail_from="{{ $faculty->hour_avail_from }}" 
                                         data-hour_avail_to="{{ $faculty->hour_avail_to }}">
                                         <i class="far fa-edit"></i>
                                         Set Number of Subjects willing to teach / Number of Hours willing to teach
                                     </button>
+                                    <a href="{{ route('faculty.edit', ['id' => $faculty->id ]) }}" class="btn btn-success mr-5 user-add">
+                                        <i class="fas fa-book"></i>
+                                        Edit Info
+                                    </a>
                                 </div>
                             @endif
                             <div class="row">
@@ -72,6 +76,7 @@
                                                 <h6 class="mb-0">Day Availability:</h6>
                                                 <p class="mb-0">
                                                     @php
+                                                    // what the fonz am I looking at
                                                     // $datas = $faculty->day_avail;
                                                     $datas = json_decode($faculty->day_avail, true)
                                                     @endphp
@@ -339,13 +344,19 @@
             multiple: true,
             allowClear: true,
         });
+        var day_avail = [];
+
+        console.log("test");
+
+        $('#select2-multiple').val(day_avail);
+        $('#select2-multiple').trigger('change');
     });
     
 </script>
 
 <script>
     $('#update').submit(function() {
-        if (confirm("Are you sure you want to submit this form? Any changes made afterwards will not be editable.")) {
+        if (confirm("Are you sure you want to submit this form?")) {
             var dayArray = $('#select2-multiple').select2('data');
             var dayArrayString = JSON.stringify(dayArray);
             $('input[name="dayArray"]').val(dayArrayString);
@@ -358,7 +369,7 @@
 
 <script>
     function showWarning() {
-        if (confirm("Are you sure you want to submit this form? Any changes made afterwards will not be editable.")) {
+        if (confirm("Are you sure you want to submit this form?")) {
             return true; // Proceed with form submission
         } else {
             return false; // Cancel form submission
