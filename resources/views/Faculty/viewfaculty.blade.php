@@ -344,6 +344,7 @@
             multiple: true,
             allowClear: true,
         });
+
         var day_avail = [];
 
         console.log("test");
