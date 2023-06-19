@@ -572,7 +572,8 @@ class CourseLoadController extends Controller
     public function fileExport(Request $request)
     {
         
-        return Excel::download(new CourseLoadingViewExport($request->curriculum_id, $request->realperiod), 'CourseLoading-collection.xlsx');
-        dd($request->curriculum_id, $request->section);
+        // return Excel::download(new CourseLoadingViewExport($request->curriculum_id, $request->realperiod), 'CourseLoading-collection.xlsx');
+        return Excel::download(new CourseLoadingViewExport, 'Program Loading.xlsx');
+        dd($request->curriculum_id, $request->section);//?
     }
 }

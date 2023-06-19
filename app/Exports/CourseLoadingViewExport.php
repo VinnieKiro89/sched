@@ -23,20 +23,22 @@ class CourseLoadingViewExport implements FromView, ShouldAutoSize
     private $id;
     private $period;
 
-    public function __construct(string $id, string $period)
-    {
-        $this->id = $id;
-        $this->period = $period;
-    }
+    // public function __construct(string $id, string $period)
+    // {
+    //     $this->id = $id;
+    //     $this->period = $period;
+    // }
 
     public function view(): View
     {
         // $faculty = Faculty::where('name', $request->facultyName)->first();
         
-        $courseload = Courseload::where('curriculum_id', $this->id)
-                                ->where('period', $this->period)   
-                                ->orderBy('start_date', 'asc')         
-                                ->get();
+        // $courseload = Courseload::where('curriculum_id', $this->id)
+        //                         ->where('period', $this->period)   
+        //                         ->orderBy('start_date', 'asc')         
+        //                         ->get();
+
+        $courseload = Courseload::all();
 
         foreach ($courseload as $cl) {
             $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $cl->start_date);
@@ -64,7 +66,7 @@ class CourseLoadingViewExport implements FromView, ShouldAutoSize
             
         }
 
-        return view('excel.courseloadview', [
+        return view('excel.courseloadviewall', [
             'subject' => $subject,
         ]);
     }

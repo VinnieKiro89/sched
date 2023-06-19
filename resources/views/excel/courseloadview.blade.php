@@ -1,8 +1,8 @@
 <table>
     <thead>
         <tr>
-            <th style="font-weight:bold; text-align:center; border:3px solid black">Course Code</th>
-            <th style="font-weight:bold; text-align:center; border:3px solid black">Title</th>
+            <th style="font-weight:bold; text-align:center; border:3px solid black">SUBJ NO</th>
+            <th style="font-weight:bold; text-align:center; border:3px solid black">TITLE</th>
             <th style="font-weight:bold; text-align:center; border:3px solid black">Acad Unit</th>
             <th style="font-weight:bold; text-align:center; border:3px solid black">Lec/Lab Hours</th>
             <th style="font-weight:bold; text-align:center; border:3px solid black">Faculty</th>
