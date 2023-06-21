@@ -195,7 +195,6 @@ class CourseLoadController extends Controller
         $day = $day->format("D");
         $truecheck = null;
 
-
         // $start = $startnonform->format('Y-m-d');
         // $end = $endnonform->format('Y-m-d');
 
@@ -248,6 +247,19 @@ class CourseLoadController extends Controller
 
         $dayAvail = json_decode($facultycheck->day_avail, true);
 
+        if(!$dayAvail){
+            $truecheck = 1;
+        }
+        if(!$facultycheck->hour_avail_from){
+            $facultycheck->hour_avail_from = '6:00 AM';
+        }
+        if(!$facultycheck->hour_avail_to){
+            $facultycheck->hour_avail_to = '9:00 PM';
+        }
+        if(!$facultycheck->num_of_subj){
+            $facultycheck->num_of_subj = '999';
+        }
+
         foreach($dayAvail as $dayAv){
             if($day == $dayAv['id']){
                 $truecheck = 1;
@@ -287,7 +299,7 @@ class CourseLoadController extends Controller
             return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
         }elseif(!$facultycheck->hour_avail_to)
         {
-            return response()->json(['error' => "The selected Faculty member has no designated hour availability yet"], 401);
+            return response()->json(['error' => "The selected Faculty member has no designated hour availability yet"], 401); // deprecated
         }elseif(Carbon::parse($facultycheck->hour_avail_to)->isoFormat('HH:mm') < $timeto)
         {
             return response()->json(['error' => "Schedule is conflicting with the Faculty's time availability"], 401);
