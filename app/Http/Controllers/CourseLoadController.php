@@ -260,15 +260,19 @@ class CourseLoadController extends Controller
             $facultycheck->num_of_subj = '999';
         }
 
-        foreach($dayAvail as $dayAv){
-            if($day == $dayAv['id']){
-                $truecheck = 1;
-            }else{
-                // do nothing lmao (then why is there an else clause here)
+        if($truecheck = 1){
+            //lmao
+        }else{
+            foreach($dayAvail as $dayAv){
+                if($day == $dayAv['id']){
+                    $truecheck = 1;
+                }else{
+                    // do nothing lmao (then why is there an else clause here)
+                }
             }
-        }
-        if(!$truecheck){
-            return response()->json(['error' => "Schedule is conflicting with the Faculty's day availability"], 401);
+            if(!$truecheck){
+                return response()->json(['error' => "Schedule is conflicting with the Faculty's day availability"], 401);
+            }
         }
 
 
