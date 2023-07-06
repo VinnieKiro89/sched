@@ -15,6 +15,7 @@ use App\Exports\CourseLoadingExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Acaronlex\LaravelCalendar\Calendar;
 use App\Exports\CourseLoadingViewExport;
+use App\Exports\CourseLoadingViewExportAll;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -588,8 +589,13 @@ class CourseLoadController extends Controller
     public function fileExport(Request $request)
     {
         
-        // return Excel::download(new CourseLoadingViewExport($request->curriculum_id, $request->realperiod), 'CourseLoading-collection.xlsx');
-        return Excel::download(new CourseLoadingViewExport, 'Program Loading.xlsx');
+        return Excel::download(new CourseLoadingViewExport($request->curriculum_id, $request->realperiod), 'CourseLoading-collection.xlsx');
+        // return Excel::download(new CourseLoadingViewExport, 'Program Loading.xlsx');
         dd($request->curriculum_id, $request->section);//?
+    }
+
+    public function fileExportAll(Request $request)
+    {
+        return Excel::download(new CourseLoadingViewExportAll, 'Program Loading.xlsx');
     }
 }

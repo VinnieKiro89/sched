@@ -45,7 +45,7 @@
                                 <div class="mr-auto p-2">
                                     <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} 1st Semester </h5>
                                 </div>
-                                @if(session()->get('Role') != "Academic Head")
+                                @if(session()->get('Role') == "Academic Head")
                                     <div class="p-2">
                                         <button type="button"
                                             class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
@@ -112,7 +112,7 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
                                                         
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                                 data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
@@ -133,7 +133,7 @@
                                                             </button>
                                                         @endif
 
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
                                                                 data-toggle="modal" data-target=".delete"
@@ -164,7 +164,7 @@
                                 <div class="mr-auto p-2">
                                     <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} 2nd Semester </h5>
                                 </div>
-                                @if(session()->get('Role') != "Academic Head")
+                                @if(session()->get('Role') == "Academic Head")
                                 <div class="p-2">
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
@@ -225,7 +225,7 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
 
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                                 data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
@@ -246,7 +246,7 @@
                                                             </button>
                                                         @endif
 
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
                                                                 data-toggle="modal" data-target=".delete"
@@ -277,7 +277,7 @@
                                 <div class="mr-auto p-2">
                                     <h5> Course list for {{ $code }} {{ $level }} - {{ $section }} Summer Semester </h5>
                                 </div>
-                                @if(session()->get('Role') != "Academic Head")
+                                @if(session()->get('Role') == "Academic Head")
                                 <div class="p-2">
                                     <button type="button"
                                         class="btn btn-icon icon-left mr-3 btn-outline-success user-add"
@@ -338,7 +338,7 @@
                                                         <i class="far fa-edit"></i>
                                                         Edit</a> --}}
 
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-primary user-edit"
                                                                 data-toggle="modal" data-target=".edit" data-uid="{{ $subject->id }}"
@@ -359,7 +359,7 @@
                                                             </button>
                                                         @endif
 
-                                                        @if(session()->get('Role') != "Academic Head")
+                                                        @if(session()->get('Role') == "Academic Head")
                                                             <button type="button"
                                                                 class="btn btn-icon icon-left mr-3 btn-outline-danger user-delete"
                                                                 data-toggle="modal" data-target=".delete"

@@ -229,10 +229,13 @@
               {{-- <button id="export" class="btn btn-success">Export data</button> --}}
               {{-- <a type="button" class="btn btn-success mr-5" href="{{ route('courseload.file-export') }}">Export data</a> --}}
               <div>
+                <form action="{{ route('courseload.file-export-all') }}" enctype="multipart/form-data" method="GET">
+                  <button type="submit" class="btn btn-success">Export all data</button>
+                </form>
                 <form action="{{ route('courseload.file-export') }}" enctype="multipart/form-data" method="GET">
                   <input name="curriculum_id" value="" type="text" class="form-control{{ $errors->has('curriculum_id') ? ' is-invalid' : '' }}" name="curriculum_id" hidden readonly>
                   <input name="realperiod" value="" type="text" class="form-control{{ $errors->has('realperiod') ? ' is-invalid' : '' }}" name="realperiod" hidden readonly>
-                  <button type="submit" class="btn btn-success">Export data</button>
+                  <button type="submit" class="btn btn-success">Export current selected curriculum</button>
                 </form>
               </div>
             </div>
@@ -1146,7 +1149,7 @@
 </script>
 
 <!-- FOR EXPORT BUTTON -->
-{{-- <script>
+<script>
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1171,6 +1174,6 @@
       });
     })
   });
-</script> --}}
+</script>
 
 @endsection

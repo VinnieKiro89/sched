@@ -164,4 +164,5 @@ Route::group(['prefix' => 'faculty'], function() {
 Route::group(['prefix' => 'courseload'], function() {
     Route::post('/file-import', [App\Http\Controllers\CourseLoadController::class, 'fileImport'])->name('courseload.file-import');
     Route::get('/file-export', [App\Http\Controllers\CourseLoadController::class, 'fileExport'])->name('courseload.file-export');
+    Route::get('/file-export-all', [App\Http\Controllers\CourseLoadController::class, 'fileExportAll'])->name('courseload.file-export-all');
 });
